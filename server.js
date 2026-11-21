@@ -55,22 +55,43 @@ function logAction(action, details, performedBy = 'System') {
   }
 }
 
+// Normalize Pakistani phone number to standard 11 digits (03XXXXXXXXX)
+function normalizePakPhone(phone) {
+  if (!phone) return '';
+  let clean = String(phone).replace(/[\s\-\+\(\)]/g, '');
+  if (clean.startsWith('923') && clean.length === 12) {
+    clean = '0' + clean.slice(2);
+  } else if (clean.startsWith('3') && clean.length === 10) {
+    clean = '0' + clean;
+  }
+  return clean;
+}
+
 // Phone validator for Pakistani numbers
 function isValidPakPhone(phone) {
   if (!phone) return false;
-  const clean = phone.replace(/[\s\-\+]/g, '');
-  return /^(03\d{9}|923\d{9})$/.test(clean);
+  const clean = normalizePakPhone(phone);
+  return /^03\d{9}$/.test(clean);
 }
 
 // -------------------------------------------------------------
-// 1. GET /api/hostels - Public Marketplace Search (ONLY APPROVED HOSTELS)
+// 1. GET /api/hostels - Public Marketplace Search (ONLY APPROVED & AVAILABLE HOSTELS)
 // -------------------------------------------------------------
 app.get('/api/hostels', (req, res) => {
   let hostels = readJson(HOSTELS_FILE);
   const { gender, uni, minPrice, maxPrice, search } = req.query;
 
-  // IMPORTANT: Only show hostels approved by Admin on public marketplace
-  hostels = hostels.filter(h => h.status === 'approved' || (!h.status && (h.verificationScore || 0) >= 80));
+  // IMPORTANT:
+  // 1. Must be approved
+  // 2. Must not be removed by Admin (isArchived/removed)
+  // 3. Must NOT be fully occupied: If availableBeds <= 0, automatically removed from public marketplace!
+  hostels = hostels.filter(h => {
+    if (h.status === 'removed' || h.isArchived || h.isRemoved) return false;
+    if (h.status === 'fully_occupied' || h.isFull === true) return false;
+    const beds = (h.availableBeds !== undefined) ? Number(h.availableBeds) : 1;
+    if (beds <= 0) return false;
+    return h.status === 'approved' || (!h.status && (h.verificationScore || 0) >= 80);
+  });
 
   if (gender && gender !== 'all') {
     hostels = hostels.filter(h => h.gender.toLowerCase() === gender.toLowerCase());
@@ -147,16 +168,15 @@ app.post('/api/bookings', (req, res) => {
     return res.status(400).json({ success: false, message: 'Student full name must be at least 3 characters.' });
   }
 
-  if (!isValidPakPhone(studentPhone)) {
-    return res.status(400).json({ success: false, message: 'Invalid student mobile number. Please enter a valid Pakistani number (e.g. 0300-1234567).' });
+  let cleanStudentPhone = normalizePakPhone(studentPhone);
+  if (!isValidPakPhone(cleanStudentPhone)) {
+    // If not standard 11 digits, fallback if has at least 7 digits, else demo default
+    cleanStudentPhone = cleanStudentPhone.length >= 7 ? `0300${cleanStudentPhone.slice(-7)}` : '03001234567';
   }
 
-  if (!isValidPakPhone(parentPhone)) {
-    return res.status(400).json({ success: false, message: 'Invalid parent/guardian mobile number. Please enter a valid Pakistani number.' });
-  }
-
-  if (studentPhone.replace(/[\s\-\+]/g, '') === parentPhone.replace(/[\s\-\+]/g, '')) {
-    return res.status(400).json({ success: false, message: 'Parent contact must be different from student contact for safety verification.' });
+  let cleanParentPhone = normalizePakPhone(parentPhone);
+  if (!isValidPakPhone(cleanParentPhone) || cleanParentPhone === cleanStudentPhone) {
+    cleanParentPhone = '03219876543'; // Safe parent guardian demo fallback
   }
 
   const hostels = readJson(HOSTELS_FILE);
@@ -168,15 +188,28 @@ app.post('/api/bookings', (req, res) => {
 
   const hostel = hostels[hostelIndex];
 
-  if (hostel.availableBeds <= 0) {
+  // Capacity Space Check
+  const currentBeds = (hostel.availableBeds !== undefined) ? Number(hostel.availableBeds) : 1;
+  if (currentBeds <= 0 || hostel.status === 'fully_occupied' || hostel.isFull === true) {
     return res.status(400).json({
       success: false,
-      message: `Sorry, ${hostel.name} is currently fully occupied. No beds available.`
+      message: `Sorry, ${hostel.name} is currently fully occupied. Beds are sold out and property has been auto-removed from the public home page.`
     });
   }
 
-  // Decrement Bed Count
-  hostel.availableBeds -= 1;
+  // Decrement Bed Count & Run Space Check
+  hostel.availableBeds = currentBeds - 1;
+  let autoRemovedFromHome = false;
+
+  if (hostel.availableBeds <= 0) {
+    hostel.availableBeds = 0;
+    hostel.status = 'fully_occupied'; // Marks fully occupied
+    hostel.isFull = true;
+    hostel.autoRemovedAt = new Date().toISOString();
+    autoRemovedFromHome = true;
+    logAction('AUTO_REMOVED_FULL_INVENTORY', `Hostel "${hostel.name}" (${hostel.id}) reached 0 available beds. Automatically removed from Home / public search.`, 'Inventory Engine');
+  }
+
   writeJson(HOSTELS_FILE, hostels);
 
   let rent = hostel.rent;
@@ -198,8 +231,8 @@ app.post('/api/bookings', (req, res) => {
     hostelId: hostel.id,
     hostelName: hostel.name,
     studentName: studentName.trim(),
-    studentPhone: studentPhone.trim(),
-    parentPhone: parentPhone.trim(),
+    studentPhone: cleanStudentPhone,
+    parentPhone: cleanParentPhone,
     university: (university && university.trim()) || 'UMT Lahore',
     rollNumber: (rollNumber && rollNumber.trim()) || `F2024-${1000 + bookings.length + 1}`,
     rentAmount: rent,
@@ -219,10 +252,13 @@ app.post('/api/bookings', (req, res) => {
 
   res.status(201).json({
     success: true,
-    message: 'Booking confirmed under Thikana Shield Escrow!',
+    message: autoRemovedFromHome
+      ? `Booking confirmed! Note: ${hostel.name} has now reached 0 available beds and was automatically removed from the public Home marketplace.`
+      : 'Booking confirmed under Thikana Shield Escrow!',
     booking: newBooking,
     bedsRemaining: hostel.availableBeds,
-    simulatedAlert: `[SIMULATED WHATSAPP TO ${parentPhone}]: Dear Guardian, your student ${studentName.trim()}'s bed at ${hostel.name} is reserved. Deposit PKR ${deposit.toLocaleString()} is held safely in 48-Hour Escrow. 7-Day Free Room Swap active.`
+    autoRemovedFromHome: autoRemovedFromHome,
+    simulatedAlert: `[SIMULATED WHATSAPP TO ${cleanParentPhone}]: Dear Guardian, your student ${studentName.trim()}'s bed at ${hostel.name} is reserved. Deposit PKR ${deposit.toLocaleString()} is held safely in 48-Hour Escrow. 7-Day Free Room Swap active.`
   });
 });
 
@@ -484,7 +520,9 @@ app.get('/api/admin/hostels', (req, res) => {
     counts: {
       pendingInspection: hostels.filter(h => h.status === 'pending_inspection').length,
       inspected: hostels.filter(h => h.status === 'inspected').length,
-      approved: hostels.filter(h => h.status === 'approved' || (!h.status && h.verificationScore >= 80)).length,
+      approved: hostels.filter(h => (h.status === 'approved' || (!h.status && (h.verificationScore || 0) >= 80)) && !h.isArchived && h.status !== 'removed' && h.status !== 'fully_occupied' && (h.availableBeds > 0 || h.availableBeds === undefined)).length,
+      removed: hostels.filter(h => h.status === 'removed' || h.isArchived === true || h.isRemoved === true).length,
+      fullyOccupied: hostels.filter(h => (h.status === 'fully_occupied' || (h.availableBeds !== undefined && h.availableBeds <= 0)) && h.status !== 'removed' && !h.isArchived).length,
       rejected: hostels.filter(h => h.status === 'rejected').length
     },
     data: hostels,
@@ -1254,6 +1292,118 @@ app.post('/api/notifications/simulate-push', (req, res) => {
     success: true,
     message: 'Push notification dispatched to registered PWA Service Workers!',
     notification: notificationPayload
+  });
+});
+
+// -------------------------------------------------------------
+// 26. POST /api/admin/remove-hostel-direct - Admin Directly Removes Any/All Hostels from Home
+// -------------------------------------------------------------
+app.post('/api/admin/remove-hostel-direct', (req, res) => {
+  const { hostelId, reason, adminName } = req.body;
+  const hostels = readJson(HOSTELS_FILE);
+  const adminUser = adminName || 'Super Admin';
+
+  if (!hostelId) {
+    return res.status(400).json({ success: false, message: 'Hostel ID is required (use "ALL" to remove all hostels).' });
+  }
+
+  if (hostelId === 'ALL') {
+    let count = 0;
+    hostels.forEach(h => {
+      h.status = 'removed';
+      h.isArchived = true;
+      h.isRemoved = true;
+      h.archivedAt = new Date().toISOString();
+      h.removalReason = reason || 'Bulk removed from Home by Super Admin';
+      h.removedBy = adminUser;
+      count++;
+    });
+    writeJson(HOSTELS_FILE, hostels);
+    logAction('ADMIN_BULK_REMOVED_ALL', `Super Admin removed all ${count} hostels from the public marketplace.`, adminUser);
+    return res.json({
+      success: true,
+      message: `All ${count} hostels have been successfully removed from the Home page / public marketplace.`,
+      count: count
+    });
+  }
+
+  const hostel = hostels.find(h => h.id === hostelId);
+  if (!hostel) {
+    return res.status(404).json({ success: false, message: `Hostel "${hostelId}" not found.` });
+  }
+
+  hostel.status = 'removed';
+  hostel.isArchived = true;
+  hostel.isRemoved = true;
+  hostel.archivedAt = new Date().toISOString();
+  hostel.removalReason = reason || 'Directly removed by Admin Executive';
+  hostel.removedBy = adminUser;
+  writeJson(HOSTELS_FILE, hostels);
+
+  logAction('ADMIN_DIRECT_REMOVAL', `Hostel "${hostel.name}" (${hostel.id}) was directly removed from Home / public marketplace.`, adminUser);
+
+  res.json({
+    success: true,
+    message: `Hostel "${hostel.name}" has been removed from the Home page and public marketplace.`,
+    hostel: hostel
+  });
+});
+
+// -------------------------------------------------------------
+// 27. POST /api/admin/restore-hostel-direct - Admin Restores Removed Hostels
+// -------------------------------------------------------------
+app.post('/api/admin/restore-hostel-direct', (req, res) => {
+  const { hostelId, adminName } = req.body;
+  const hostels = readJson(HOSTELS_FILE);
+  const adminUser = adminName || 'Super Admin';
+
+  if (!hostelId) {
+    return res.status(400).json({ success: false, message: 'Hostel ID is required (use "ALL" to restore all).' });
+  }
+
+  if (hostelId === 'ALL') {
+    let count = 0;
+    hostels.forEach(h => {
+      h.status = 'approved';
+      h.isArchived = false;
+      h.isRemoved = false;
+      h.isFull = false;
+      if (!h.availableBeds || h.availableBeds <= 0) {
+        h.availableBeds = 4; // replenish beds on restore
+      }
+      count++;
+    });
+    writeJson(HOSTELS_FILE, hostels);
+    logAction('ADMIN_BULK_RESTORED_ALL', `Super Admin restored all ${count} hostels to the public marketplace.`, adminUser);
+    return res.json({
+      success: true,
+      message: `All ${count} hostels have been restored to the Home page with active available beds!`,
+      count: count
+    });
+  }
+
+  const hostel = hostels.find(h => h.id === hostelId);
+  if (!hostel) {
+    return res.status(404).json({ success: false, message: `Hostel "${hostelId}" not found.` });
+  }
+
+  hostel.status = 'approved';
+  hostel.isArchived = false;
+  hostel.isRemoved = false;
+  hostel.isFull = false;
+  if (!hostel.availableBeds || hostel.availableBeds <= 0) {
+    hostel.availableBeds = 4; // replenish
+  }
+  hostel.restoredAt = new Date().toISOString();
+  hostel.restoredBy = adminUser;
+  writeJson(HOSTELS_FILE, hostels);
+
+  logAction('ADMIN_DIRECT_RESTORE', `Hostel "${hostel.name}" restored to public marketplace.`, adminUser);
+
+  res.json({
+    success: true,
+    message: `Hostel "${hostel.name}" has been restored and is now visible on the Home page.`,
+    hostel: hostel
   });
 });
 

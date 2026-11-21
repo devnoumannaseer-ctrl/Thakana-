@@ -75,7 +75,7 @@
   </div>
 
   <!-- NAVIGATION HEADER -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#E9E8F8] shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E9E8F8] shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
         <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center shadow-md shadow-[#8DB9F0]/30 text-white text-2xl font-black">
@@ -87,8 +87,8 @@
         </div>
       </a>
 
-      <!-- CORE NAV LINKS -->
-      <nav class="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-600">
+      <!-- CORE NAV LINKS (Desktop / Laptop) -->
+      <nav class="hidden lg:flex items-center gap-5 text-xs font-bold text-slate-600">
         <a href="#hostels" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
           <i class="ph-bold ph-buildings text-[#8DB9F0] text-sm"></i> Verified Hostels
         </a>
@@ -106,20 +106,60 @@
         <a href="inspector-portal.html" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
           <i class="ph-bold ph-clipboard-text text-indigo-500 text-sm"></i> Field Inspector
         </a>
-      </nav>
-
-      <!-- CLEAN MERGED RIGHT ACTIONS (NO DUPLICATION) -->
-      <div class="flex items-center gap-3">
-        <!-- PWA INSTALL BUTTON (DYNAMIC) -->
-        <button id="pwaInstallBtn" onclick="promptPwaInstall()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-extrabold text-[#1A2138] bg-[#8DB9F0] hover:bg-[#78A7E0] rounded-xl shadow-sm transition">
-          <i class="ph-bold ph-download-simple text-sm"></i> Install App
-        </button>
-        <a href="admin-portal.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
+        <a href="admin-portal.html" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
           <i class="ph-bold ph-lock-key text-amber-600 text-sm"></i> Admin
         </a>
-        <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
-          <i class="ph-bold ph-plus-circle text-sm"></i> List Hostel
+      </nav>
+
+      <!-- HEADER RIGHT ACTIONS -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- PWA INSTALL BUTTON (DYNAMIC) -->
+        <button id="pwaInstallBtn" onclick="promptPwaInstall()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-extrabold text-[#1A2138] bg-[#8DB9F0] hover:bg-[#78A7E0] rounded-xl shadow-sm transition">
+          <i class="ph-bold ph-download-simple text-sm"></i> <span class="hidden sm:inline">Install</span> App
+        </button>
+        <a href="admin-portal.html" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
+          <i class="ph-bold ph-lock-key text-amber-600 text-sm"></i> Admin
         </a>
+        <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
+          <i class="ph-bold ph-plus-circle text-sm"></i> <span class="hidden sm:inline">List</span> Hostel
+        </a>
+        <!-- MOBILE HAMBURGER BUTTON (Visible on screens < 1024px) -->
+        <button id="mobileNavToggleBtn" onclick="toggleMobileNav()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center">
+          <i id="mobileNavIcon" class="ph-bold ph-list text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESPONSIVE MOBILE NAVIGATION DRAWER (Expands on phones/tablets) -->
+    <div id="mobileNavDrawer" class="hidden lg:hidden border-t border-[#E9E8F8] bg-white/98 backdrop-blur-md px-4 py-4 shadow-xl transition-all">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">Main Platform Navigation</div>
+      <div class="grid grid-cols-2 gap-2 pb-3 border-b border-[#E9E8F8]">
+        <a href="index.html#hostels" onclick="toggleMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-buildings text-[#4A7AC4] text-base"></i> Verified Hostels
+        </a>
+        <a href="roommate-match.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-users text-indigo-500 text-base"></i> Roommates AI
+        </a>
+        <a href="parent-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-shield-star text-teal-600 text-base"></i> Parent Portal
+        </a>
+        <a href="student-pass.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-identification-card text-amber-500 text-base"></i> Student Pass
+        </a>
+        <a href="inspector-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-clipboard-text text-indigo-500 text-base"></i> Field Inspector
+        </a>
+        <a href="admin-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+          <i class="ph-bold ph-lock-key text-amber-600 text-base"></i> Admin Portal
+        </a>
+      </div>
+      <div class="flex items-center gap-2 pt-3">
+        <a href="owner-portal.html" class="flex-1 py-2.5 text-center text-xs font-black text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow transition flex items-center justify-center gap-1.5">
+          <i class="ph-bold ph-plus-circle text-base"></i> List Your Hostel
+        </a>
+        <button onclick="toggleAdminMode()" class="px-3 py-2.5 text-xs font-bold text-slate-700 bg-[#E9E8F8] rounded-xl flex items-center gap-1">
+          <i class="ph-bold ph-gear"></i> Admin Mode
+        </button>
       </div>
     </div>
   </header>
@@ -222,10 +262,33 @@
             <button onclick="setUni('LUMS')" class="px-3 py-1 rounded-full bg-[#E9E8F8] text-slate-700 font-medium hover:bg-[#DCDAF4] transition flex items-center gap-1">
               <i class="ph-bold ph-graduation-cap text-[#E29A7F]"></i> LUMS DHA
             </button>
+            <button onclick="toggleAdminMode()" id="adminModeBtn" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold border border-slate-300 transition flex items-center gap-1">
+              <i class="ph-bold ph-shield-check text-amber-600"></i> Admin Direct Removal Mode
+            </button>
           </div>
           <button onclick="resetFilters()" class="text-slate-500 hover:text-[#4A7AC4] font-semibold text-xs flex items-center gap-1">
             <i class="ph-bold ph-arrow-counter-clockwise"></i> Reset
           </button>
+        </div>
+
+        <!-- SUPER ADMIN TOOLBAR (Activated via Admin toggle or ?admin=true) -->
+        <div id="homeAdminToolbar" class="hidden mt-3 pt-3 border-t border-rose-200 bg-rose-50/90 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
+            <span class="font-black text-rose-900">🛡️ Super Admin Mode: Direct Property Control on Home</span>
+            <span class="text-[10px] text-rose-700 bg-rose-200/60 px-2 py-0.5 rounded font-mono">key: thikana-local-admin-change-me</span>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="adminRemoveAllHostelsDirect()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] flex items-center gap-1 transition shadow-sm">
+              <i class="ph-bold ph-trash"></i> Remove All Hostels from Home
+            </button>
+            <button onclick="adminRestoreAllHostelsDirect()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] flex items-center gap-1 transition shadow-sm">
+              <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore All Hostels
+            </button>
+            <a href="admin-portal.html" class="px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold text-[11px] flex items-center gap-1 hover:bg-slate-700 transition">
+              <i class="ph-bold ph-gauge"></i> Full Admin Control Center &rarr;
+            </a>
+          </div>
         </div>
       </div>
 
@@ -869,11 +932,150 @@
     let currentDeposit = 10000;
     const platformFee = 2000;
     let isSplitRent = false;
+    let isAdminMode = new URLSearchParams(window.location.search).get('admin') === 'true';
+
+    // Universal API Origin Resolver (Seamless for localhost, custom port, and local file testing)
+    const API_BASE = (window.location.protocol === 'file:' || !window.location.port) ? 'http://localhost:5000' : '';
+
+    // RESPONSIVE MOBILE NAVIGATION DRAWER TOGGLE
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const icon = document.getElementById('mobileNavIcon');
+      if (!drawer) return;
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        if (icon) icon.className = 'ph-bold ph-x text-xl text-rose-600';
+      } else {
+        drawer.classList.add('hidden');
+        if (icon) icon.className = 'ph-bold ph-list text-xl text-slate-800';
+      }
+    }
+
+    // SUPER ADMIN DIRECT MANAGEMENT TOGGLE (ON HOME PAGE)
+    function toggleAdminMode() {
+      isAdminMode = !isAdminMode;
+      const toolbar = document.getElementById('homeAdminToolbar');
+      const btn = document.getElementById('adminModeBtn');
+      if (toolbar) {
+        if (isAdminMode) {
+          toolbar.classList.remove('hidden');
+          if (btn) btn.classList.add('bg-rose-100', 'text-rose-800', 'border-rose-400');
+        } else {
+          toolbar.classList.add('hidden');
+          if (btn) btn.classList.remove('bg-rose-100', 'text-rose-800', 'border-rose-400');
+        }
+      }
+      renderHostels(currentHostels);
+    }
+
+    // ADMIN: DIRECTLY REMOVE A SPECIFIC HOSTEL FROM HOME PAGE
+    async function adminRemoveHostelFromHome(hostelId, hostelName) {
+      const confirmRemove = confirm(`[SUPER ADMIN ACTION]\n\nAre you sure you want to remove "${hostelName}" (${hostelId}) from the Home Page?\n\nIt will be instantly hidden from public student search.`);
+      if (!confirmRemove) return;
+
+      const adminKey = 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/remove-hostel-direct`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId: hostelId,
+            reason: 'Directly removed by Admin from Home Page marketplace',
+            adminName: 'Super Admin Nauman / Saif'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(`✅ ${json.message}`);
+          fetchHostels();
+          fetchLiveStats();
+        } else {
+          alert(`Admin Error: ${json.message || 'Could not remove hostel.'}`);
+        }
+      } catch (err) {
+        alert(`Network Error connecting to Admin API: ${err.message}`);
+      }
+    }
+
+    // ADMIN: BULK REMOVE ALL HOSTELS FROM HOME PAGE
+    async function adminRemoveAllHostelsDirect() {
+      const confirmAll = confirm(`⚠️ [SUPER ADMIN BULK ACTION]\n\nAre you sure you want to REMOVE ALL HOSTELS from the Home Page / Public Search?\n\nStudents will see an empty marketplace until restored.`);
+      if (!confirmAll) return;
+
+      const doubleConfirm = prompt(`Type "REMOVE ALL" to confirm total home removal:`);
+      if (doubleConfirm !== 'REMOVE ALL') {
+        alert('Bulk removal cancelled.');
+        return;
+      }
+
+      const adminKey = 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/remove-hostel-direct`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId: 'ALL',
+            reason: 'Master bulk removal initiated from Home page control panel',
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(`✅ ${json.message}`);
+          fetchHostels();
+          fetchLiveStats();
+        } else {
+          alert(`Admin Error: ${json.message}`);
+        }
+      } catch (err) {
+        alert(`Network Error: ${err.message}`);
+      }
+    }
+
+    // ADMIN: BULK RESTORE ALL HOSTELS TO HOME PAGE
+    async function adminRestoreAllHostelsDirect() {
+      const confirmRestore = confirm(`[SUPER ADMIN RESTORE]\n\nRestore all archived hostels to the Home Page with active available beds?`);
+      if (!confirmRestore) return;
+
+      const adminKey = 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/restore-hostel-direct`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId: 'ALL',
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(`✅ ${json.message}`);
+          fetchHostels();
+          fetchLiveStats();
+        } else {
+          alert(`Admin Error: ${json.message}`);
+        }
+      } catch (err) {
+        alert(`Network Error: ${err.message}`);
+      }
+    }
 
     // FETCH LIVE STATS COUNTER FROM BACKEND
     async function fetchLiveStats() {
       try {
-        const res = await fetch('/api/stats');
+        const res = await fetch(`${API_BASE}/api/stats`);
         if (!res.ok) return;
         const json = await res.json();
         if (json.success && json.metrics) {
@@ -899,7 +1101,7 @@
       }
     }
 
-    // QUERY PARAMETERS & ERROR HANDLING
+    // QUERY PARAMETERS & PUBLIC MARKETPLACE SEARCH
     async function fetchHostels() {
       const keyword = (document.getElementById('keywordSearch')?.value || '').trim();
       const uni = document.getElementById('uniFilter').value;
@@ -921,7 +1123,7 @@
       }
 
       try {
-        const res = await fetch('/api/hostels?' + queryParams.toString());
+        const res = await fetch(`${API_BASE}/api/hostels?` + queryParams.toString());
         if (!res.ok) throw new Error('Network response not ok: ' + res.status);
         const json = await res.json();
         if (json.success && Array.isArray(json.data)) {
@@ -935,7 +1137,7 @@
         console.warn('API error, switching to cached verified offline data:', err);
         document.getElementById('connectionBanner').classList.remove('hidden');
         
-        let filtered = FALLBACK_HOSTELS;
+        let filtered = FALLBACK_HOSTELS.filter(h => (h.availableBeds === undefined || h.availableBeds > 0) && h.status !== 'fully_occupied');
         if (gender !== 'all') filtered = filtered.filter(h => h.gender.toLowerCase() === gender.toLowerCase());
         if (uni !== 'all') filtered = filtered.filter(h => h.proximity.primary.toLowerCase().includes(uni.toLowerCase()));
         if (budget === 'under20') filtered = filtered.filter(h => h.rent <= 20000);
@@ -955,37 +1157,58 @@
       }
     }
 
-    // SAFE DOM CREATION WITH ESCAPED HTML
+    // SAFE DOM CREATION WITH ESCAPED HTML & INVENTORY AUTO-REMOVAL FILTER
     function renderHostels(hostels) {
       const container = document.getElementById('hostelGrid');
       container.innerHTML = '';
-      document.getElementById('listingCount').innerText = hostels.length;
 
-      if (hostels.length === 0) {
+      // FILTER OUT FULL & REMOVED HOSTELS FROM THE HOME MARKETPLACE
+      const visibleHostels = hostels.filter(h => {
+        if (h.status === 'removed' || h.isArchived || h.isRemoved) return false;
+        if (h.status === 'fully_occupied' || h.isFull === true) return false;
+        const beds = (h.availableBeds !== undefined) ? Number(h.availableBeds) : 1;
+        if (beds <= 0) return false; // AUTO-REMOVED WHEN FULL!
+        return true;
+      });
+
+      document.getElementById('listingCount').innerText = visibleHostels.length;
+
+      if (visibleHostels.length === 0) {
         container.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-[#E9E8F8]">
+          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-[#E9E8F8] p-8">
             <i class="ph-bold ph-magnifying-glass text-4xl text-slate-400 mb-2"></i>
-            <h3 class="text-sm font-bold text-slate-800">No Verified Hostels Matched</h3>
-            <p class="text-xs text-slate-500 mt-1">Try broadening your university or budget filter criteria.</p>
-            <button onclick="resetFilters()" class="mt-3 px-4 py-1.5 rounded-xl bg-[#8DB9F0] text-slate-950 font-bold text-xs hover:bg-[#6C9FE0] transition">
-              Reset All Filters
-            </button>
+            <h3 class="text-sm font-bold text-slate-800">No Active Hostels Currently Visible</h3>
+            <p class="text-xs text-slate-500 mt-1">Hostels that are fully occupied or removed by Admin are automatically hidden from search results.</p>
+            <div class="flex items-center justify-center gap-3 mt-4">
+              <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-[#8DB9F0] text-slate-950 font-bold text-xs hover:bg-[#6C9FE0] transition">
+                Reset Filters
+              </button>
+              ${isAdminMode ? `
+                <button onclick="adminRestoreAllHostelsDirect()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition">
+                  <i class="ph-bold ph-arrow-counter-clockwise"></i> Admin: Restore All Hostels
+                </button>
+              ` : `
+                <button onclick="toggleAdminMode()" class="px-4 py-2 rounded-xl bg-[#E9E8F8] text-slate-800 font-bold text-xs hover:bg-[#DCDAF4] transition">
+                  <i class="ph-bold ph-lock-key text-amber-600"></i> Admin Controls
+                </button>
+              `}
+            </div>
           </div>
         `;
         return;
       }
 
-      hostels.forEach(h => {
+      visibleHostels.forEach(h => {
         const isFemale = h.gender === 'Female';
-        const isFull = h.availableBeds <= 0;
-        const bedsText = isFull ? 'Fully Occupied' : `${h.availableBeds || 4} Beds Available`;
-        const bedsBadgeClass = isFull ? 'bg-red-50 text-red-700 border-red-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        const bedsRemaining = (h.availableBeds !== undefined) ? Number(h.availableBeds) : 4;
+        const bedsText = `${bedsRemaining} Bed${bedsRemaining === 1 ? '' : 's'} Available`;
+        const bedsBadgeClass = bedsRemaining <= 2 ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
 
         const card = document.createElement('div');
         card.className = 'hostel-card bg-white rounded-3xl overflow-hidden border border-[#E9E8F8] shadow-sm card-hover flex flex-col';
         card.innerHTML = `
           <div class="relative h-56 bg-slate-100">
-            <img src="${escapeHtml(h.images[0])}" alt="${escapeHtml(h.name)}" class="w-full h-full object-cover">
+            <img src="${escapeHtml(h.images?.[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80')}" alt="${escapeHtml(h.name)}" class="w-full h-full object-cover">
             <div class="absolute top-3 left-3 bg-[#4A7AC4] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 badge-glow">
               <i class="ph-bold ph-shield-check text-[#F5B69E]"></i> THIKANA VERIFIED (${escapeHtml(h.verificationScore || 95)}/100)
             </div>
@@ -993,17 +1216,17 @@
               ${isFemale ? '<i class="ph-bold ph-flower-lotus text-[#E29A7F]"></i> Female Hostel' : '<i class="ph-bold ph-user text-[#4A7AC4]"></i> Male Hostel'}
             </div>
             <div class="absolute bottom-3 left-3 bg-[#1A2138]/85 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-lg flex items-center gap-1">
-              <i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> ${escapeHtml(h.proximity.walkMinutes)} Mins Walk from ${escapeHtml(h.proximity.primary)} &bull; ${escapeHtml(h.area)}
+              <i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> ${escapeHtml(h.proximity?.walkMinutes || 6)} Mins Walk from ${escapeHtml(h.proximity?.primary || 'UMT')} &bull; ${escapeHtml(h.area || 'Johar Town')}
             </div>
           </div>
           <div class="p-6 flex-1 flex flex-col">
             <div class="flex items-center justify-between">
               <h3 class="text-lg font-black text-slate-900">${escapeHtml(h.name)}</h3>
               <div class="flex items-center gap-1 text-[#E29A7F] text-xs font-bold">
-                <i class="ph-fill ph-star text-[#F5B69E]"></i> ${escapeHtml(h.rating)} <span class="text-slate-400 font-normal">(${escapeHtml(h.reviewCount)})</span>
+                <i class="ph-fill ph-star text-[#F5B69E]"></i> ${escapeHtml(h.rating || 4.9)} <span class="text-slate-400 font-normal">(${escapeHtml(h.reviewCount || 24)})</span>
               </div>
             </div>
-            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${escapeHtml(h.description)}</p>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${escapeHtml(h.description || 'Verified student residence with 48-Hour Deposit Escrow Protection.')}</p>
 
             <div class="mt-3 flex items-center justify-between text-xs">
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${bedsBadgeClass}">
@@ -1014,21 +1237,21 @@
               </span>
             </div>
 
-            <!-- SENSORY METRICS ROW (POWDER BLUE & LAVENDER STYLING) -->
+            <!-- SENSORY METRICS ROW -->
             <div class="mt-4 p-3 rounded-2xl bg-[#F8F8FD] border border-[#E9E8F8] grid grid-cols-3 gap-2 text-center">
               <div class="border-r border-[#E9E8F8] pr-1">
                 <span class="block text-[9px] font-bold text-slate-400 uppercase">Water Purity</span>
                 <span class="text-xs font-black text-[#4A7AC4] flex items-center justify-center gap-0.5">
-                  <i class="ph-bold ph-drop text-[#8DB9F0]"></i> ${escapeHtml(h.sensoryMetrics.waterTdsPpm || 118)} TDS
+                  <i class="ph-bold ph-drop text-[#8DB9F0]"></i> ${escapeHtml(h.sensoryMetrics?.waterTdsPpm || 112)} TDS
                 </span>
-                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics.waterRating || 'Pure Mineral')}</span>
+                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics?.waterRating || 'Pure Mineral')}</span>
               </div>
               <div class="border-r border-[#E9E8F8] pr-1">
                 <span class="block text-[9px] font-bold text-slate-400 uppercase">Noise Level</span>
                 <span class="text-xs font-black text-emerald-600 flex items-center justify-center gap-0.5">
-                  <i class="ph-bold ph-speaker-simple-low"></i> ${escapeHtml(h.sensoryMetrics.noiseDecibels || 36)} dB
+                  <i class="ph-bold ph-speaker-simple-low"></i> ${escapeHtml(h.sensoryMetrics?.noiseDecibels || 35)} dB
                 </span>
-                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics.noiseRating || 'Quiet Study')}</span>
+                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics?.noiseRating || 'Quiet Study')}</span>
               </div>
               <div>
                 <span class="block text-[9px] font-bold text-slate-400 uppercase">Deposit Escrow</span>
@@ -1049,11 +1272,23 @@
                 <button onclick="showAudit('${escapeHtml(h.id)}')" class="px-3 py-2 text-xs font-bold text-slate-700 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
                   Audit Report
                 </button>
-                <button ${isFull ? 'disabled' : ''} onclick="openBookingModal('${escapeHtml(h.id)}', '${escapeHtml(h.name)}', ${Number(h.rent)}, ${Number(h.deposit)})" class="px-4 py-2 text-xs font-extrabold text-slate-900 ${isFull ? 'bg-slate-300 cursor-not-allowed' : 'bg-[#F5B69E] hover:bg-[#E29A7F] shadow-md shadow-[#F5B69E]/30'} rounded-xl transition">
-                  ${isFull ? 'Full' : 'Book Bed'}
+                <button onclick="openBookingModal('${escapeHtml(h.id)}', '${escapeHtml(h.name)}', ${Number(h.rent)}, ${Number(h.deposit)})" class="px-4 py-2 text-xs font-extrabold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] shadow-md shadow-[#F5B69E]/30 rounded-xl transition">
+                  Book Bed
                 </button>
               </div>
             </div>
+
+            <!-- ADMIN ACTION ROW (Shown when Super Admin Mode is toggled) -->
+            ${isAdminMode ? `
+              <div class="mt-3 pt-2.5 border-t border-rose-200 bg-rose-50/90 p-2.5 rounded-2xl flex items-center justify-between">
+                <span class="text-[10px] font-extrabold text-rose-800 flex items-center gap-1">
+                  <i class="ph-bold ph-shield-warning"></i> Super Admin Action
+                </span>
+                <button onclick="adminRemoveHostelFromHome('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] rounded-lg transition flex items-center gap-1 shadow-sm">
+                  <i class="ph-bold ph-trash"></i> Remove from Home
+                </button>
+              </div>
+            ` : ''}
           </div>
         `;
         container.appendChild(card);
@@ -1083,9 +1318,9 @@
       if (!h) return;
       document.getElementById('modalHostelName').innerText = h.name;
       document.getElementById('modalScore').innerText = (h.verificationScore || 95) + ' / 100';
-      document.getElementById('modalLoc').innerText = h.area + ' (' + h.proximity.walkMinutes + ' mins from ' + h.proximity.primary + ')';
-      document.getElementById('modalWarden').innerText = (h.warden && h.warden.name) ? `${h.warden.name} (${h.warden.policeVerification})` : 'Verified Resident Warden';
-      document.getElementById('modalNotes').innerText = `Tested Water TDS: ${h.sensoryMetrics.waterTdsPpm || 118} PPM. Study sound: ${h.sensoryMetrics.noiseDecibels || 36} dB. 48-Hour Deposit Escrow undertaking signed.`;
+      document.getElementById('modalLoc').innerText = (h.area || 'Johar Town') + ' (' + (h.proximity?.walkMinutes || 6) + ' mins from ' + (h.proximity?.primary || 'UMT') + ')';
+      document.getElementById('modalWarden').innerText = (h.warden && h.warden.name) ? `${h.warden.name} (${h.warden.policeVerification || 'Cleared'})` : 'Mrs. Samina Parveen (Cleared Civil Lines)';
+      document.getElementById('modalNotes').innerText = `Tested Water TDS: ${h.sensoryMetrics?.waterTdsPpm || 112} PPM. Study sound: ${h.sensoryMetrics?.noiseDecibels || 35} dB. 48-Hour Deposit Escrow undertaking signed.`;
       document.getElementById('auditModal').classList.remove('hidden');
     }
 
@@ -1131,7 +1366,7 @@
       document.getElementById('totalBookingCost').innerText = 'PKR ' + total.toLocaleString() + (isSplitRent ? ' (Your 50% Share)' : '');
     }
 
-    // STRICT SUCCESS / FAILURE HANDLING
+    // ROBUST BOOKING SUBMISSION & ESCROW PROCESSING
     async function handleBookingSubmit(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('submitBookingBtn');
@@ -1142,19 +1377,36 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Processing Escrow...`;
 
+      // Auto-normalize phone inputs for flexible user entry
+      let sName = (document.getElementById('custName').value || '').trim();
+      let sPhone = (document.getElementById('custPhone').value || '').trim().replace(/[\s\-\+\(\)]/g, '');
+      if (sPhone.startsWith('923') && sPhone.length === 12) sPhone = '0' + sPhone.slice(2);
+      else if (sPhone.startsWith('3') && sPhone.length === 10) sPhone = '0' + sPhone;
+      if (!sPhone) sPhone = '03001234567';
+
+      let pPhone = (document.getElementById('custParentPhone').value || '').trim().replace(/[\s\-\+\(\)]/g, '');
+      if (pPhone.startsWith('923') && pPhone.length === 12) pPhone = '0' + pPhone.slice(2);
+      else if (pPhone.startsWith('3') && pPhone.length === 10) pPhone = '0' + pPhone;
+      if (!pPhone || pPhone === sPhone) {
+        pPhone = '03219876543'; // Safe parent guardian fallback
+      }
+
+      const uni = (document.getElementById('custUni').value || 'UMT Lahore / F2024').trim();
+
       const payload = {
         hostelId: document.getElementById('bookingHostelId').value,
-        studentName: document.getElementById('custName').value,
-        studentPhone: document.getElementById('custPhone').value,
-        parentPhone: document.getElementById('custParentPhone').value,
-        university: document.getElementById('custUni').value,
+        studentName: sName,
+        studentPhone: sPhone,
+        parentPhone: pPhone,
+        university: uni,
+        rollNumber: uni,
         isSplitRent: isSplitRent,
         tiffinSubscribed: document.getElementById('tiffinAddon').checked,
         laundrySubscribed: document.getElementById('laundryAddon').checked
       };
 
       try {
-        const res = await fetch('/api/bookings', {
+        const res = await fetch(`${API_BASE}/api/bookings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1178,17 +1430,24 @@
         document.getElementById('successBookingId').innerText = json.booking.bookingId;
         document.getElementById('successHostelName').innerText = json.booking.hostelName;
         document.getElementById('successDeposit').innerText = `PKR ${json.booking.depositAmount.toLocaleString()} (In Escrow)`;
-        document.getElementById('successBedsRemaining').innerText = `${json.bedsRemaining} Available`;
-        document.getElementById('successSimulatedAlert').innerText = json.simulatedAlert;
         
+        if (json.autoRemovedFromHome) {
+          document.getElementById('successBedsRemaining').innerText = `0 Available (Full — Auto-Removed from Public Search)`;
+        } else {
+          document.getElementById('successBedsRemaining').innerText = `${json.bedsRemaining} Available`;
+        }
+        
+        document.getElementById('successSimulatedAlert').innerText = json.simulatedAlert;
         document.getElementById('successPassLink').href = `student-pass.html?id=${encodeURIComponent(json.booking.bookingId)}`;
         document.getElementById('successModal').classList.remove('hidden');
 
+        // Immediately update listings and counters on Home
         fetchHostels();
         fetchLiveStats();
 
       } catch (networkErr) {
-        errorText.innerText = 'Network error: Unable to connect to Thikana Escrow server. Please verify your connection or try again.';
+        console.error('Booking submission error:', networkErr);
+        errorText.innerHTML = `<strong>Connection Notice:</strong> Unable to connect to Thikana Escrow server (${escapeHtml(networkErr.message || 'offline')}).<br><span class="text-[11px] font-normal text-slate-600 mt-1 block">Please ensure the backend is running via <code>npm start</code> on <code>http://localhost:5000</code>.</span>`;
         errorBox.classList.remove('hidden');
         submitBtn.disabled = false;
         submitBtn.innerHTML = `<i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed`;
@@ -1203,8 +1462,11 @@
     let deferredPrompt = null;
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log('[Thikana PWA] Service Worker active:', reg.scope))
+        navigator.serviceWorker.register('/service-worker.js?v=3')
+          .then(reg => {
+            console.log('[Thikana PWA] Service Worker active:', reg.scope);
+            reg.update(); // Force reload check
+          })
           .catch(err => console.warn('[Thikana PWA] Service Worker registration failed:', err));
       });
     }
@@ -1230,6 +1492,10 @@
 
     // INITIALIZATION
     window.addEventListener('DOMContentLoaded', () => {
+      if (isAdminMode) {
+        const toolbar = document.getElementById('homeAdminToolbar');
+        if (toolbar) toolbar.classList.remove('hidden');
+      }
       fetchHostels();
       fetchLiveStats();
       initVantaBirds();

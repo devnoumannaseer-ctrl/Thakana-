@@ -1,5 +1,5 @@
-// THIKANA PWA SERVICE WORKER (v1.0.0)
-const CACHE_NAME = 'thikana-pwa-v1';
+// THIKANA PWA SERVICE WORKER (v3.0.0)
+const CACHE_NAME = 'thikana-pwa-v3';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -46,14 +46,21 @@ self.addEventListener('activate', (event) => {
 // Fetch Event: Intelligent Strategy
 self.addEventListener('fetch', (event) => {
   const req = event.request;
+
+  // IMPORTANT: NEVER intercept POST, PUT, DELETE, or PATCH mutations!
+  // Let the browser deliver mutation payloads directly to Express API without service worker body interference.
+  if (req.method !== 'GET') {
+    return;
+  }
+
   const url = new URL(req.url);
 
-  // 1. API Endpoints: Network-First with Offline JSON Fallback
+  // 1. API Endpoints (GET Only): Network-First with Offline JSON Fallback
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(req)
         .then((networkRes) => {
-          if (req.method === 'GET' && networkRes.status === 200) {
+          if (networkRes.status === 200) {
             const resClone = networkRes.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
           }

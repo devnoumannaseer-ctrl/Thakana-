@@ -108,7 +108,7 @@
   <main class="content-relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
     
     <!-- DASHBOARD KPI SUMMARY CARDS -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
       <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-slate-700">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registered</span>
@@ -142,7 +142,16 @@
           <i class="ph-bold ph-check-circle text-xl text-emerald-400"></i>
         </div>
         <div class="text-2xl font-black text-emerald-400 mt-2" id="kpiApproved">0</div>
-        <span class="text-[11px] text-slate-300">Live in student search</span>
+        <span class="text-[11px] text-slate-300">Live on Home marketplace</span>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-rose-500/50">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">Removed / Hidden</span>
+          <i class="ph-bold ph-trash text-xl text-rose-400"></i>
+        </div>
+        <div class="text-2xl font-black text-rose-400 mt-2" id="kpiRemoved">0</div>
+        <span class="text-[11px] text-slate-300">Hidden from Home search</span>
       </div>
     </div>
 
@@ -159,27 +168,39 @@
 
     <!-- FILTER TABS & SEARCH -->
     <div class="bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 shadow-xl">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-6">
         <div>
-          <h2 class="text-lg font-black text-white">Hostel Onboarding Verification Pipeline</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Approve or reject hostels submitted by owners after field sensory testing.</p>
+          <h2 class="text-lg font-black text-white">Hostel Onboarding &amp; Direct Home Control</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Approve, reject, or directly remove any/all properties from the Home page at any time.</p>
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
-          <button onclick="filterByStatus('all')" id="tabAll" class="px-3.5 py-1.5 rounded-xl bg-[#4A7AC4] text-white text-xs font-bold transition">
+          <button onclick="filterByStatus('all')" id="tabAll" class="px-3 py-1.5 rounded-xl bg-[#4A7AC4] text-white text-xs font-bold transition">
             All (<span id="countAll">0</span>)
           </button>
-          <button onclick="filterByStatus('pending_inspection')" id="tabPending" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+          <button onclick="filterByStatus('pending_inspection')" id="tabPending" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
             Pending (<span id="countPending">0</span>)
           </button>
-          <button onclick="filterByStatus('inspected')" id="tabInspected" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+          <button onclick="filterByStatus('inspected')" id="tabInspected" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
             Inspected (<span id="countInspected">0</span>)
           </button>
-          <button onclick="filterByStatus('approved')" id="tabApproved" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
-            Approved (<span id="countApproved">0</span>)
+          <button onclick="filterByStatus('approved')" id="tabApproved" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+            Approved &amp; Live (<span id="countApproved">0</span>)
           </button>
-          <button onclick="filterByStatus('removals')" id="tabRemovals" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1">
-            <i class="ph-bold ph-trash text-red-400"></i> Removal Requests (<span id="countRemovals">0</span>)
+          <button onclick="filterByStatus('removed')" id="tabRemoved" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1">
+            <i class="ph-bold ph-trash text-rose-400"></i> Removed (<span id="countRemoved">0</span>)
+          </button>
+          <button onclick="filterByStatus('removals')" id="tabRemovals" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1">
+            <i class="ph-bold ph-envelope text-amber-400"></i> Owner Requests (<span id="countRemovals">0</span>)
+          </button>
+
+          <!-- DIRECT BULK ACTIONS -->
+          <div class="h-6 w-px bg-slate-700 mx-1 hidden sm:block"></div>
+          <button onclick="directRemoveAllHostels()" class="px-3 py-1.5 rounded-xl bg-rose-950/80 border border-rose-600/60 text-rose-300 hover:bg-rose-900 text-xs font-extrabold transition flex items-center gap-1 shadow-sm" title="Remove all hostels from public search">
+            <i class="ph-bold ph-warning-octagon"></i> Bulk Remove All
+          </button>
+          <button onclick="directRestoreAllHostels()" class="px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-600/60 text-emerald-300 hover:bg-emerald-900 text-xs font-extrabold transition flex items-center gap-1 shadow-sm" title="Restore all hostels to public search">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i> Bulk Restore All
           </button>
           <button onclick="loadHostels()" class="p-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs font-bold transition" title="Refresh">
             <i class="ph-bold ph-arrow-counter-clockwise"></i>
@@ -271,11 +292,17 @@
         document.getElementById('kpiPending').innerText = counts.pendingInspection || 0;
         document.getElementById('kpiInspected').innerText = counts.inspected || 0;
         document.getElementById('kpiApproved').innerText = counts.approved || 0;
+        if (document.getElementById('kpiRemoved')) {
+          document.getElementById('kpiRemoved').innerText = counts.removed || 0;
+        }
 
         document.getElementById('countAll').innerText = resH.totalCount;
         document.getElementById('countPending').innerText = counts.pendingInspection || 0;
         document.getElementById('countInspected').innerText = counts.inspected || 0;
         document.getElementById('countApproved').innerText = counts.approved || 0;
+        if (document.getElementById('countRemoved')) {
+          document.getElementById('countRemoved').innerText = counts.removed || 0;
+        }
         
         const pendingRemovals = allRemovals.filter(r => r.status === 'pending').length;
         document.getElementById('countRemovals').innerText = pendingRemovals;
@@ -294,7 +321,7 @@
 
     function filterByStatus(status) {
       currentFilter = status;
-      ['tabAll', 'tabPending', 'tabInspected', 'tabApproved', 'tabRemovals'].forEach(id => {
+      ['tabAll', 'tabPending', 'tabInspected', 'tabApproved', 'tabRemoved', 'tabRemovals'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.className = 'px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1';
       });
@@ -303,6 +330,7 @@
       if (status === 'pending_inspection') document.getElementById('tabPending').className = 'px-3.5 py-1.5 rounded-xl bg-[#F5B69E] text-slate-900 text-xs font-bold transition flex items-center gap-1';
       if (status === 'inspected') document.getElementById('tabInspected').className = 'px-3.5 py-1.5 rounded-xl bg-[#8DB9F0] text-slate-900 text-xs font-bold transition flex items-center gap-1';
       if (status === 'approved') document.getElementById('tabApproved').className = 'px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1';
+      if (status === 'removed') document.getElementById('tabRemoved').className = 'px-3.5 py-1.5 rounded-xl bg-rose-600 text-white text-xs font-bold transition flex items-center gap-1';
       if (status === 'removals') document.getElementById('tabRemovals').className = 'px-3.5 py-1.5 rounded-xl bg-red-600 text-white text-xs font-bold transition flex items-center gap-1';
 
       renderHostels();
@@ -375,7 +403,9 @@
 
       // STANDARD VIEW: HOSTEL LIST
       let list = allHostels;
-      if (currentFilter !== 'all') {
+      if (currentFilter === 'removed') {
+        list = allHostels.filter(h => h.status === 'removed' || h.isArchived === true || h.isRemoved === true);
+      } else if (currentFilter !== 'all') {
         list = list.filter(h => {
           const status = h.status || 'approved';
           return status === currentFilter;
@@ -419,15 +449,44 @@
               Reject
             </button>
           `;
-        } else if (status === 'approved') {
-          statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5"><i class="ph-bold ph-check-circle"></i> 🟢 APPROVED &amp; PUBLICLY LISTED</span>`;
+        } else if (status === 'approved' && !h.isArchived && h.status !== 'removed') {
+          const isFull = (h.availableBeds !== undefined && Number(h.availableBeds) <= 0) || h.status === 'fully_occupied';
+          if (isFull) {
+            statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1.5"><i class="ph-bold ph-users-three"></i> 🟡 FULL (0 BEDS) — AUTO-REMOVED FROM HOME</span>`;
+            actionButtons = `
+              <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                <i class="ph-bold ph-file-text"></i> Dossier
+              </button>
+              <button onclick="directRestoreHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1 transition">
+                <i class="ph-bold ph-plus-circle"></i> Add Beds &amp; Relist
+              </button>
+              <button onclick="directRemoveHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3.5 py-2 bg-rose-600/80 hover:bg-rose-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                <i class="ph-bold ph-trash"></i> Remove
+              </button>
+            `;
+          } else {
+            statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5"><i class="ph-bold ph-check-circle"></i> 🟢 APPROVED &amp; PUBLICLY LISTED</span>`;
+            actionButtons = `
+              <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                <i class="ph-bold ph-file-text"></i> Dossier
+              </button>
+              <a href="index.html#hostels" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-[#8DB9F0] rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                <i class="ph-bold ph-arrow-square-out"></i> Live View
+              </a>
+              <button onclick="directRemoveHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+                <i class="ph-bold ph-trash"></i> Remove from Home
+              </button>
+            `;
+          }
+        } else if (status === 'removed' || h.isArchived || h.isRemoved) {
+          statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1.5"><i class="ph-bold ph-trash"></i> 🔴 REMOVED FROM HOME (${escapeHtml(h.removalReason || 'Admin Removed')})</span>`;
           actionButtons = `
             <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
               <i class="ph-bold ph-file-text"></i> Dossier
             </button>
-            <a href="index.html#hostels" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-[#8DB9F0] rounded-xl text-xs font-bold flex items-center gap-1 transition">
-              <i class="ph-bold ph-arrow-square-out"></i> Live View
-            </a>
+            <button onclick="directRestoreHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+              <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore to Home
+            </button>
           `;
         }
 
@@ -544,6 +603,144 @@
           loadHostels();
         } else {
           alert('Error: ' + (json.message || 'Could not process removal decision.'));
+        }
+      } catch (err) {
+        alert('Network error connecting to Admin API.');
+      }
+    }
+
+    // DIRECT ADMIN REMOVAL OF INDIVIDUAL HOSTEL
+    async function directRemoveHostel(hostelId, hostelName) {
+      const confirmRemove = confirm(`[SUPER ADMIN ACTION]\n\nAre you sure you want to remove "${hostelName}" (${hostelId}) from the Home Page and public search?`);
+      if (!confirmRemove) return;
+
+      const adminKey = document.getElementById('adminSecretKey')?.value || 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch('/api/admin/remove-hostel-direct', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId,
+            reason: 'Removed from marketplace directly by Admin',
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          const banner = document.getElementById('adminNoticeBanner');
+          const text = document.getElementById('adminNoticeText');
+          if (text) text.innerText = json.message;
+          if (banner) banner.classList.remove('hidden');
+          loadHostels();
+        } else {
+          alert('Admin Error: ' + (json.message || 'Could not remove property.'));
+        }
+      } catch (err) {
+        alert('Network error connecting to Admin API.');
+      }
+    }
+
+    // DIRECT ADMIN RESTORATION OF REMOVED HOSTEL
+    async function directRestoreHostel(hostelId, hostelName) {
+      const confirmRestore = confirm(`[SUPER ADMIN ACTION]\n\nRestore "${hostelName}" (${hostelId}) back to the Home Page and public search with active beds?`);
+      if (!confirmRestore) return;
+
+      const adminKey = document.getElementById('adminSecretKey')?.value || 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch('/api/admin/restore-hostel-direct', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId,
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          const banner = document.getElementById('adminNoticeBanner');
+          const text = document.getElementById('adminNoticeText');
+          if (text) text.innerText = json.message;
+          if (banner) banner.classList.remove('hidden');
+          loadHostels();
+        } else {
+          alert('Admin Error: ' + (json.message || 'Could not restore property.'));
+        }
+      } catch (err) {
+        alert('Network error connecting to Admin API.');
+      }
+    }
+
+    // DIRECT ADMIN BULK REMOVAL OF ALL HOSTELS
+    async function directRemoveAllHostels() {
+      const confirmAll = confirm(`⚠️ [SUPER ADMIN BULK REMOVAL]\n\nAre you sure you want to remove ALL hostels from the Home page / public marketplace?`);
+      if (!confirmAll) return;
+
+      const doubleCheck = prompt('Type "REMOVE ALL" to confirm total marketplace wipe:');
+      if (doubleCheck !== 'REMOVE ALL') {
+        alert('Bulk removal cancelled.');
+        return;
+      }
+
+      const adminKey = document.getElementById('adminSecretKey')?.value || 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch('/api/admin/remove-hostel-direct', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId: 'ALL',
+            reason: 'Bulk removal of all listings by Super Admin',
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(json.message);
+          loadHostels();
+        } else {
+          alert('Admin Error: ' + json.message);
+        }
+      } catch (err) {
+        alert('Network error connecting to Admin API.');
+      }
+    }
+
+    // DIRECT ADMIN BULK RESTORATION OF ALL HOSTELS
+    async function directRestoreAllHostels() {
+      const confirmRestore = confirm(`[SUPER ADMIN BULK RESTORE]\n\nRestore all hostels back to the Home page with 4 active beds each?`);
+      if (!confirmRestore) return;
+
+      const adminKey = document.getElementById('adminSecretKey')?.value || 'thikana-local-admin-change-me';
+      try {
+        const res = await fetch('/api/admin/restore-hostel-direct', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId: 'ALL',
+            adminName: 'Super Admin'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(json.message);
+          loadHostels();
+        } else {
+          alert('Admin Error: ' + json.message);
         }
       } catch (err) {
         alert('Network error connecting to Admin API.');

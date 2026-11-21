@@ -52,8 +52,12 @@
     "swapGuarantee": true,
     "description": "Premium student residency exclusively for female students attending UMT and UCP. Located on a peaceful residential street with 24/7 female warden security.",
     "totalBeds": 30,
-    "availableBeds": 2,
-    "status": "approved"
+    "availableBeds": 4,
+    "status": "approved",
+    "isFull": false,
+    "autoRemovedAt": "2026-11-21T12:11:04.893Z",
+    "isArchived": false,
+    "isRemoved": false
   },
   {
     "id": "thk-h-002",
@@ -107,7 +111,13 @@
     "description": "High-speed internet and quiet study halls engineered specifically for computer science and engineering students at FAST.",
     "totalBeds": 40,
     "availableBeds": 5,
-    "status": "approved"
+    "status": "approved",
+    "isArchived": false,
+    "isRemoved": false,
+    "archivedAt": "2026-11-21T12:11:05.002Z",
+    "removalReason": "Admin test manual removal from home",
+    "removedBy": "Super Admin Nauman",
+    "isFull": false
   },
   {
     "id": "thk-h-003",
@@ -161,7 +171,10 @@
     "description": "The highest rated female residency in Garden Town. Full biometric gate integration with instant parent WhatsApp notification alerts.",
     "totalBeds": 50,
     "availableBeds": 6,
-    "status": "approved"
+    "status": "approved",
+    "isArchived": false,
+    "isRemoved": false,
+    "isFull": false
   },
   {
     "id": "thk-h-004",
@@ -214,7 +227,10 @@
     "description": "Executive studio living designed for LUMS undergraduate and graduate scholars. Features private kitchenette and high-tier DHA security.",
     "totalBeds": 60,
     "availableBeds": 7,
-    "status": "approved"
+    "status": "approved",
+    "isArchived": false,
+    "isRemoved": false,
+    "isFull": false
   },
   {
     "id": "thk-h-005",
@@ -267,7 +283,10 @@
     "description": "Affordable male accommodation offering free morning and evening shuttle vans to COMSATS and Superior University.",
     "totalBeds": 70,
     "availableBeds": 8,
-    "status": "approved"
+    "status": "approved",
+    "isArchived": false,
+    "isRemoved": false,
+    "isFull": false
   },
   {
     "id": "thk-h-006",
@@ -321,6 +340,9 @@
     "description": "Located just 4 minutes from UCP campus gates. Features parent waiting parlor and round-the-clock female warden administration.",
     "totalBeds": 80,
     "availableBeds": 4,
-    "status": "approved"
+    "status": "approved",
+    "isArchived": false,
+    "isRemoved": false,
+    "isFull": false
   }
 ]

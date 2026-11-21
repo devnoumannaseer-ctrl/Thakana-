@@ -81,12 +81,40 @@
         </a>
       </nav>
 
-      <div class="flex items-center gap-3">
-        <a href="admin-portal.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
-          <i class="ph-bold ph-lock-key text-amber-600"></i> Admin View
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="admin-portal.html" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
+          <i class="ph-bold ph-lock-key text-amber-600"></i> Admin
         </a>
-        <a href="index.html" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
-          <i class="ph-bold ph-arrow-left"></i> Back to Student App
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
+          <i class="ph-bold ph-storefront"></i> <span class="hidden sm:inline">Student</span> App
+        </a>
+        <!-- MOBILE HAMBURGER BUTTON -->
+        <button onclick="toggleMobileNavOwner()" aria-label="Toggle Navigation Menu" class="md:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center">
+          <i id="ownerMobileNavIcon" class="ph-bold ph-list text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESPONSIVE MOBILE DRAWER FOR OWNER PORTAL -->
+    <div id="ownerMobileDrawer" class="hidden md:hidden border-t border-[#E9E8F8] bg-white/98 backdrop-blur-md px-4 py-3 shadow-xl">
+      <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+        <a href="index.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-storefront text-[#4A7AC4]"></i> Marketplace
+        </a>
+        <a href="roommate-match.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-users text-indigo-500"></i> Roommates AI
+        </a>
+        <a href="parent-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-shield-star text-teal-600"></i> Parent Portal
+        </a>
+        <a href="student-pass.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-identification-card text-amber-500"></i> Student Pass
+        </a>
+        <a href="inspector-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-clipboard-text text-indigo-500"></i> Field Inspector
+        </a>
+        <a href="admin-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-lock-key text-amber-600"></i> Admin Portal
         </a>
       </div>
     </div>
@@ -1075,6 +1103,19 @@
           alert('ℹ️ Notification permission was not granted.');
         }
       });
+    }
+
+    function toggleMobileNavOwner() {
+      const drawer = document.getElementById('ownerMobileDrawer');
+      const icon = document.getElementById('ownerMobileNavIcon');
+      if (!drawer) return;
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        if (icon) icon.className = 'ph-bold ph-x text-xl text-rose-600';
+      } else {
+        drawer.classList.add('hidden');
+        if (icon) icon.className = 'ph-bold ph-list text-xl text-slate-800';
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
