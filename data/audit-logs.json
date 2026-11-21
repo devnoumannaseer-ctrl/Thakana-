@@ -1,0 +1,51 @@
+[
+  {
+    "logId": "LOG-5001",
+    "action": "SYSTEM_BOOT",
+    "details": "Thikana Living OS initialized with atomic JSON persistence.",
+    "performedBy": "System",
+    "timestamp": "2026-11-21T10:37:28.327Z"
+  },
+  {
+    "logId": "LOG-1795257701676-424",
+    "action": "OWNER_HOSTEL_UPDATED",
+    "details": "Hostel updated: Al-Rehman Executive Female Residency (thk-h-001) - Rent: PKR 18500, Available Beds: 5",
+    "performedBy": "Owner",
+    "timestamp": "2026-11-21T10:41:41.677Z"
+  },
+  {
+    "logId": "LOG-1795257701702-336",
+    "action": "OWNER_REMOVAL_REQUESTED",
+    "details": "Removal requested for Green View Scholars Hostel (thk-h-002): Building sold to private university; permanently closing student operations.",
+    "performedBy": "Partner Host",
+    "timestamp": "2026-11-21T10:41:41.702Z"
+  },
+  {
+    "logId": "LOG-1795257701743-440",
+    "action": "ADMIN_REMOVAL_APPROVED",
+    "details": "Removal approved for Green View Scholars Hostel (thk-h-002). Soft-deleted from marketplace.",
+    "performedBy": "Admin Saif / Nauman / Rohan",
+    "timestamp": "2026-11-21T10:41:41.743Z"
+  },
+  {
+    "logId": "LOG-1795258365724-478",
+    "action": "OWNER_TRIAL_ACTIVATED",
+    "details": "30-Day trial activated for Malik Shakeel (0321-9876543)",
+    "performedBy": "Owner Portal",
+    "timestamp": "2026-11-21T10:52:45.724Z"
+  },
+  {
+    "logId": "LOG-1795258365764-358",
+    "action": "PUSH_NOTIFICATION_DISPATCHED",
+    "details": "Demo Student Lead: Student Fatima requested booking at Johar Town",
+    "performedBy": "Notification Service",
+    "timestamp": "2026-11-21T10:52:45.764Z"
+  },
+  {
+    "logId": "LOG-1795258601906-720",
+    "action": "OWNER_TRIAL_ACTIVATED",
+    "details": "30-Day Verified Pro trial activated for nauman (03421878863)",
+    "performedBy": "Thikana System",
+    "timestamp": "2026-11-21T10:56:41.906Z"
+  }
+]

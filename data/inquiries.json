@@ -1,0 +1,42 @@
+[
+  {
+    "inquiryId": "INQ-2001",
+    "hostelId": "thk-h-001",
+    "hostelName": "Al-Rehman Executive Female Residency",
+    "studentName": "Fatima Zahra",
+    "studentPhone": "0312-3456789",
+    "university": "UMT Lahore",
+    "preferredRoomType": "Bi-Seater AC",
+    "targetMoveInDate": "2026-12-01",
+    "status": "new",
+    "createdAt": "2026-11-21T10:37:28.326Z",
+    "ownerNotes": null
+  },
+  {
+    "inquiryId": "INQ-2002",
+    "hostelId": "thk-h-002",
+    "hostelName": "Al-Madina Executive Residency",
+    "studentName": "Hamza Tariq",
+    "studentPhone": "0321-4567890",
+    "university": "FAST-NUCES",
+    "preferredRoomType": "Single Studio",
+    "targetMoveInDate": "2026-12-15",
+    "status": "contacted",
+    "createdAt": "2026-11-20T10:37:28.327Z",
+    "ownerNotes": "Sent room video tour on WhatsApp"
+  },
+  {
+    "inquiryId": "INQ-2003",
+    "hostelId": "thk-h-001",
+    "hostelName": "Al-Rehman Executive Female Residency",
+    "studentName": "Zainab Qasim",
+    "studentPhone": "0301-7654321",
+    "university": "UMT",
+    "preferredRoomType": "Bi-Seater",
+    "targetMoveInDate": "Immediate",
+    "notes": "Testing PWA inquiry flow",
+    "status": "new",
+    "createdAt": "2026-11-21T10:41:41.666Z",
+    "ownerNotes": null
+  }
+]

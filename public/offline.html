@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thikana - Offline Mode</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#F8F8FD] text-slate-800 antialiased min-h-screen flex flex-col items-center justify-center p-4">
+
+  <div class="max-w-md w-full bg-white/95 backdrop-blur-md p-8 rounded-3xl border border-[#E9E8F8] shadow-2xl text-center">
+    
+    <!-- Offline Icon with glowing rim -->
+    <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center text-slate-900 text-4xl mb-6 shadow-lg shadow-[#8DB9F0]/30">
+      <i class="ph-bold ph-wifi-slash"></i>
+    </div>
+
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#F5B69E]/20 text-[#9E4A2F] border border-[#F5B69E]/40 uppercase tracking-wider mb-3">
+      Offline Mode Active
+    </span>
+
+    <h1 class="text-2xl font-black text-slate-900 tracking-tight">You're Currently Offline</h1>
+    <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+      No active internet connection detected. You can still browse previously loaded verified hostels, hostel addresses, and student pass records from your device cache.
+    </p>
+
+    <div class="my-6 p-4 rounded-2xl bg-[#F8F8FD] border border-[#E9E8F8] text-left text-xs space-y-2">
+      <div class="flex items-center gap-2 text-slate-800 font-bold">
+        <i class="ph-bold ph-shield-check text-[#4A7AC4]"></i>
+        <span>Cached Student Safeguards:</span>
+      </div>
+      <p class="text-[11px] text-slate-500 leading-normal">
+        • 48-Hour Deposit Escrow status is protected on server.<br>
+        • Emergency Warden Hotline: <strong>042-3591-8822</strong><br>
+        • Johar Town Hub Support: <strong>0300-1234567</strong>
+      </p>
+    </div>
+
+    <button onclick="window.location.reload()" class="w-full py-3.5 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-extrabold rounded-xl shadow-md text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+      <i class="ph-bold ph-arrow-counter-clockwise"></i> Retry Connection
+    </button>
+
+    <a href="/index.html" class="block mt-3 text-xs font-bold text-[#4A7AC4] hover:underline">
+      Return to Home (Cached Version)
+    </a>
+  </div>
+
+  <div class="mt-6 text-[11px] text-slate-400 font-medium">
+    THIKANA Progressive Web App &bull; Powered by Service Worker Cache
+  </div>
+
+</body>
+</html>

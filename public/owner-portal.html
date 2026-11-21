@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thikana - Hostel Owner Registration & Property Onboarding</title>
+  <!-- THREE.JS & VANTA.NET 3D ANIMATION ENGINE (vantajs.com) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+  <!-- TAILWIND CSS & PHOSPHOR ICONS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            thikana: {
+              powder: '#8DB9F0',
+              'powder-dark': '#6C9FE0',
+              'powder-light': '#D6E6FA',
+              lavender: '#E9E8F8',
+              'lavender-light': '#F6F5FD',
+              peach: '#F5B69E',
+              'peach-dark': '#E29A7F',
+              'peach-light': '#FDE8E0',
+              navy: '#1A2138',
+              slate: '#2D354E',
+              light: '#F8F8FD'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    
+    #hero-owner-vanta canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 0;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body class="bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 min-h-screen flex flex-col">
+
+  <!-- TOP HEADER BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E9E8F8]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center shadow-md shadow-[#8DB9F0]/30 text-white text-2xl font-black">
+          <i class="ph-bold ph-shield-check text-[#1A2138]"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-[#4A7AC4] transition">THIKANA</span>
+          <span class="block text-[10px] font-bold text-[#4A7AC4] uppercase tracking-widest -mt-1">Owner Partner Portal</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600">
+        <a href="index.html" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
+          <i class="ph-bold ph-storefront text-[#8DB9F0] text-sm"></i> Student Marketplace
+        </a>
+        <a href="roommate-match.html" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
+          <i class="ph-bold ph-users text-indigo-500 text-sm"></i> Roommates
+        </a>
+        <a href="inspector-portal.html" class="hover:text-[#4A7AC4] transition flex items-center gap-1.5">
+          <i class="ph-bold ph-clipboard-text text-indigo-500 text-sm"></i> Field Inspector
+        </a>
+        <a href="admin-portal.html" class="hover:text-amber-600 transition flex items-center gap-1.5 text-slate-700">
+          <i class="ph-bold ph-lock-key text-amber-500 text-sm"></i> Admin Approval
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="admin-portal.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
+          <i class="ph-bold ph-lock-key text-amber-600"></i> Admin View
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
+          <i class="ph-bold ph-arrow-left"></i> Back to Student App
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH VANTA.NET 3D ANIMATION -->
+  <section id="hero-owner-vanta" class="relative overflow-hidden bg-[#1A2138] text-white py-14 px-4 sm:px-6 lg:px-8">
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-extrabold bg-[#F5B69E]/20 text-[#F5B69E] border border-[#F5B69E]/40 uppercase tracking-wider mb-4 shadow-sm">
+        <i class="ph-fill ph-handshake"></i> Thikana Property Partner Network
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">List Your Hostel &amp; Get 100% Occupancy</h1>
+      <p class="mt-3.5 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        Join Lahore's first physically verified student network. Connect directly with university students, eliminate local broker commissions, and receive timely direct rent via 48-Hour Escrow.
+      </p>
+
+      <!-- 4 VALUE BULLETS -->
+      <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+        <div class="p-3.5 bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-700/80 shadow-md">
+          <i class="ph-bold ph-percent text-[#F5B69E] text-xl"></i>
+          <h4 class="text-xs font-bold text-white mt-1">0% Broker Fees</h4>
+          <p class="text-[10px] text-slate-300 mt-0.5">Keep 100% of your rent. No dalal cuts.</p>
+        </div>
+        <div class="p-3.5 bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-700/80 shadow-md">
+          <i class="ph-bold ph-shield-check text-[#8DB9F0] text-xl"></i>
+          <h4 class="text-xs font-bold text-white mt-1">Verified Badge</h4>
+          <p class="text-[10px] text-slate-300 mt-0.5">Attract students with our quality certificate.</p>
+        </div>
+        <div class="p-3.5 bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-700/80 shadow-md">
+          <i class="ph-bold ph-vault text-[#8DB9F0] text-xl"></i>
+          <h4 class="text-xs font-bold text-white mt-1">Escrow Security</h4>
+          <p class="text-[10px] text-slate-300 mt-0.5">Protected advance deposits &amp; guaranteed pay.</p>
+        </div>
+        <div class="p-3.5 bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-700/80 shadow-md">
+          <i class="ph-bold ph-device-mobile text-[#F5B69E] text-xl"></i>
+          <h4 class="text-xs font-bold text-white mt-1">Parent Trust</h4>
+          <p class="text-[10px] text-slate-300 mt-0.5">Biometric WhatsApp gate entry alerts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING WORKFLOW VISUALIZER -->
+  <div class="bg-white border-b border-[#E9E8F8] py-4 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex items-center justify-between text-xs font-bold text-slate-600">
+        <div class="flex items-center gap-1.5 text-[#375A91]">
+          <span class="w-5 h-5 rounded-full bg-[#8DB9F0] text-[#1A2138] flex items-center justify-center text-[10px] font-black">1</span>
+          <span>Register Hostel</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-[#8DB9F0]/40 mx-2"></div>
+        <div class="flex items-center gap-1.5 text-slate-500">
+          <span class="w-5 h-5 rounded-full bg-[#E9E8F8] text-slate-700 flex items-center justify-center text-[10px] font-black">2</span>
+          <span>Pending Inspection</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-[#E9E8F8] mx-2"></div>
+        <div class="flex items-center gap-1.5 text-slate-500">
+          <span class="w-5 h-5 rounded-full bg-[#E9E8F8] text-slate-700 flex items-center justify-center text-[10px] font-black">3</span>
+          <span>50-Pt Physical Audit</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-[#E9E8F8] mx-2"></div>
+        <div class="flex items-center gap-1.5 text-slate-500">
+          <span class="w-5 h-5 rounded-full bg-[#E9E8F8] text-slate-700 flex items-center justify-center text-[10px] font-black">4</span>
+          <span>Admin Approval &amp; Live</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION CONTENT -->
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
+    <!-- TAB SWITCHER -->
+    <div class="flex border-b border-slate-200 mb-8 overflow-x-auto gap-1">
+      <button onclick="switchTab('register')" id="tabBtnRegister" class="pb-3 px-5 text-sm font-bold border-b-2 border-teal-600 text-teal-700 flex items-center gap-2 flex-shrink-0">
+        <i class="ph-bold ph-plus-circle text-lg"></i> Add Your Hostel &amp; Request Inspection
+      </button>
+      <button onclick="switchTab('track')" id="tabBtnTrack" class="pb-3 px-5 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 flex-shrink-0">
+        <i class="ph-bold ph-clock-countdown text-lg"></i> Track Property Status
+      </button>
+      <button onclick="switchTab('analytics')" id="tabBtnAnalytics" class="pb-3 px-5 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 flex-shrink-0">
+        <i class="ph-bold ph-chart-line-up text-lg text-emerald-600"></i> Inquiries &amp; Analytics
+      </button>
+    </div>
+
+    <!-- TAB 1: REGISTRATION & HOSTEL SUBMISSION FORM -->
+    <div id="registerTab" class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+      <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl font-black text-slate-900">Hostel Owner Registration &amp; Property Listing</h2>
+        <p class="text-xs text-slate-500 mt-1">Submit your hostel details below. Once submitted, your listing is set to <strong>Pending Inspection</strong> for our field team to verify.</p>
+      </div>
+
+      <!-- IN-FORM ERROR BANNER -->
+      <div id="formErrorAlert" class="hidden mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
+        <i class="ph-bold ph-x-circle text-base flex-shrink-0 mt-0.5"></i>
+        <span id="formErrorText">Error message</span>
+      </div>
+
+      <form id="ownerHostelForm" onsubmit="handleHostelRegistration(event)" class="space-y-8 text-xs">
+        
+        <!-- SECTION 1: OWNER IDENTITY -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-xs">1</span>
+            <h3 class="text-sm font-bold text-slate-900">Owner / Manager Personal Details</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Owner Full Name *</label>
+              <input type="text" id="ownerName" required placeholder="e.g. Chaudhry Muhammad Aslam" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Owner Mobile (03XX-XXXXXXX) *</label>
+              <input type="tel" id="ownerPhone" required placeholder="03001234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Owner CNIC Number *</label>
+              <input type="text" id="ownerCnic" required placeholder="35202-1234567-1" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Email Address</label>
+              <input type="email" id="ownerEmail" placeholder="owner@thikanahostels.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: HOSTEL PROFILE -->
+        <div class="pt-6 border-t border-slate-100">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-xs">2</span>
+            <h3 class="text-sm font-bold text-slate-900">Hostel Profile &amp; Location</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Hostel Name *</label>
+              <input type="text" id="hostelName" required placeholder="e.g. Al-Madina Executive Residency" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Accommodation Gender Policy *</label>
+              <select id="hostelGender" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="Female" selected>Female Hostel (High Priority Safety Audit)</option>
+                <option value="Male">Male Hostel</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Lahore Area / Neighborhood *</label>
+              <select id="hostelArea" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="Johar Town">Johar Town (UMT / UCP Area)</option>
+                <option value="Faisal Town">Faisal Town (FAST Area)</option>
+                <option value="Garden Town">Garden Town (Punjab University Area)</option>
+                <option value="DHA Phase 5">DHA Phase 5 (LUMS Area)</option>
+                <option value="Khayaban-e-Jinnah">Khayaban-e-Jinnah (UCP)</option>
+                <option value="Defense Road">Defense Road (COMSATS)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Full Physical Street Address *</label>
+              <input type="text" id="hostelAddress" required placeholder="House 42, Block R-1, Johar Town, Lahore" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Primary University Proximity *</label>
+              <select id="hostelUni" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="UMT Lahore">UMT Lahore</option>
+                <option value="UCP">UCP (University of Central Punjab)</option>
+                <option value="FAST-NUCES">FAST-NUCES</option>
+                <option value="Punjab University">Punjab University (New Campus)</option>
+                <option value="LUMS">LUMS</option>
+                <option value="COMSATS">COMSATS University</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Walking Distance to University (Minutes) *</label>
+              <input type="number" id="walkMinutes" required min="1" max="60" value="6" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: PRICING & ROOM INVENTORY -->
+        <div class="pt-6 border-t border-slate-100">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-xs">3</span>
+            <h3 class="text-sm font-bold text-slate-900">Pricing &amp; Bed Capacity</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Monthly Rent Per Bed (PKR) *</label>
+              <input type="number" id="hostelRent" required min="5000" step="500" value="22000" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Refundable Security Deposit (PKR) *</label>
+              <input type="number" id="hostelDeposit" required min="3000" step="500" value="10000" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+              <span class="text-[10px] text-teal-600 font-semibold">Held under 48-Hour Escrow</span>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Total Available Beds for Move-In *</label>
+              <input type="number" id="availableBeds" required min="1" max="200" value="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: AMENITIES CHECKLIST -->
+        <div class="pt-6 border-t border-slate-100">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-xs">4</span>
+            <h3 class="text-sm font-bold text-slate-900">Verified Facilities &amp; Amenities</h3>
+          </div>
+          <p class="text-[11px] text-slate-500 mb-3">Select the facilities currently active in your property (These will be physically verified by Thikana field inspectors):</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="100 Mbps WiFi" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">100 Mbps WiFi</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="24/7 Generator" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">24/7 Generator Backup</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="3x Fresh Meals" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">3x Hygienic Meals</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="16 CCTV Cameras" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">CCTV Surveillance</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="Biometric Gate" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">Biometric Gate Entry</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="Female Warden" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">Full-Time Warden</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="Attached Bath" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">Attached Bathrooms</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="RO Drinking Water" checked class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">RO Drinking Filter</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input type="checkbox" name="amenity" value="Air Conditioned" class="rounded text-teal-600">
+              <span class="font-semibold text-slate-700">Air Conditioned</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- SECTION 5: PHOTOS, DESCRIPTION & INSPECTION REQUEST -->
+        <div class="pt-6 border-t border-slate-100">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 font-bold flex items-center justify-center text-xs">5</span>
+            <h3 class="text-sm font-bold text-slate-900">Hostel Photos &amp; Inspection Scheduling</h3>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Hostel Cover Photo URL</label>
+              <div class="flex gap-2">
+                <input type="url" id="hostelPhotoUrl" placeholder="https://images.unsplash.com/photo-..." value="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <button type="button" onclick="loadSamplePhoto()" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 flex-shrink-0">
+                  Sample Photo
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Property Description &amp; House Rules</label>
+              <textarea id="hostelDescription" rows="3" placeholder="Describe hostel room sizes, quiet study hours, meal timing, and security..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">Exclusive residence for university students. Features full-time security, hygienic meals, and peaceful study atmosphere.</textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Preferred Field Inspection Date &amp; Time *</label>
+              <input type="text" id="preferredInspectionDate" required value="Tomorrow between 10:00 AM - 2:00 PM" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+              <span class="text-[10px] text-slate-500">Thikana inspection team will bring digital water TDS and sound meters.</span>
+            </div>
+
+            <!-- ESCROW & VERIFICATION CONSENT -->
+            <div class="p-4 rounded-2xl bg-teal-50 border border-teal-200 text-teal-900 space-y-2">
+              <label class="flex items-start gap-2.5 cursor-pointer">
+                <input type="checkbox" id="escrowConsent" required checked class="mt-0.5 rounded text-teal-600 focus:ring-teal-500">
+                <span class="text-xs font-semibold leading-relaxed">
+                  I agree to Thikana's <strong>48-Hour Deposit Escrow Policy</strong> and authorize Thikana Ground Inspectors to perform a physical 50-point safety and water purity inspection.
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="submitHostelBtn" class="w-full py-4 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-2xl shadow-lg shadow-[#F5B69E]/30 text-sm uppercase tracking-wider transition flex items-center justify-center gap-2">
+          <i class="ph-bold ph-paper-plane-tilt text-lg"></i> Submit Hostel &amp; Request Inspection
+        </button>
+      </form>
+    </div>
+
+    <!-- TAB 2: TRACK STATUS -->
+    <div id="trackTab" class="hidden bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+      <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl font-black text-slate-900">Track Your Property Onboarding Status</h2>
+        <p class="text-xs text-slate-500 mt-1">Check whether your hostel is currently Pending Inspection, Inspected, or Live on the student search.</p>
+      </div>
+
+      <div class="flex gap-2 max-w-md mb-8">
+        <input type="text" id="trackQueryInput" placeholder="Enter Owner Phone (e.g. 03001234567)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+        <button onclick="trackProperty()" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-sm transition flex-shrink-0">
+          Check Status
+        </button>
+      </div>
+
+      <div id="trackResultContainer" class="space-y-4">
+        <div class="text-center py-10 text-slate-400 text-xs">
+          <i class="ph-bold ph-buildings text-3xl mb-2 block text-slate-300"></i>
+          Enter your registered mobile number or hostel ID above to view live progress.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: OWNER ANALYTICS & INQUIRIES -->
+    <div id="analyticsTab" class="hidden space-y-6">
+      <!-- KPI STATS -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Student Inquiries</span>
+          <div class="text-xl font-black text-slate-900 mt-1">18 Leads</div>
+          <span class="text-[10px] font-semibold text-teal-600">+4 this week</span>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Occupancy Rate</span>
+          <div class="text-xl font-black text-emerald-600 mt-1">92%</div>
+          <span class="text-[10px] font-semibold text-slate-500">22 of 24 beds filled</span>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Escrow Advances</span>
+          <div class="text-xl font-black text-teal-700 mt-1">PKR 66,000</div>
+          <span class="text-[10px] font-semibold text-teal-600">Guaranteed payouts</span>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quality Score</span>
+          <div class="text-xl font-black text-amber-600 mt-1">98.5 / 100</div>
+          <span class="text-[10px] font-semibold text-slate-500">Verified Gold Badge</span>
+        </div>
+      </div>
+
+      <!-- RECENT STUDENT INQUIRIES LIST -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+          <div>
+            <h3 class="text-base font-black text-slate-900">Direct Student Booking Inquiries</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Verified university students inquiring about your property.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-200">
+            Zero Broker Fees
+          </span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-700 font-bold flex items-center justify-center">AT</div>
+              <div>
+                <h4 class="font-bold text-slate-900">Ayesha Tariq <span class="text-[10px] text-teal-600 font-semibold">• UMT (BS SE)</span></h4>
+                <p class="text-[11px] text-slate-500">Inquiring for: Shared Double Room &bull; Budget: PKR 22,000</p>
+              </div>
+            </div>
+            <a href="https://wa.me/923001234567?text=Assalam-o-Alaikum%20Ayesha,%20regarding%20your%20Thikana%20hostel%20inquiry..." target="_blank" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-1.5 transition">
+              <i class="ph-bold ph-whatsapp-logo text-sm"></i> WhatsApp Student
+            </a>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 font-bold flex items-center justify-center">HA</div>
+              <div>
+                <h4 class="font-bold text-slate-900">Hamza Ali <span class="text-[10px] text-teal-600 font-semibold">• FAST-NUCES (CS)</span></h4>
+                <p class="text-[11px] text-slate-500">Inquiring for: Single Room &bull; Budget: PKR 28,000</p>
+              </div>
+            </div>
+            <a href="https://wa.me/923007654321?text=Assalam-o-Alaikum%20Hamza,%20regarding%20your%20Thikana%20hostel%20inquiry..." target="_blank" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-1.5 transition">
+              <i class="ph-bold ph-whatsapp-logo text-sm"></i> WhatsApp Student
+            </a>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 font-bold flex items-center justify-center">BH</div>
+              <div>
+                <h4 class="font-bold text-slate-900">Bilal Hassan <span class="text-[10px] text-teal-600 font-semibold">• UCP (BBA)</span></h4>
+                <p class="text-[11px] text-slate-500">Inquiring for: Triple Room + Hygienic Tiffin Plan &bull; Budget: PKR 24,000</p>
+              </div>
+            </div>
+            <a href="https://wa.me/923219876543?text=Assalam-o-Alaikum%20Bilal,%20regarding%20your%20Thikana%20hostel%20inquiry..." target="_blank" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-1.5 transition">
+              <i class="ph-bold ph-whatsapp-logo text-sm"></i> WhatsApp Student
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 30-DAY TRIAL ACTIVATION BANNER -->
+      <div id="trialBannerBox" class="mb-6 p-5 rounded-3xl bg-gradient-to-r from-[#8DB9F0]/20 via-[#E9E8F8]/40 to-[#F5B69E]/30 border border-[#8DB9F0]/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+        <div>
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black bg-[#F5B69E] text-slate-900 uppercase tracking-wide">
+            🎁 30-DAY FREE TRIAL ACTIVE
+          </span>
+          <h4 class="text-sm font-black text-slate-900 mt-1.5">Verified Pro Partner Plan — Included for 30 Days</h4>
+          <p class="text-xs text-slate-600 mt-0.5 font-medium">Enjoy Verified Gold Badge, Instant WhatsApp Leads, and Priority Placement at <strong>PKR 0</strong> (Regular PKR 999/mo).</p>
+        </div>
+        <button onclick="activateFreeTrial()" id="activateTrialBtn" class="px-5 py-2.5 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black text-xs rounded-xl shadow-md transition flex items-center gap-1.5 flex-shrink-0">
+          <i class="ph-bold ph-sparkle"></i> Claim 30-Day Free Trial
+        </button>
+      </div>
+
+      <!-- MONETIZATION / SUBSCRIPTION TIERS FOR HOSTEL OWNERS -->
+      <div class="bg-gradient-to-tr from-slate-900 to-slate-800 rounded-3xl p-6 text-white text-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#8DB9F0]">Hostel Partner Monetization</span>
+            <h4 class="text-base font-black text-white mt-0.5">Thikana Business Model &amp; Owner Tiers</h4>
+          </div>
+          <span class="px-3 py-1 bg-[#F5B69E]/20 text-[#F5B69E] font-bold rounded-full text-[11px] border border-[#F5B69E]/30">
+            Startup Revenue Model
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700">
+            <h5 class="font-bold text-white text-sm">Basic Starter</h5>
+            <div class="text-xl font-extrabold text-[#8DB9F0] my-1">PKR 0 / month</div>
+            <p class="text-slate-400 text-[11px] mb-3">Pay only when a student actually moves in through Thikana Escrow.</p>
+            <ul class="space-y-1.5 text-slate-300 text-[11px]">
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#8DB9F0]"></i> Free 50-Point Physical Inspection</li>
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#8DB9F0]"></i> 1 Active Hostel Listing</li>
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#8DB9F0]"></i> Standard Inquiry Inbox</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-[#F5B69E]/50 relative overflow-hidden">
+            <span class="absolute top-2 right-2 px-2.5 py-0.5 bg-[#F5B69E] text-slate-900 font-black text-[9px] rounded-full uppercase">30-Day Free Trial</span>
+            <h5 class="font-bold text-white text-sm">Verified Pro Partner</h5>
+            <div class="text-xl font-extrabold text-[#F5B69E] my-1">PKR 999 / month <span class="text-xs text-emerald-400 font-normal">(Free for first 30 days)</span></div>
+            <p class="text-slate-400 text-[11px] mb-3">For hostel owners who want guaranteed 100% full occupancy.</p>
+            <ul class="space-y-1.5 text-slate-300 text-[11px]">
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#F5B69E]"></i> Top-Ranked Featured Listing in Search</li>
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#F5B69E]"></i> Up to 3 Properties Managed Simultaneously</li>
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#F5B69E]"></i> Instant WhatsApp Student Leads &amp; Gate Alerts</li>
+              <li class="flex items-center gap-1.5"><i class="ph-bold ph-check text-[#F5B69E]"></i> Priority 24-Hour Physical Sensory Audit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CELEBRATION CONFIRMATION MODAL -->
+  <div id="successModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 text-center">
+      <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto mb-4">
+        <i class="ph-bold ph-clock-countdown"></i>
+      </div>
+
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+        🟡 STATUS: PENDING PHYSICAL INSPECTION
+      </span>
+
+      <h3 class="text-2xl font-black text-slate-900" id="successHostelName">Hostel Registered!</h3>
+      <p class="text-xs text-slate-600 mt-1">Inspection request has been dispatched to Thikana Field Team.</p>
+
+      <div class="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-slate-500">Property Reference ID:</span>
+          <span class="font-mono font-extrabold text-slate-900 text-sm" id="successHostelId">thk-h-007</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-500">Assigned Field Unit:</span>
+          <span class="font-bold text-slate-800">Inspector Saif Ur Rehman (Johar Town)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-500">Inspection Window:</span>
+          <span class="font-bold text-teal-700" id="successInspectionTime">Tomorrow 10:00 AM</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-500">Public Listing Status:</span>
+          <span class="font-bold text-amber-600">Hidden from students until Admin Approval</span>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 text-[11px] text-slate-600 leading-relaxed">
+          <p><strong>Next Step:</strong> Our inspector will physically visit to perform the <strong>Water TDS test</strong> and <strong>Sound Decibel audit</strong>. Once completed, Admin will approve and your hostel will appear on the public search results!</p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-2">
+        <a href="inspector-portal.html" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
+          <i class="ph-bold ph-clipboard-text"></i> Open Inspector Portal (Demo Audit)
+        </a>
+        <a href="admin-portal.html" class="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
+          <i class="ph-bold ph-lock-key"></i> View in Admin Portal
+        </a>
+      </div>
+      <button onclick="closeSuccessModal()" class="w-full mt-2 py-2 text-xs font-bold text-slate-400 hover:text-slate-600">
+        Close / Register Another Property
+      </button>
+    </div>
+  </div>
+
+  <!-- OWNER EDIT HOSTEL DETAILS MODAL -->
+  <div id="editHostelModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-[#E9E8F8]">
+      <div class="flex items-center justify-between border-b border-[#E9E8F8] pb-3 mb-4">
+        <div>
+          <h3 class="text-base font-black text-slate-900">Manage Hostel Rooms &amp; Rent</h3>
+          <p class="text-xs text-[#375A91] font-semibold" id="editModalHostelId">Property: thk-h-001</p>
+        </div>
+        <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600 text-lg">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
+
+      <form id="editHostelForm" onsubmit="submitHostelEdit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="editHostelId">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Monthly Rent per Bed (PKR) *</label>
+          <input type="number" id="editRentInput" required min="5000" max="100000" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl p-3 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Available Vacant Beds Count *</label>
+          <input type="number" id="editBedsInput" required min="0" max="100" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl p-3 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Total Rooms Count</label>
+          <input type="number" id="editRoomsInput" min="1" max="50" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl p-3 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+        </div>
+
+        <div class="p-3 bg-[#E9E8F8]/60 rounded-xl border border-[#8DB9F0]/40 text-[11px] text-slate-700">
+          <i class="ph-bold ph-info text-[#4A7AC4]"></i> Updates to rent and available beds are reflected immediately on student marketplace search cards.
+        </div>
+
+        <button type="submit" id="saveEditBtn" class="w-full py-3 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-xl shadow-md uppercase tracking-wider text-xs transition">
+          Save &amp; Update Marketplace
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- OWNER REMOVAL REQUEST MODAL (REQUEST POLICY WORKFLOW) -->
+  <div id="removalModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-red-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-xl">
+            <i class="ph-bold ph-trash"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-slate-900">Request Property Removal</h3>
+            <p class="text-[11px] text-slate-500 font-semibold" id="removalModalHostelTitle">Property: Al-Rehman Residency</p>
+          </div>
+        </div>
+        <button onclick="closeRemovalModal()" class="text-slate-400 hover:text-slate-600 text-lg">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
+
+      <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-[11px] text-amber-900 mb-4 leading-relaxed">
+        <strong>🛡️ Thikana Removal Governance Policy:</strong><br>
+        To protect students and verify that all 48-Hour Escrow advance deposits are cleared, properties cannot be abruptly deleted. Your request will be reviewed by the Executive Admin within 24 hours.
+      </div>
+
+      <form id="removalForm" onsubmit="submitRemovalRequest(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="removalHostelId">
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Reason for Removal *</label>
+          <select id="removalReasonSelect" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl p-3 font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+            <option value="Hostel under complete renovation for Fall semester">Building under complete renovation for Fall semester</option>
+            <option value="Hostel sold or ownership transferred to another party">Hostel sold or ownership transferred to another party</option>
+            <option value="Permanent closure of student hostel operations">Permanent closure of student hostel operations</option>
+            <option value="Seasonal temporary pause in operations">Seasonal temporary pause in operations</option>
+            <option value="Other">Other business reason (Specify below)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Detailed Explanation for Admin *</label>
+          <textarea id="removalNotesInput" rows="3" required placeholder="Explain why the property is being decommissioned and confirmation of current student status..." class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">Hostel operations are being suspended. All previous student semester dues and deposit settlements will be honored as per Thikana agreement.</textarea>
+        </div>
+
+        <button type="submit" id="submitRemovalBtn" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl shadow-md uppercase tracking-wider text-xs transition flex items-center justify-center gap-1.5">
+          <i class="ph-bold ph-paper-plane-tilt"></i> Submit Removal Request to Admin
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-white pt-10 pb-8 border-t border-slate-800 text-xs mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-teal-500 flex items-center justify-center text-white">
+            <i class="ph-bold ph-shield-check"></i>
+          </div>
+          <span class="font-black text-white">THIKANA PROPERTY PARTNER NETWORK</span>
+        </div>
+        <div class="flex items-center gap-6 text-slate-400 text-xs">
+          <a href="index.html" class="hover:text-white">Marketplace</a>
+          <a href="inspector-portal.html" class="hover:text-white">Field Inspector</a>
+          <a href="admin-portal.html" class="hover:text-white">Admin Approval</a>
+          <span>Johar Town Hub: 042-3591-8822</span>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-slate-800 text-center text-slate-500 text-[10px]">
+        &copy; 2025&ndash;2026 Thikana Technologies. All rights reserved. Prepared for Final Project: Innovation &amp; Entrepreneurship.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // VANTA.NET 3D ANIMATION (vantajs.com)
+    let vantaNetEffect = null;
+    function initVantaNet() {
+      if (window.VANTA && window.VANTA.NET) {
+        try {
+          vantaNetEffect = VANTA.NET({
+            el: "#hero-owner-vanta",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x8DB9F0,           // Powder Blue #8DB9F0
+            backgroundColor: 0x1A2138, // Deep Slate Navy
+            points: 12.00,
+            maxDistance: 22.00,
+            spacing: 16.00
+          });
+        } catch (e) {
+          console.warn("VANTA.NET initialization:", e);
+        }
+      }
+    }
+
+    function switchTab(tab) {
+      document.getElementById('registerTab').classList.add('hidden');
+      document.getElementById('trackTab').classList.add('hidden');
+      document.getElementById('analyticsTab').classList.add('hidden');
+
+      document.getElementById('tabBtnRegister').className = 'pb-3 px-5 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 flex-shrink-0';
+      document.getElementById('tabBtnTrack').className = 'pb-3 px-5 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 flex-shrink-0';
+      document.getElementById('tabBtnAnalytics').className = 'pb-3 px-5 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 flex-shrink-0';
+
+      if (tab === 'register') {
+        document.getElementById('registerTab').classList.remove('hidden');
+        document.getElementById('tabBtnRegister').className = 'pb-3 px-5 text-sm font-black border-b-2 border-[#F5B69E] text-slate-900 flex items-center gap-2 flex-shrink-0';
+      } else if (tab === 'track') {
+        document.getElementById('trackTab').classList.remove('hidden');
+        document.getElementById('tabBtnTrack').className = 'pb-3 px-5 text-sm font-black border-b-2 border-[#4A7AC4] text-[#375A91] flex items-center gap-2 flex-shrink-0';
+        trackProperty();
+      } else if (tab === 'analytics') {
+        document.getElementById('analyticsTab').classList.remove('hidden');
+        document.getElementById('tabBtnAnalytics').className = 'pb-3 px-5 text-sm font-black border-b-2 border-emerald-600 text-emerald-800 flex items-center gap-2 flex-shrink-0';
+      }
+    }
+
+    function loadSamplePhoto() {
+      const photos = [
+        'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1000&q=80'
+      ];
+      const random = photos[Math.floor(Math.random() * photos.length)];
+      document.getElementById('hostelPhotoUrl').value = random;
+    }
+
+    async function handleHostelRegistration(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitHostelBtn');
+      const errAlert = document.getElementById('formErrorAlert');
+      const errText = document.getElementById('formErrorText');
+
+      errAlert.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Registering &amp; Scheduling Inspection...`;
+
+      const amenityCheckboxes = document.querySelectorAll('input[name="amenity"]:checked');
+      const amenities = Array.from(amenityCheckboxes).map(cb => cb.value);
+
+      const payload = {
+        ownerName: document.getElementById('ownerName').value,
+        ownerPhone: document.getElementById('ownerPhone').value,
+        ownerCnic: document.getElementById('ownerCnic').value,
+        ownerEmail: document.getElementById('ownerEmail').value,
+        hostelName: document.getElementById('hostelName').value,
+        gender: document.getElementById('hostelGender').value,
+        area: document.getElementById('hostelArea').value,
+        address: document.getElementById('hostelAddress').value,
+        primaryUni: document.getElementById('hostelUni').value,
+        walkMinutes: parseInt(document.getElementById('walkMinutes').value) || 6,
+        distanceMeters: (parseInt(document.getElementById('walkMinutes').value) || 6) * 80,
+        rent: parseInt(document.getElementById('hostelRent').value),
+        deposit: parseInt(document.getElementById('hostelDeposit').value),
+        availableBeds: parseInt(document.getElementById('availableBeds').value),
+        totalBeds: parseInt(document.getElementById('availableBeds').value) * 3,
+        amenities: amenities,
+        description: document.getElementById('hostelDescription').value,
+        images: [document.getElementById('hostelPhotoUrl').value],
+        preferredInspectionDate: document.getElementById('preferredInspectionDate').value
+      };
+
+      try {
+        const res = await fetch('/api/owner/register-hostel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        if (!res.ok || !json.success) {
+          errText.innerText = json.message || 'Hostel registration failed. Please review your details.';
+          errAlert.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<i class="ph-bold ph-paper-plane-tilt text-lg"></i> Submit Hostel &amp; Request Inspection`;
+          return;
+        }
+
+        document.getElementById('successHostelName').innerText = json.hostel.name;
+        document.getElementById('successHostelId').innerText = json.hostel.id;
+        document.getElementById('successInspectionTime').innerText = json.hostel.inspectionRequest.preferredDate;
+
+        document.getElementById('successModal').classList.remove('hidden');
+        document.getElementById('ownerHostelForm').reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="ph-bold ph-paper-plane-tilt text-lg"></i> Submit Hostel &amp; Request Inspection`;
+
+      } catch (err) {
+        errText.innerText = 'Network error: Unable to contact Thikana registration server.';
+        errAlert.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="ph-bold ph-paper-plane-tilt text-lg"></i> Submit Hostel &amp; Request Inspection`;
+      }
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.add('hidden');
+    }
+
+    async function trackProperty() {
+      const q = (document.getElementById('trackQueryInput')?.value || '').trim().toLowerCase();
+      const container = document.getElementById('trackResultContainer');
+      container.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs"><i class="ph-bold ph-spinner animate-spin text-xl"></i> Loading live property records...</div>`;
+
+      try {
+        const res = await fetch('/api/admin/hostels');
+        const json = await res.json();
+        if (!res.ok || !json.success || !Array.isArray(json.data)) {
+          container.innerHTML = `<div class="text-center py-6 text-red-500 text-xs">Failed to fetch status.</div>`;
+          return;
+        }
+
+        let filtered = json.data;
+        if (q) {
+          filtered = filtered.filter(h =>
+            (h.id && h.id.toLowerCase().includes(q)) ||
+            (h.name && h.name.toLowerCase().includes(q)) ||
+            (h.owner && h.owner.phone && h.owner.phone.includes(q)) ||
+            (h.owner && h.owner.name && h.owner.name.toLowerCase().includes(q))
+          );
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-10 bg-slate-50 rounded-2xl border border-slate-200 text-slate-500 text-xs">
+              <i class="ph-bold ph-magnifying-glass text-2xl text-slate-400 mb-2 block"></i>
+              No property found matching "${escapeHtml(q)}". Make sure your mobile number or ID is correct.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = '';
+        filtered.forEach(h => {
+          const status = h.status || 'approved';
+          let statusBadge = '';
+          let stepProgress = '';
+
+          if (status === 'pending_inspection') {
+            statusBadge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 🟡 PENDING INSPECTION</span>`;
+            stepProgress = `Step 2 of 4: Field Team Dispatched for Physical Audit`;
+          } else if (status === 'inspected') {
+            statusBadge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 border border-blue-200 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span> 🔵 INSPECTED (AWAITING ADMIN APPROVAL)</span>`;
+            stepProgress = `Step 3 of 4: Physical Audit Done (Score: ${h.verificationScore || 90}/100) — Awaiting Admin Sign-off`;
+          } else if (status === 'approved') {
+            statusBadge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1"><i class="ph-bold ph-check-circle"></i> 🟢 APPROVED &amp; PUBLICLY LISTED</span>`;
+            stepProgress = `Step 4 of 4: Live on Student Marketplace with Thikana Badge`;
+          } else {
+            statusBadge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-red-100 text-red-800 border border-red-200">🔴 REJECTED</span>`;
+            stepProgress = `Application rejected: ${h.adminApproval?.rejectionReason || 'Criteria not met'}`;
+          }
+
+          const card = document.createElement('div');
+          card.className = 'p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
+          card.innerHTML = `
+            <div class="flex items-center gap-4">
+              <img src="${escapeHtml(h.images?.[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=200&q=80')}" alt="" class="w-16 h-16 rounded-xl object-cover bg-slate-100 flex-shrink-0">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="text-sm font-extrabold text-slate-900">${escapeHtml(h.name)}</h4>
+                  <span class="text-[10px] text-slate-400 font-mono">${escapeHtml(h.id)}</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  📍 ${escapeHtml(h.area)} • PKR ${Number(h.rent).toLocaleString()}/mo • ${escapeHtml(h.gender)} Hostel
+                </p>
+                <p class="text-[11px] font-semibold text-teal-700 mt-1">${stepProgress}</p>
+              </div>
+            </div>
+            <div class="flex flex-col sm:items-end gap-2 w-full sm:w-auto">
+              ${statusBadge}
+              ${h.removalPending ? `<span class="px-2.5 py-1 rounded-full text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 🟡 REMOVAL PENDING ADMIN REVIEW</span>` : ''}
+              <div class="flex items-center gap-1.5 flex-wrap mt-1">
+                <button onclick="openEditHostelModal('${escapeHtml(h.id)}', ${h.rent || 0}, ${h.availableBeds || 0}, ${h.totalRooms || 8})" class="px-3 py-1.5 bg-[#E9E8F8] hover:bg-[#d5d4f3] text-[#375A91] font-bold text-xs rounded-xl transition flex items-center gap-1">
+                  <i class="ph-bold ph-pencil-simple"></i> Edit Rent/Beds
+                </button>
+                ${status !== 'removed' && !h.removalPending ? `
+                <button onclick="openRemovalModal('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl border border-red-200 transition flex items-center gap-1">
+                  <i class="ph-bold ph-trash"></i> Request Removal
+                </button>
+                ` : ''}
+                ${status === 'approved' && !h.removalPending ? `<a href="index.html#hostels" class="px-3 py-1.5 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-extrabold text-xs rounded-xl shadow-sm transition flex items-center gap-1">Live View <i class="ph-bold ph-arrow-right"></i></a>` : ''}
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-6 text-red-500 text-xs">Error connecting to server.</div>`;
+      }
+    }
+
+    // MODAL HANDLERS FOR EDIT & REMOVAL
+    function openEditHostelModal(id, rent, beds, rooms) {
+      document.getElementById('editHostelId').value = id;
+      document.getElementById('editModalHostelId').innerText = 'Property ID: ' + id;
+      document.getElementById('editRentInput').value = rent || 18000;
+      document.getElementById('editBedsInput').value = beds || 4;
+      document.getElementById('editRoomsInput').value = rooms || 8;
+      document.getElementById('editHostelModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editHostelModal').classList.add('hidden');
+    }
+
+    async function submitHostelEdit(e) {
+      e.preventDefault();
+      const id = document.getElementById('editHostelId').value;
+      const btn = document.getElementById('saveEditBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Saving Updates...`;
+
+      const payload = {
+        rent: parseInt(document.getElementById('editRentInput').value),
+        availableBeds: parseInt(document.getElementById('editBedsInput').value),
+        totalRooms: parseInt(document.getElementById('editRoomsInput').value)
+      };
+
+      try {
+        const res = await fetch(`/api/owner/hostels/${encodeURIComponent(id)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert('✅ ' + json.message);
+          closeEditModal();
+          trackProperty();
+        } else {
+          alert('Error: ' + (json.message || 'Could not update hostel.'));
+        }
+      } catch (err) {
+        alert('Network error connecting to update server.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `Save &amp; Update Marketplace`;
+      }
+    }
+
+    function openRemovalModal(id, name) {
+      document.getElementById('removalHostelId').value = id;
+      document.getElementById('removalModalHostelTitle').innerText = name + ' (' + id + ')';
+      document.getElementById('removalModal').classList.remove('hidden');
+    }
+
+    function closeRemovalModal() {
+      document.getElementById('removalModal').classList.add('hidden');
+    }
+
+    async function submitRemovalRequest(e) {
+      e.preventDefault();
+      const id = document.getElementById('removalHostelId').value;
+      const select = document.getElementById('removalReasonSelect').value;
+      const notes = document.getElementById('removalNotesInput').value.trim();
+      const reasonCombined = `${select}: ${notes}`;
+
+      const btn = document.getElementById('submitRemovalBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Submitting to Admin...`;
+
+      try {
+        const res = await fetch('/api/owner/removal-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hostelId: id,
+            reason: reasonCombined
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert('📋 ' + json.message);
+          closeRemovalModal();
+          trackProperty();
+        } else {
+          alert('Removal Request Notice: ' + (json.message || 'Could not submit request.'));
+        }
+      } catch (err) {
+        alert('Network error submitting removal request.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="ph-bold ph-paper-plane-tilt"></i> Submit Removal Request to Admin`;
+      }
+    }
+
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // 30-DAY FREE TRIAL ACTIVATION HANDLER
+    async function activateFreeTrial() {
+      const phone = document.getElementById('ownerPhone')?.value || prompt('Enter your registered owner mobile number (03XXXXXXXXX):', '03001234567');
+      if (!phone) return;
+
+      const btn = document.getElementById('activateTrialBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Activating Trial...`;
+      }
+
+      try {
+        const res = await fetch('/api/owner/subscription/activate-trial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ownerPhone: phone })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert('🎉 ' + json.message + '\n\n• Tier: Verified Pro\n• Value: PKR 999/mo (Waived)\n• Duration: 30 Days Free');
+          if (btn) btn.innerHTML = `<i class="ph-bold ph-check-circle"></i> Trial Active (30 Days)`;
+        } else {
+          alert('Notice: ' + (json.message || 'Could not activate trial.'));
+        }
+      } catch (e) {
+        alert('Network error activating trial.');
+      }
+    }
+
+    // PWA BROWSER PUSH NOTIFICATION PERMISSION & TRIGGER
+    function enableBrowserNotifications() {
+      if (!('Notification' in window)) {
+        alert('Browser push notifications are not supported on this browser.');
+        return;
+      }
+
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification('THIKANA HOSTEL PARTNER ALERTS', {
+            body: '🔔 Live alerts enabled! You will receive instant notifications when students inquire about your hostel.',
+            icon: '/assets/icons/icon-192.png'
+          });
+          alert('✅ Live Browser Notifications Enabled for Thikana!');
+        } else {
+          alert('ℹ️ Notification permission was not granted.');
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initVantaNet();
+    });
+  </script>
+</body>
+</html>

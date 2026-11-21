@@ -1,0 +1,89 @@
+[
+  {
+    "auditId": "AUD-1795251665214",
+    "hostelName": "Al-Rehman Executive Female Residency",
+    "inspector": "Inspector Saif Ur Rehman",
+    "gpsLocation": {
+      "latitude": 31.4697,
+      "longitude": 74.2728,
+      "verifiedWithin20m": true
+    },
+    "metrics": {
+      "tds": 112,
+      "noise": 35,
+      "cctv": 16,
+      "wardenCnicVerified": true,
+      "generatorLoadVerified": true,
+      "escrowAgreementSigned": true
+    },
+    "score": 100,
+    "badgeAwarded": "THIKANA VERIFIED GOLD",
+    "timestamp": "2026-11-21T09:01:05.214Z"
+  },
+  {
+    "auditId": "AUD-1795252989466",
+    "hostelId": "thk-h-007",
+    "hostelName": "Al-Hadi Executive Scholars Residency",
+    "inspector": "Inspector Saif Ur Rehman",
+    "gpsLocation": {
+      "latitude": 31.4789,
+      "longitude": 74.3012,
+      "verifiedWithin20m": true
+    },
+    "metrics": {
+      "tds": 115,
+      "noise": 34,
+      "cctv": 16,
+      "wardenCnicVerified": true,
+      "generatorLoadVerified": true,
+      "escrowAgreementSigned": true
+    },
+    "score": 100,
+    "badgeAwarded": "THIKANA VERIFIED GOLD",
+    "timestamp": "2026-11-21T09:23:09.466Z"
+  },
+  {
+    "auditId": "AUD-1795258660325",
+    "hostelId": "thk-h-007",
+    "hostelName": "elahi",
+    "inspector": "Inspector Saif Ur Rehman (Johar Town Unit)",
+    "gpsLocation": {
+      "latitude": 31.4697,
+      "longitude": 74.2728,
+      "verifiedWithin20m": true
+    },
+    "metrics": {
+      "tds": 118,
+      "noise": 36,
+      "cctv": 16,
+      "wardenCnicVerified": true,
+      "generatorLoadVerified": true,
+      "escrowAgreementSigned": true
+    },
+    "score": 95,
+    "badgeAwarded": "THIKANA VERIFIED GOLD",
+    "timestamp": "2026-11-21T10:57:40.325Z"
+  },
+  {
+    "auditId": "AUD-1795259534517",
+    "hostelId": "thk-h-007",
+    "hostelName": "elahi",
+    "inspector": "Inspector Saif Ur Rehman (Johar Town Unit)",
+    "gpsLocation": {
+      "latitude": 31.4697,
+      "longitude": 74.2728,
+      "verifiedWithin20m": true
+    },
+    "metrics": {
+      "tds": 118,
+      "noise": 36,
+      "cctv": 16,
+      "wardenCnicVerified": true,
+      "generatorLoadVerified": true,
+      "escrowAgreementSigned": true
+    },
+    "score": 95,
+    "badgeAwarded": "THIKANA VERIFIED GOLD",
+    "timestamp": "2026-11-21T11:12:14.517Z"
+  }
+]

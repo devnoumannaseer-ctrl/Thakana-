@@ -1,0 +1,326 @@
+[
+  {
+    "id": "thk-h-001",
+    "name": "Al-Rehman Executive Female Residency",
+    "gender": "Female",
+    "area": "Johar Town Block R",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "UMT Lahore",
+      "distanceMeters": 500,
+      "walkMinutes": 6,
+      "otherUnis": [
+        "UCP",
+        "Superior University"
+      ]
+    },
+    "rent": 22000,
+    "deposit": 10000,
+    "rating": 4.9,
+    "reviewCount": 42,
+    "verificationScore": 100,
+    "verifiedDate": "2026-11-21",
+    "images": [
+      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 112,
+      "waterRating": "Pure Mineral RO",
+      "noiseDecibels": 35,
+      "noiseRating": "Pin-Drop Silent Study",
+      "generatorLoad": "Heavy Generator (Full AC Load Verified)"
+    },
+    "amenities": [
+      "100 Mbps WiFi",
+      "24/7 Generator",
+      "3x Fresh Meals",
+      "16 CCTV Cameras",
+      "Biometric Gate",
+      "Female Warden",
+      "Attached Bath"
+    ],
+    "warden": {
+      "name": "Mrs. Samina Parveen",
+      "experienceYears": 9,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (Civil Lines Station)",
+      "phone": "+92 300 9481234"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "Premium student residency exclusively for female students attending UMT and UCP. Located on a peaceful residential street with 24/7 female warden security.",
+    "totalBeds": 30,
+    "availableBeds": 2,
+    "status": "approved"
+  },
+  {
+    "id": "thk-h-002",
+    "name": "Green View Scholars Hostel",
+    "gender": "Male",
+    "area": "Faisal Town Block B",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "FAST-NUCES",
+      "distanceMeters": 400,
+      "walkMinutes": 5,
+      "otherUnis": [
+        "Punjab University",
+        "GCU"
+      ]
+    },
+    "rent": 18500,
+    "deposit": 8000,
+    "rating": 4.8,
+    "reviewCount": 31,
+    "verificationScore": 95,
+    "verifiedDate": "2025-05-20",
+    "images": [
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 135,
+      "waterRating": "Safe Filtered RO",
+      "noiseDecibels": 38,
+      "noiseRating": "CS Coding & Study Environment",
+      "generatorLoad": "15 KVA Solar & UPS Grid"
+    },
+    "amenities": [
+      "Fiber Optic LAN",
+      "Solar & UPS",
+      "2x Meals + Evening Tea",
+      "Study Hall Access",
+      "Motorbike Parking",
+      "Daily Cleaning"
+    ],
+    "warden": {
+      "name": "Mr. Tariq Jamil",
+      "experienceYears": 12,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (Model Town Station)",
+      "phone": "+92 321 4455667"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "High-speed internet and quiet study halls engineered specifically for computer science and engineering students at FAST.",
+    "totalBeds": 40,
+    "availableBeds": 5,
+    "status": "approved"
+  },
+  {
+    "id": "thk-h-003",
+    "name": "Fatima Jinnah Luxury Residency",
+    "gender": "Female",
+    "area": "Garden Town / Kalma Chowk",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "Punjab University (New Campus)",
+      "distanceMeters": 750,
+      "walkMinutes": 9,
+      "otherUnis": [
+        "FAST-NUCES",
+        "FC College"
+      ]
+    },
+    "rent": 24000,
+    "deposit": 12000,
+    "rating": 5,
+    "reviewCount": 56,
+    "verificationScore": 99,
+    "verifiedDate": "2025-06-01",
+    "images": [
+      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 110,
+      "waterRating": "High-Purity Mineral RO",
+      "noiseDecibels": 34,
+      "noiseRating": "Ultra Quiet Garden Sector",
+      "generatorLoad": "Automatic Generator Transfer Switch (Full AC)"
+    },
+    "amenities": [
+      "Armed Female Guard",
+      "100% Inverter AC",
+      "Mineral RO Plant",
+      "Biometric Gate Alerts",
+      "Parent Visiting Parlor",
+      "Daily Housekeeping"
+    ],
+    "warden": {
+      "name": "Dr. Farhana Begum",
+      "experienceYears": 14,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (Garden Town Station)",
+      "phone": "+92 333 7891234"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "The highest rated female residency in Garden Town. Full biometric gate integration with instant parent WhatsApp notification alerts.",
+    "totalBeds": 50,
+    "availableBeds": 6,
+    "status": "approved"
+  },
+  {
+    "id": "thk-h-004",
+    "name": "The Scholar's DHA Suites",
+    "gender": "Female",
+    "area": "DHA Phase 5",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "LUMS",
+      "distanceMeters": 600,
+      "walkMinutes": 7,
+      "otherUnis": [
+        "Lahore School of Economics (LSE)"
+      ]
+    },
+    "rent": 32000,
+    "deposit": 15000,
+    "rating": 4.9,
+    "reviewCount": 28,
+    "verificationScore": 97,
+    "verifiedDate": "2025-05-18",
+    "images": [
+      "https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 105,
+      "waterRating": "Commercial Water Filtration",
+      "noiseDecibels": 32,
+      "noiseRating": "Library Level Quiet",
+      "generatorLoad": "100% Hybrid Solar System"
+    },
+    "amenities": [
+      "Studio Apartment Style",
+      "Attached Kitchenette",
+      "DHA Security Patrol",
+      "High-Speed WiFi",
+      "In-House Laundry",
+      "Smart Lock Access"
+    ],
+    "warden": {
+      "name": "Ms. Naila Aslam",
+      "experienceYears": 7,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (DHA Phase 5 Post)",
+      "phone": "+92 301 5567788"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "Executive studio living designed for LUMS undergraduate and graduate scholars. Features private kitchenette and high-tier DHA security.",
+    "totalBeds": 60,
+    "availableBeds": 7,
+    "status": "approved"
+  },
+  {
+    "id": "thk-h-005",
+    "name": "Al-Qaim Student Residency",
+    "gender": "Male",
+    "area": "Defense Road",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "COMSATS University",
+      "distanceMeters": 800,
+      "walkMinutes": 10,
+      "otherUnis": [
+        "The University of Lahore (UOL)",
+        "Superior University"
+      ]
+    },
+    "rent": 16000,
+    "deposit": 7000,
+    "rating": 4.7,
+    "reviewCount": 23,
+    "verificationScore": 94,
+    "verifiedDate": "2025-05-12",
+    "images": [
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 140,
+      "waterRating": "Safe Certified Standard",
+      "noiseDecibels": 42,
+      "noiseRating": "Moderate Active Campus Atmosphere",
+      "generatorLoad": "UPS & Generator Grid"
+    },
+    "amenities": [
+      "Free Campus Shuttle",
+      "UPS & Generator",
+      "3 Daily Meals",
+      "Recreation Room",
+      "Table Tennis",
+      "CCTV Security"
+    ],
+    "warden": {
+      "name": "Haji Mushtaq Ahmed",
+      "experienceYears": 11,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (Raiwind Station)",
+      "phone": "+92 345 8899001"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "Affordable male accommodation offering free morning and evening shuttle vans to COMSATS and Superior University.",
+    "totalBeds": 70,
+    "availableBeds": 8,
+    "status": "approved"
+  },
+  {
+    "id": "thk-h-006",
+    "name": "Noor Female Luxury Haven",
+    "gender": "Female",
+    "area": "Khayaban-e-Jinnah / Johar Town",
+    "city": "Lahore",
+    "proximity": {
+      "primary": "UCP",
+      "distanceMeters": 350,
+      "walkMinutes": 4,
+      "otherUnis": [
+        "UMT",
+        "Shaukat Khanum Area"
+      ]
+    },
+    "rent": 21000,
+    "deposit": 10000,
+    "rating": 4.8,
+    "reviewCount": 39,
+    "verificationScore": 96,
+    "verifiedDate": "2025-05-25",
+    "images": [
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sensoryMetrics": {
+      "waterTdsPpm": 120,
+      "waterRating": "Pure RO Filtration",
+      "noiseDecibels": 35,
+      "noiseRating": "Peaceful Residential Lane",
+      "generatorLoad": "Heavy Commercial Generator"
+    },
+    "amenities": [
+      "Parent Visiting Lounge",
+      "Heavy Generator",
+      "3x Fresh Meals",
+      "Keypad Access",
+      "Female Warden",
+      "High-Speed WiFi"
+    ],
+    "warden": {
+      "name": "Mrs. Shabana Malik",
+      "experienceYears": 8,
+      "cnicVerified": true,
+      "policeVerification": "Cleared (Johar Town Station)",
+      "phone": "+92 322 1122334"
+    },
+    "escrowProtected": true,
+    "swapGuarantee": true,
+    "description": "Located just 4 minutes from UCP campus gates. Features parent waiting parlor and round-the-clock female warden administration.",
+    "totalBeds": 80,
+    "availableBeds": 4,
+    "status": "approved"
+  }
+]

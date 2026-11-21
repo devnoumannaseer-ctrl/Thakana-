@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thikana - Executive Admin Approval & Verification Governance</title>
+
+  <!-- THREE.JS & VANTA.NET 3D ANIMATION ENGINE (vantajs.com) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+  <!-- TAILWIND CSS & PHOSPHOR ICONS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            thikana: {
+              powder: '#8DB9F0',
+              'powder-dark': '#6C9FE0',
+              'powder-light': '#D6E6FA',
+              lavender: '#E9E8F8',
+              'lavender-light': '#F6F5FD',
+              peach: '#F5B69E',
+              'peach-dark': '#E29A7F',
+              'peach-light': '#FDE8E0',
+              navy: '#1A2138',
+              slate: '#2D354E',
+              light: '#F8F8FD'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    
+    #vanta-admin-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .content-relative {
+      position: relative;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="bg-[#0F172A] text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#F5B69E] selection:text-slate-900 relative">
+
+  <!-- 3D Vanta Background Canvas -->
+  <div id="vanta-admin-bg"></div>
+
+  <!-- TOP ADMIN BAR -->
+  <header class="content-relative bg-[#1A2138]/95 backdrop-blur border-b border-slate-700/80 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center text-slate-900 text-xl font-black shadow-lg">
+            <i class="ph-bold ph-lock-key"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-black text-white tracking-tight">THIKANA ADMIN CONTROL</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#8DB9F0]/20 text-[#8DB9F0] border border-[#8DB9F0]/30 uppercase">
+                Executive Governance
+              </span>
+            </div>
+            <span class="text-[11px] text-slate-400">Founders: Saif Ur Rehman &bull; Nauman Naseer &bull; Rohan Khalid Awan</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- ADMIN SECURITY DEMO KEY -->
+        <div class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs">
+          <i class="ph-bold ph-key text-[#F5B69E]"></i>
+          <span class="text-slate-400 text-[10px]">Key:</span>
+          <input type="password" id="adminSecretKey" value="thikana-local-admin-change-me" class="bg-transparent text-[#8DB9F0] font-mono text-[11px] w-32 focus:outline-none" title="Admin Security Key">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        </div>
+
+        <a href="index.html" class="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition flex items-center gap-1">
+          <i class="ph-bold ph-storefront"></i> Marketplace
+        </a>
+        <a href="inspector-portal.html" class="px-3 py-2 rounded-xl bg-[#8DB9F0]/20 border border-[#8DB9F0]/40 text-[#8DB9F0] hover:bg-[#8DB9F0]/30 text-xs font-bold transition flex items-center gap-1">
+          <i class="ph-bold ph-clipboard-text"></i> Inspector
+        </a>
+        <a href="owner-portal.html" class="px-3 py-2 rounded-xl bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 text-xs font-black transition flex items-center gap-1 shadow-sm">
+          <i class="ph-bold ph-plus-circle"></i> Add Hostel
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ADMIN CONTAINER -->
+  <main class="content-relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    
+    <!-- DASHBOARD KPI SUMMARY CARDS -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-slate-700">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registered</span>
+          <i class="ph-bold ph-buildings text-xl text-[#8DB9F0]"></i>
+        </div>
+        <div class="text-2xl font-black text-white mt-2" id="kpiTotal">0</div>
+        <span class="text-[11px] text-slate-400">All properties in system</span>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-[#F5B69E]/50 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-[#F5B69E] uppercase tracking-wider">Pending Inspection</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#F5B69E] pulse-dot"></span>
+        </div>
+        <div class="text-2xl font-black text-[#F5B69E] mt-2" id="kpiPending">0</div>
+        <span class="text-[11px] text-slate-300">Needs physical field audit</span>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-[#8DB9F0]/50">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-[#8DB9F0] uppercase tracking-wider">Inspected (Review)</span>
+          <i class="ph-bold ph-clipboard-text text-xl text-[#8DB9F0]"></i>
+        </div>
+        <div class="text-2xl font-black text-[#8DB9F0] mt-2" id="kpiInspected">0</div>
+        <span class="text-[11px] text-slate-300">Audit done &bull; Awaiting sign-off</span>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-800/90 backdrop-blur-md border border-emerald-500/50">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Approved &amp; Live</span>
+          <i class="ph-bold ph-check-circle text-xl text-emerald-400"></i>
+        </div>
+        <div class="text-2xl font-black text-emerald-400 mt-2" id="kpiApproved">0</div>
+        <span class="text-[11px] text-slate-300">Live in student search</span>
+      </div>
+    </div>
+
+    <!-- NOTIFICATION ALERT BANNER -->
+    <div id="adminNoticeBanner" class="hidden mb-6 p-4 rounded-2xl bg-[#8DB9F0]/10 border border-[#8DB9F0]/30 text-[#8DB9F0] text-xs flex items-center justify-between">
+      <span class="flex items-center gap-2">
+        <i class="ph-bold ph-check-circle text-lg"></i>
+        <span id="adminNoticeText">Action completed successfully.</span>
+      </span>
+      <button onclick="document.getElementById('adminNoticeBanner').classList.add('hidden')" class="text-[#8DB9F0] hover:text-white">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </div>
+
+    <!-- FILTER TABS & SEARCH -->
+    <div class="bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-6">
+        <div>
+          <h2 class="text-lg font-black text-white">Hostel Onboarding Verification Pipeline</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Approve or reject hostels submitted by owners after field sensory testing.</p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="filterByStatus('all')" id="tabAll" class="px-3.5 py-1.5 rounded-xl bg-[#4A7AC4] text-white text-xs font-bold transition">
+            All (<span id="countAll">0</span>)
+          </button>
+          <button onclick="filterByStatus('pending_inspection')" id="tabPending" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+            Pending (<span id="countPending">0</span>)
+          </button>
+          <button onclick="filterByStatus('inspected')" id="tabInspected" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+            Inspected (<span id="countInspected">0</span>)
+          </button>
+          <button onclick="filterByStatus('approved')" id="tabApproved" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition">
+            Approved (<span id="countApproved">0</span>)
+          </button>
+          <button onclick="filterByStatus('removals')" id="tabRemovals" class="px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1">
+            <i class="ph-bold ph-trash text-red-400"></i> Removal Requests (<span id="countRemovals">0</span>)
+          </button>
+          <button onclick="loadHostels()" class="p-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs font-bold transition" title="Refresh">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- HOSTELS TABLE / LIST -->
+      <div id="hostelsContainer" class="space-y-4">
+        <div class="text-center py-12 text-slate-400 text-xs">
+          <i class="ph-bold ph-spinner animate-spin text-2xl mb-2 block text-[#8DB9F0]"></i>
+          Loading properties pipeline...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- DOSSIER & AUDIT DETAILS MODAL -->
+  <div id="dossierModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-7 border border-slate-700 shadow-2xl text-xs text-slate-300">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <div>
+          <h3 class="text-base font-black text-white" id="dossierTitle">Hostel Full Verification Dossier</h3>
+          <span class="text-[10px] text-[#8DB9F0] font-bold uppercase tracking-wider" id="dossierSubtitle">Safety & Sensory Metrics</span>
+        </div>
+        <button onclick="closeDossierModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4" id="dossierContent">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-700 flex justify-end gap-2" id="dossierActionRow">
+        <button onclick="closeDossierModal()" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-bold hover:bg-slate-600">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // VANTA.NET INITIALIZATION (vantajs.com)
+    let vantaAdminEffect = null;
+    function initVantaNet() {
+      if (window.VANTA && window.VANTA.NET) {
+        try {
+          vantaAdminEffect = VANTA.NET({
+            el: "#vanta-admin-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x8DB9F0,           // Powder Blue #8DB9F0
+            backgroundColor: 0x0F172A, // Deep Slate / Dark Navy
+            points: 12.00,
+            maxDistance: 22.00,
+            spacing: 16.00
+          });
+        } catch (e) {
+          console.warn("VANTA.NET initialization:", e);
+        }
+      }
+    }
+
+    let allHostels = [];
+    let allRemovals = [];
+    let currentFilter = 'all';
+
+    async function loadHostels() {
+      try {
+        const [resH, resR] = await Promise.all([
+          fetch('/api/admin/hostels').then(r => r.json()),
+          fetch('/api/admin/removal-requests').then(r => r.json())
+        ]);
+
+        if (!resH.success) throw new Error('Hostels API failed');
+
+        allHostels = resH.data;
+        allRemovals = resR.success ? resR.data : [];
+
+        // Update KPIs
+        const counts = resH.counts || {};
+        document.getElementById('kpiTotal').innerText = resH.totalCount;
+        document.getElementById('kpiPending').innerText = counts.pendingInspection || 0;
+        document.getElementById('kpiInspected').innerText = counts.inspected || 0;
+        document.getElementById('kpiApproved').innerText = counts.approved || 0;
+
+        document.getElementById('countAll').innerText = resH.totalCount;
+        document.getElementById('countPending').innerText = counts.pendingInspection || 0;
+        document.getElementById('countInspected').innerText = counts.inspected || 0;
+        document.getElementById('countApproved').innerText = counts.approved || 0;
+        
+        const pendingRemovals = allRemovals.filter(r => r.status === 'pending').length;
+        document.getElementById('countRemovals').innerText = pendingRemovals;
+
+        renderHostels();
+
+      } catch (err) {
+        console.error('Error loading admin hostels:', err);
+        document.getElementById('hostelsContainer').innerHTML = `
+          <div class="text-center py-8 text-red-400 text-xs">
+            Failed to connect to backend server. Make sure node server.js is running.
+          </div>
+        `;
+      }
+    }
+
+    function filterByStatus(status) {
+      currentFilter = status;
+      ['tabAll', 'tabPending', 'tabInspected', 'tabApproved', 'tabRemovals'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.className = 'px-3.5 py-1.5 rounded-xl bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1';
+      });
+
+      if (status === 'all') document.getElementById('tabAll').className = 'px-3.5 py-1.5 rounded-xl bg-[#4A7AC4] text-white text-xs font-bold transition flex items-center gap-1';
+      if (status === 'pending_inspection') document.getElementById('tabPending').className = 'px-3.5 py-1.5 rounded-xl bg-[#F5B69E] text-slate-900 text-xs font-bold transition flex items-center gap-1';
+      if (status === 'inspected') document.getElementById('tabInspected').className = 'px-3.5 py-1.5 rounded-xl bg-[#8DB9F0] text-slate-900 text-xs font-bold transition flex items-center gap-1';
+      if (status === 'approved') document.getElementById('tabApproved').className = 'px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1';
+      if (status === 'removals') document.getElementById('tabRemovals').className = 'px-3.5 py-1.5 rounded-xl bg-red-600 text-white text-xs font-bold transition flex items-center gap-1';
+
+      renderHostels();
+    }
+
+    function renderHostels() {
+      const container = document.getElementById('hostelsContainer');
+      container.innerHTML = '';
+
+      // SPECIAL VIEW: REMOVAL REQUESTS
+      if (currentFilter === 'removals') {
+        if (allRemovals.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-10 bg-slate-900/50 rounded-2xl border border-slate-700 text-slate-400 text-xs">
+              <i class="ph-bold ph-check-circle text-2xl text-emerald-400 mb-1 block"></i>
+              No hostel removal requests in the queue.
+            </div>
+          `;
+          return;
+        }
+
+        allRemovals.forEach(r => {
+          let badge = '';
+          if (r.status === 'pending') {
+            badge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-[#F5B69E]/20 text-[#F5B69E] border border-[#F5B69E]/40 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#F5B69E] animate-pulse"></span> 🟡 PENDING REVIEW</span>`;
+          } else if (r.status === 'approved') {
+            badge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-red-500/20 text-red-400 border border-red-500/30">🔴 REMOVED (ARCHIVED)</span>`;
+          } else {
+            badge = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-slate-800 text-slate-300 border border-slate-700">⚪ REJECTED</span>`;
+          }
+
+          const card = document.createElement('div');
+          card.className = 'p-5 rounded-2xl bg-slate-900/90 border border-slate-700/80 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 hover:border-slate-600 transition';
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm font-extrabold text-white">${escapeHtml(r.hostelName)}</h3>
+                <span class="text-[10px] font-mono text-slate-400">${escapeHtml(r.hostelId)}</span>
+                <span class="text-[10px] text-slate-500 font-mono">Req: ${escapeHtml(r.requestId)}</span>
+              </div>
+              <p class="text-xs text-red-300 mt-1 font-semibold">
+                Reason: "${escapeHtml(r.reason)}"
+              </p>
+              <div class="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+                <span>👤 Owner: <strong class="text-white">${escapeHtml(r.ownerName)}</strong> (${escapeHtml(r.ownerPhone)})</span>
+                <span>📅 Requested: ${new Date(r.requestedAt).toLocaleDateString()}</span>
+                <span>🛏️ Active Bookings in Escrow: <strong class="${r.activeBookingsCount > 0 ? 'text-amber-400 font-bold' : 'text-emerald-400'}">${r.activeBookingsCount}</strong></span>
+              </div>
+            </div>
+            <div class="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-2 w-full lg:w-auto">
+              ${badge}
+              ${r.status === 'pending' ? `
+              <div class="flex items-center gap-2 mt-1">
+                <button onclick="handleRemovalDecision('${escapeHtml(r.requestId)}', 'approve')" class="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black transition flex items-center gap-1 shadow-md">
+                  <i class="ph-bold ph-trash"></i> Approve Removal (Soft Delete)
+                </button>
+                <button onclick="handleRemovalDecision('${escapeHtml(r.requestId)}', 'reject')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition">
+                  Reject
+                </button>
+              </div>
+              ` : `
+              <span class="text-[10px] text-slate-500 font-mono">Decision: ${escapeHtml(r.adminDecision?.decisionNotes || 'Completed')}</span>
+              `}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+        return;
+      }
+
+      // STANDARD VIEW: HOSTEL LIST
+      let list = allHostels;
+      if (currentFilter !== 'all') {
+        list = list.filter(h => {
+          const status = h.status || 'approved';
+          return status === currentFilter;
+        });
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 bg-slate-900/50 rounded-2xl border border-slate-700 text-slate-400 text-xs">
+            No properties found in this category (${currentFilter}).
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(h => {
+        const status = h.status || 'approved';
+        let statusTag = '';
+        let actionButtons = '';
+
+        if (status === 'pending_inspection') {
+          statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-[#F5B69E]/20 text-[#F5B69E] border border-[#F5B69E]/40 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#F5B69E] animate-pulse"></span> 🟡 PENDING FIELD INSPECTION</span>`;
+          actionButtons = `
+            <a href="inspector-portal.html?hostelId=${encodeURIComponent(h.id)}" class="px-3.5 py-2 bg-[#8DB9F0]/20 border border-[#8DB9F0]/40 text-[#8DB9F0] hover:bg-[#8DB9F0]/30 rounded-xl text-xs font-bold flex items-center gap-1 transition">
+              <i class="ph-bold ph-clipboard-text"></i> Run Field Audit (V-HIP)
+            </a>
+            <button onclick="approveDirect('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-extrabold rounded-xl text-xs flex items-center gap-1 transition">
+              <i class="ph-bold ph-check"></i> Direct Approve
+            </button>
+          `;
+        } else if (status === 'inspected') {
+          statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-[#8DB9F0]/20 text-[#8DB9F0] border border-[#8DB9F0]/40 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#8DB9F0]"></span> 🔵 INSPECTED (${h.verificationScore || 90}/100) — AWAITING SIGN-OFF</span>`;
+          actionButtons = `
+            <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
+              <i class="ph-bold ph-file-text"></i> View Sensory Dossier
+            </button>
+            <button onclick="approveHostel('${escapeHtml(h.id)}', 'approve')" class="px-4 py-2 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-xl text-xs flex items-center gap-1 shadow-md transition">
+              <i class="ph-bold ph-seal-check"></i> Sign &amp; Publish Live
+            </button>
+            <button onclick="approveHostel('${escapeHtml(h.id)}', 'reject')" class="px-3 py-2 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-800 rounded-xl text-xs font-bold transition">
+              Reject
+            </button>
+          `;
+        } else if (status === 'approved') {
+          statusTag = `<span class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5"><i class="ph-bold ph-check-circle"></i> 🟢 APPROVED &amp; PUBLICLY LISTED</span>`;
+          actionButtons = `
+            <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
+              <i class="ph-bold ph-file-text"></i> Dossier
+            </button>
+            <a href="index.html#hostels" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-[#8DB9F0] rounded-xl text-xs font-bold flex items-center gap-1 transition">
+              <i class="ph-bold ph-arrow-square-out"></i> Live View
+            </a>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'p-5 rounded-2xl bg-slate-900/90 border border-slate-700/80 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 hover:border-slate-600 transition';
+        card.innerHTML = `
+          <div class="flex items-center gap-4">
+            <img src="${escapeHtml(h.images?.[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=200&q=80')}" class="w-20 h-20 rounded-xl object-cover bg-slate-800 flex-shrink-0">
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm font-extrabold text-white">${escapeHtml(h.name)}</h3>
+                <span class="text-[10px] font-mono text-slate-400">${escapeHtml(h.id)}</span>
+                <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-slate-800 text-slate-300 border border-slate-700">${escapeHtml(h.gender)} Hostel</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">
+                📍 ${escapeHtml(h.address || h.area)} &bull; ${escapeHtml(h.proximity?.walkMinutes || 6)} min to ${escapeHtml(h.proximity?.primary || 'UMT')} &bull; PKR ${Number(h.rent).toLocaleString()}/mo
+              </p>
+              <div class="mt-2 flex items-center gap-3 text-[11px] text-slate-400">
+                <span>👤 Owner: <strong class="text-white">${escapeHtml(h.owner?.name || 'Partner Host')}</strong> (${escapeHtml(h.owner?.phone || '0300...')})</span>
+                <span>🛏️ Beds: <strong class="text-white">${h.roomTypes?.[0]?.availableBeds || h.availableBeds || 4} available</strong></span>
+                <span>🛡️ Score: <strong class="text-[#8DB9F0]">${h.verificationScore || 'Pending'}/100</strong></span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-2 w-full lg:w-auto">
+            ${statusTag}
+            <div class="flex items-center gap-2 mt-1">
+              ${actionButtons}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function approveHostel(hostelId, action) {
+      const adminKey = document.getElementById('adminSecretKey').value || 'thikana-local-admin-change-me';
+      let rejectionReason = '';
+      if (action === 'reject') {
+        rejectionReason = prompt('Enter rejection reason for owner notification:', 'Sensory standards not met (Water TDS > 140 PPM or Noise > 45 dB)');
+        if (!rejectionReason) return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/approve-hostel', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            hostelId,
+            action,
+            rejectionReason
+          })
+        });
+
+        const json = await res.json();
+        if (!res.ok || !json.success) {
+          alert('Admin Error: ' + (json.message || 'Action could not be authorized.'));
+          return;
+        }
+
+        const banner = document.getElementById('adminNoticeBanner');
+        const text = document.getElementById('adminNoticeText');
+        text.innerText = json.message;
+        banner.classList.remove('hidden');
+
+        // Reload updated hostels list
+        loadHostels();
+
+      } catch (err) {
+        alert('Network Error connecting to Thikana Admin API.');
+      }
+    }
+
+    async function approveDirect(hostelId) {
+      approveHostel(hostelId, 'approve');
+    }
+
+    async function handleRemovalDecision(requestId, action) {
+      const adminKey = document.getElementById('adminSecretKey').value || 'thikana-local-admin-change-me';
+      let decisionNotes = '';
+
+      if (action === 'approve') {
+        const confirmed = confirm(`Are you sure you want to approve removal for request ${requestId}?\n\nThis will soft-delete the property from public search while preserving financial and escrow history.`);
+        if (!confirmed) return;
+        decisionNotes = 'Removal request verified and approved. Property archived from marketplace.';
+      } else {
+        decisionNotes = prompt('Enter rejection reason for hostel owner:', 'Student advance bookings are active until semester conclusion.');
+        if (!decisionNotes) return;
+      }
+
+      try {
+        const res = await fetch(`/api/admin/removal-requests/${encodeURIComponent(requestId)}/decision`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({
+            action,
+            decisionNotes,
+            adminName: 'Admin Executive'
+          })
+        });
+
+        const json = await res.json();
+        if (json.success) {
+          const banner = document.getElementById('adminNoticeBanner');
+          const text = document.getElementById('adminNoticeText');
+          text.innerText = json.message;
+          banner.classList.remove('hidden');
+          loadHostels();
+        } else {
+          alert('Error: ' + (json.message || 'Could not process removal decision.'));
+        }
+      } catch (err) {
+        alert('Network error connecting to Admin API.');
+      }
+    }
+
+    function viewDossier(hostelId) {
+      const h = allHostels.find(x => x.id === hostelId);
+      if (!h) return;
+
+      document.getElementById('dossierTitle').innerText = `${h.name} — Full Quality Dossier`;
+      document.getElementById('dossierSubtitle').innerText = `Status: ${(h.status || 'approved').toUpperCase()} • Score: ${h.verificationScore || 'Pending'}/100`;
+
+      const content = document.getElementById('dossierContent');
+      content.innerHTML = `
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 grid grid-cols-2 gap-2">
+          <div><span class="text-slate-400">Owner Name:</span> <strong class="text-white block">${escapeHtml(h.owner?.name || 'Verified')}</strong></div>
+          <div><span class="text-slate-400">Owner Contact:</span> <strong class="text-[#8DB9F0] block">${escapeHtml(h.owner?.phone || '0300-1234567')}</strong></div>
+          <div><span class="text-slate-400">Owner CNIC:</span> <strong class="text-white block">${escapeHtml(h.owner?.cnic || '35202-*******-1')}</strong></div>
+          <div><span class="text-slate-400">Proximity:</span> <strong class="text-white block">${escapeHtml(h.proximity?.walkMinutes || 6)} Mins to ${escapeHtml(h.proximity?.primary || 'UMT')}</strong></div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 space-y-2">
+          <h4 class="font-bold text-[#8DB9F0]">Sensory &amp; Environmental Test Readings:</h4>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 bg-slate-800 rounded-lg">
+              <span class="text-[9px] uppercase text-slate-400 block">Water TDS</span>
+              <span class="text-sm font-extrabold text-[#8DB9F0]">${h.sensoryMetrics?.waterTdsPpm ? `${h.sensoryMetrics.waterTdsPpm} PPM` : 'Pending'}</span>
+              <span class="text-[9px] block text-slate-400">${escapeHtml(h.sensoryMetrics?.waterRating || 'RO Standard')}</span>
+            </div>
+            <div class="p-2 bg-slate-800 rounded-lg">
+              <span class="text-[9px] uppercase text-slate-400 block">Study Sound</span>
+              <span class="text-sm font-extrabold text-[#F5B69E]">${h.sensoryMetrics?.noiseDecibels ? `${h.sensoryMetrics.noiseDecibels} dB` : 'Pending'}</span>
+              <span class="text-[9px] block text-slate-400">${escapeHtml(h.sensoryMetrics?.noiseRating || 'Quiet')}</span>
+            </div>
+            <div class="p-2 bg-slate-800 rounded-lg">
+              <span class="text-[9px] uppercase text-slate-400 block">Quality Score</span>
+              <span class="text-sm font-extrabold text-amber-400">${h.verificationScore || 95} / 100</span>
+              <span class="text-[9px] block text-slate-400">Thikana Certified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-700">
+          <h4 class="font-bold text-slate-300 mb-1">Active Amenities:</h4>
+          <div class="flex flex-wrap gap-1.5">
+            ${(h.amenities || ['WiFi', 'Generator', 'Meals']).map(a => `<span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300 font-semibold">• ${escapeHtml(a)}</span>`).join('')}
+          </div>
+        </div>
+      `;
+
+      const actionRow = document.getElementById('dossierActionRow');
+      if (h.status !== 'approved') {
+        actionRow.innerHTML = `
+          <button onclick="approveHostel('${escapeHtml(h.id)}', 'approve'); closeDossierModal();" class="px-4 py-2 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-xl text-xs flex items-center gap-1 shadow-md">
+            <i class="ph-bold ph-check-circle"></i> Approve &amp; Publish to Marketplace
+          </button>
+          <button onclick="closeDossierModal()" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-bold hover:bg-slate-600">
+            Close
+          </button>
+        `;
+      } else {
+        actionRow.innerHTML = `
+          <span class="text-emerald-400 text-xs font-bold self-center mr-auto">✓ Currently Live on Marketplace</span>
+          <button onclick="closeDossierModal()" class="px-4 py-2 bg-slate-700 text-white rounded-xl font-bold hover:bg-slate-600">
+            Close
+          </button>
+        `;
+      }
+
+      document.getElementById('dossierModal').classList.remove('hidden');
+    }
+
+    function closeDossierModal() {
+      document.getElementById('dossierModal').classList.add('hidden');
+    }
+
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initVantaNet();
+      loadHostels();
+    });
+  </script>
+</body>
+</html>

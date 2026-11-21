@@ -1,0 +1,10 @@
+[
+  {
+    "offerId": "OFF-4001",
+    "title": "Fall Semester Welcome Discount",
+    "discountPercentage": 10,
+    "description": "Flat 10% off on first month rent for students reserving before Dec 1",
+    "validUntil": "2026-12-01",
+    "active": true
+  }
+]

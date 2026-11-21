@@ -1,0 +1,61 @@
+[
+  {
+    "subscriptionId": "SUB-3001",
+    "ownerId": "THK-OWN-101",
+    "ownerPhone": "03001234567",
+    "plan": "professional",
+    "planName": "Verified Pro",
+    "monthlyPricePkr": 999,
+    "maxHostels": 3,
+    "status": "active",
+    "validUntil": "2026-12-21T00:00:00.000Z",
+    "features": [
+      "Up to 3 Hostel Listings",
+      "Verified Badge Priority",
+      "Instant WhatsApp Leads",
+      "Analytics Dashboard"
+    ]
+  },
+  {
+    "subscriptionId": "SUB-TRIAL-1002",
+    "ownerId": "THK-OWN-1795258365722",
+    "ownerPhone": "0321-9876543",
+    "ownerName": "Malik Shakeel",
+    "plan": "professional",
+    "planName": "Verified Pro (30-Day Free Trial)",
+    "monthlyPricePkr": 0,
+    "regularPricePkr": 999,
+    "isTrial": true,
+    "trialDays": 30,
+    "status": "active",
+    "validUntil": "2026-12-21T10:52:45.722Z",
+    "features": [
+      "30-Day Free Trial Active (Saving PKR 999)",
+      "Up to 3 Hostel Listings Included",
+      "Verified Gold Quality Badge Priority",
+      "WhatsApp Instant Alert Leads",
+      "Full Inquiries & Analytics Access"
+    ]
+  },
+  {
+    "subscriptionId": "SUB-TRIAL-1003",
+    "ownerId": "THK-OWN-102",
+    "ownerPhone": "03421878863",
+    "ownerName": "nauman",
+    "plan": "professional",
+    "planName": "Verified Pro (30-Day Free Trial)",
+    "monthlyPricePkr": 0,
+    "regularPricePkr": 999,
+    "isTrial": true,
+    "trialDays": 30,
+    "status": "active",
+    "validUntil": "2026-12-21T10:56:41.905Z",
+    "features": [
+      "30-Day Free Trial Active (Saving PKR 999)",
+      "Up to 3 Hostel Listings Included",
+      "Verified Gold Quality Badge Priority",
+      "WhatsApp Instant Alert Leads",
+      "Full Inquiries & Analytics Access"
+    ]
+  }
+]
