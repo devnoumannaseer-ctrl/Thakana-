@@ -24,18 +24,47 @@ const SUBSCRIPTIONS_FILE = path.join(__dirname, 'data', 'subscriptions.json');
 const OFFERS_FILE = path.join(__dirname, 'data', 'offers.json');
 const AUDIT_LOGS_FILE = path.join(__dirname, 'data', 'audit-logs.json');
 
-// Helper to read JSON safely
+// In-memory cache & Serverless Read-Only File System Resilient Store
+const memoryStore = new Map();
+
+// Helper to read JSON safely (with serverless /tmp & memory support)
 function readJson(file) {
+  if (memoryStore.has(file)) {
+    return JSON.parse(JSON.stringify(memoryStore.get(file)));
+  }
+  // Check /tmp first for Vercel serverless persistence across warm lambdas
   try {
-    return JSON.parse(fs.readFileSync(file, 'utf8'));
+    const tmpFile = path.join('/tmp', path.basename(file));
+    if (fs.existsSync(tmpFile)) {
+      const data = JSON.parse(fs.readFileSync(tmpFile, 'utf8'));
+      memoryStore.set(file, data);
+      return data;
+    }
+  } catch (e) {}
+
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    memoryStore.set(file, data);
+    return data;
   } catch (err) {
     return [];
   }
 }
 
-// Helper to write JSON safely
+// Helper to write JSON safely (survives Vercel EROFS read-only filesystem)
 function writeJson(file, data) {
-  fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+  memoryStore.set(file, data);
+  try {
+    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    // If running in read-only environment (e.g. Vercel), write to /tmp
+    try {
+      const tmpFile = path.join('/tmp', path.basename(file));
+      fs.writeFileSync(tmpFile, JSON.stringify(data, null, 2), 'utf8');
+    } catch (tmpErr) {
+      // In-memory fallback will handle warm invocations
+    }
+  }
 }
 
 // Audit Logger
@@ -1412,10 +1441,14 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`   THIKANA STUDENT LIVING OS - BACKEND SERVER ACTIVE   `);
-  console.log(`   Port: http://localhost:${PORT}                      `);
-  console.log(`   Mode: Full Supply Onboarding & Public Marketplace    `);
-  console.log(`=======================================================`);
-});
+if (require.main === module || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`   THIKANA STUDENT LIVING OS - BACKEND SERVER ACTIVE   `);
+    console.log(`   Port: http://localhost:${PORT}                      `);
+    console.log(`   Mode: Full Supply Onboarding & Public Marketplace    `);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;
