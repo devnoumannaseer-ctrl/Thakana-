@@ -68,5 +68,19 @@
     "details": "Super Admin restored all 6 hostels to the public marketplace.",
     "performedBy": "Super Admin",
     "timestamp": "2026-11-21T12:11:05.012Z"
+  },
+  {
+    "logId": "LOG-1795287251498-137",
+    "action": "ADMIN_DIRECT_REMOVAL",
+    "details": "Hostel \"Green View Scholars Hostel\" (thk-h-002) was directly removed from Home / public marketplace.",
+    "performedBy": "Super Admin Test",
+    "timestamp": "2026-11-21T18:54:11.498Z"
+  },
+  {
+    "logId": "LOG-1795287251505-846",
+    "action": "ADMIN_DIRECT_RESTORE",
+    "details": "Hostel \"Green View Scholars Hostel\" restored to public marketplace.",
+    "performedBy": "Super Admin Test",
+    "timestamp": "2026-11-21T18:54:11.505Z"
   }
 ]

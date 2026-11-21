@@ -98,5 +98,25 @@
     "escrowStatus": "HELD_IN_ESCROW_48H",
     "bookingDate": "2026-11-21T12:11:04.964Z",
     "gatePassCode": "GP-929851"
+  },
+  {
+    "bookingId": "THK-BKG-1006",
+    "hostelId": "thk-h-001",
+    "hostelName": "Al-Rehman Executive Female Residency",
+    "studentName": "Nauman Naseer",
+    "studentPhone": "03001234567",
+    "parentPhone": "03219876543",
+    "university": "FAST Faisal Town / BCS",
+    "rollNumber": "BCS-F24",
+    "rentAmount": 22000,
+    "depositAmount": 10000,
+    "platformFee": 2000,
+    "tiffinSubscribed": false,
+    "laundrySubscribed": false,
+    "totalPaid": 34000,
+    "isSplitRent": false,
+    "escrowStatus": "HELD_IN_ESCROW_48H",
+    "bookingDate": "2026-11-21T18:54:11.367Z",
+    "gatePassCode": "GP-608431"
   }
 ]
