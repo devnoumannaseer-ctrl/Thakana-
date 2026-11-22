@@ -82,5 +82,40 @@
     "details": "Hostel \"Green View Scholars Hostel\" restored to public marketplace.",
     "performedBy": "Super Admin Test",
     "timestamp": "2026-11-21T18:54:11.505Z"
+  },
+  {
+    "logId": "LOG-1795331792911-609",
+    "action": "AUTO_REMOVED_FULL_INVENTORY",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" (thk-h-001) reached 0 available beds. Automatically removed from Home / public search.",
+    "performedBy": "Inventory Engine",
+    "timestamp": "2026-11-22T07:16:32.911Z"
+  },
+  {
+    "logId": "LOG-1795331915403-278",
+    "action": "ADMIN_DIRECT_REMOVAL",
+    "details": "Hostel \"Green View Scholars Hostel\" (thk-h-002) was directly removed from Home / public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T07:18:35.403Z"
+  },
+  {
+    "logId": "LOG-1795331915407-368",
+    "action": "ADMIN_BULK_RESTORED_ALL",
+    "details": "Super Admin restored all 6 hostels to the public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T07:18:35.407Z"
+  },
+  {
+    "logId": "LOG-1795331945481-65",
+    "action": "ADMIN_DIRECT_REMOVAL",
+    "details": "Hostel \"Green View Scholars Hostel\" (thk-h-002) was directly removed from Home / public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T07:19:05.481Z"
+  },
+  {
+    "logId": "LOG-1795331945485-221",
+    "action": "ADMIN_BULK_RESTORED_ALL",
+    "details": "Super Admin restored all 6 hostels to the public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T07:19:05.485Z"
   }
 ]

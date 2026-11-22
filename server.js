@@ -1325,10 +1325,10 @@ app.post('/api/notifications/simulate-push', (req, res) => {
 });
 
 // -------------------------------------------------------------
-// 26. POST /api/admin/remove-hostel-direct - Admin Directly Removes Any/All Hostels from Home
+// 26. DIRECT REMOVAL & RESTORE ENGINE (SUPER ADMIN CONTROLS)
 // -------------------------------------------------------------
-app.post('/api/admin/remove-hostel-direct', (req, res) => {
-  const { hostelId, reason, adminName } = req.body;
+function handleDirectRemoveHostel(req, res) {
+  const { hostelId, reason, adminName } = req.body || {};
   const hostels = readJson(HOSTELS_FILE);
   const adminUser = adminName || 'Super Admin';
 
@@ -1371,26 +1371,20 @@ app.post('/api/admin/remove-hostel-direct', (req, res) => {
 
   logAction('ADMIN_DIRECT_REMOVAL', `Hostel "${hostel.name}" (${hostel.id}) was directly removed from Home / public marketplace.`, adminUser);
 
-  res.json({
+  return res.json({
     success: true,
     message: `Hostel "${hostel.name}" has been removed from the Home page and public marketplace.`,
     hostel: hostel
   });
-});
+}
 
-// -------------------------------------------------------------
-// 27. POST /api/admin/restore-hostel-direct - Admin Restores Removed Hostels
-// -------------------------------------------------------------
-app.post('/api/admin/restore-hostel-direct', (req, res) => {
-  const { hostelId, adminName } = req.body;
+function handleDirectRestoreHostel(req, res) {
+  const { hostelId, adminName } = req.body || {};
   const hostels = readJson(HOSTELS_FILE);
   const adminUser = adminName || 'Super Admin';
+  const targetId = hostelId || 'ALL';
 
-  if (!hostelId) {
-    return res.status(400).json({ success: false, message: 'Hostel ID is required (use "ALL" to restore all).' });
-  }
-
-  if (hostelId === 'ALL') {
+  if (targetId === 'ALL') {
     let count = 0;
     hostels.forEach(h => {
       h.status = 'approved';
@@ -1398,7 +1392,7 @@ app.post('/api/admin/restore-hostel-direct', (req, res) => {
       h.isRemoved = false;
       h.isFull = false;
       if (!h.availableBeds || h.availableBeds <= 0) {
-        h.availableBeds = 4; // replenish beds on restore
+        h.availableBeds = 4;
       }
       count++;
     });
@@ -1411,9 +1405,9 @@ app.post('/api/admin/restore-hostel-direct', (req, res) => {
     });
   }
 
-  const hostel = hostels.find(h => h.id === hostelId);
+  const hostel = hostels.find(h => h.id === targetId);
   if (!hostel) {
-    return res.status(404).json({ success: false, message: `Hostel "${hostelId}" not found.` });
+    return res.status(404).json({ success: false, message: `Hostel "${targetId}" not found.` });
   }
 
   hostel.status = 'approved';
@@ -1421,7 +1415,7 @@ app.post('/api/admin/restore-hostel-direct', (req, res) => {
   hostel.isRemoved = false;
   hostel.isFull = false;
   if (!hostel.availableBeds || hostel.availableBeds <= 0) {
-    hostel.availableBeds = 4; // replenish
+    hostel.availableBeds = 4;
   }
   hostel.restoredAt = new Date().toISOString();
   hostel.restoredBy = adminUser;
@@ -1429,11 +1423,33 @@ app.post('/api/admin/restore-hostel-direct', (req, res) => {
 
   logAction('ADMIN_DIRECT_RESTORE', `Hostel "${hostel.name}" restored to public marketplace.`, adminUser);
 
-  res.json({
+  return res.json({
     success: true,
     message: `Hostel "${hostel.name}" has been restored and is now visible on the Home page.`,
     hostel: hostel
   });
+}
+
+// ROUTE BINDINGS
+app.post('/api/admin/remove-hostel-direct', handleDirectRemoveHostel);
+app.post('/api/admin/remove-hostel', handleDirectRemoveHostel);
+app.post('/api/admin/remove-all-hostels', (req, res) => {
+  req.body = req.body || {};
+  req.body.hostelId = 'ALL';
+  return handleDirectRemoveHostel(req, res);
+});
+
+app.post('/api/admin/restore-hostel-direct', handleDirectRestoreHostel);
+app.post('/api/admin/restore-hostel', handleDirectRestoreHostel);
+app.post('/api/admin/restore-all-hostels', (req, res) => {
+  req.body = req.body || {};
+  req.body.hostelId = 'ALL';
+  return handleDirectRestoreHostel(req, res);
+});
+app.post('/api/admin/restore-hostels', (req, res) => {
+  req.body = req.body || {};
+  req.body.hostelId = 'ALL';
+  return handleDirectRestoreHostel(req, res);
 });
 
 // Fallback route serves index.html

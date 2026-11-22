@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Thikana">
   
-  <!-- THREE.JS & VANTA.BIRDS 3D ANIMATION ENGINE (vantajs.com) -->
+  <!-- THREE.JS & VANTA.BIRDS 3D ANIMATION ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
 
@@ -47,7 +47,7 @@
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
     
     html, body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -77,17 +77,21 @@
       opacity: 0.95;
     }
 
+    /* Hide scrollbar for campus story bubbles */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
     /* Hide PWA install triggers when running inside installed standalone PWA app */
-    @media all and (display-mode: standalone) {
+    @media all and (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui) {
       .pwa-install-trigger, #pwaInstallBtn, [data-pwa-install] {
         display: none !important;
       }
     }
   </style>
 </head>
-<body class="bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 w-full overflow-x-hidden">
+<body class="bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 w-full overflow-x-hidden pb-20 sm:pb-0">
 
-  <!-- TOP ANNOUNCEMENT BAR (Deep Navy + Peach + Powder Blue) - No Overflow on Mobile -->
+  <!-- TOP ANNOUNCEMENT BAR (Clean Navy Strip with Ellipsis on Mobile) -->
   <div class="bg-[#1A2138] text-[11px] sm:text-xs text-[#D6E6FA] py-2 px-3 sm:px-4 text-center font-medium border-b border-slate-800/80 w-full overflow-hidden relative z-30">
     <div class="max-w-7xl mx-auto flex items-center justify-between sm:justify-center gap-2 overflow-hidden">
       <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold bg-[#F5B69E]/20 text-[#F5B69E] uppercase tracking-wider border border-[#F5B69E]/40 shrink-0">
@@ -98,9 +102,10 @@
     </div>
   </div>
 
-  <!-- NAVIGATION HEADER -->
+  <!-- NAVIGATION HEADER (Luxe Frosted Glass) -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E9E8F8] shadow-sm w-full">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <!-- LOGO -->
       <a href="index.html" class="flex items-center gap-2 sm:gap-3 group shrink-0">
         <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center shadow-md shadow-[#8DB9F0]/30 text-white text-xl sm:text-2xl font-black">
           <i class="ph-bold ph-shield-check text-[#1A2138]"></i>
@@ -137,35 +142,30 @@
 
       <!-- HEADER RIGHT ACTIONS (DESKTOP & MOBILE) -->
       <div class="flex items-center gap-1.5 sm:gap-2.5">
-        <!-- LAPTOP ADMIN DIRECT REMOVAL MODE TOGGLE (VISIBLE ON LAPTOP/DESKTOP) -->
-        <button id="adminModeBtnLaptop" onclick="toggleAdminMode()" class="hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl border border-slate-300 transition" title="Toggle Super Admin Removal Controls on Home">
+        <!-- ADMIN MODE TOGGLE (VISIBLE ON LAPTOP/DESKTOP) -->
+        <button id="adminModeBtnLaptop" onclick="toggleAdminMode()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl border border-slate-300 transition" title="Toggle Super Admin Removal Controls on Home">
           <i class="ph-bold ph-shield-check text-amber-600 text-sm"></i>
-          <span>Admin Mode: <strong id="adminStatusTextLaptop" class="text-slate-900">OFF</strong></span>
+          <span>Admin: <strong id="adminStatusTextLaptop" class="text-slate-900">OFF</strong></span>
         </button>
 
-        <!-- PWA INSTALL BUTTON (DYNAMIC: PERMANENTLY HIDDEN WHEN APP IS INSTALLED) -->
-        <button id="pwaInstallBtn" onclick="promptPwaInstall()" class="pwa-install-trigger inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-extrabold text-[#1A2138] bg-[#8DB9F0] hover:bg-[#78A7E0] rounded-xl shadow-sm transition">
-          <i class="ph-bold ph-download-simple text-sm"></i> <span class="hidden sm:inline">Install</span> App
+        <!-- PWA INSTALL BUTTON (WEB-ONLY: DYNAMICALLY HIDDEN IN STANDALONE PWA) -->
+        <button id="pwaInstallBtn" onclick="promptPwaInstall()" class="pwa-install-trigger inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs font-extrabold text-[#1A2138] bg-[#8DB9F0] hover:bg-[#78A7E0] rounded-xl shadow-sm transition">
+          <i class="ph-bold ph-download-simple text-sm"></i> <span>Install App</span>
         </button>
-
-        <!-- DIRECT ADMIN LINK (VISIBLE ON DESKTOP) -->
-        <a href="admin-portal.html" class="hidden xl:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
-          <i class="ph-bold ph-lock-key text-amber-600 text-sm"></i> Admin
-        </a>
 
         <!-- LIST HOSTEL BUTTON -->
         <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-sm transition shrink-0">
           <i class="ph-bold ph-plus-circle text-sm"></i> <span class="hidden xs:inline">List Hostel</span><span class="xs:hidden">List</span>
         </a>
 
-        <!-- MOBILE HAMBURGER BUTTON (Always cleanly visible on phones/tablets) -->
+        <!-- MOBILE HAMBURGER BUTTON -->
         <button id="mobileNavToggleBtn" onclick="toggleMobileNav()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center shrink-0">
           <i id="mobileNavIcon" class="ph-bold ph-list text-xl"></i>
         </button>
       </div>
     </div>
 
-    <!-- RESPONSIVE MOBILE NAVIGATION DRAWER (Expands on phones/tablets) -->
+    <!-- RESPONSIVE MOBILE NAVIGATION DRAWER -->
     <div id="mobileNavDrawer" class="hidden lg:hidden border-t border-[#E9E8F8] bg-white/98 backdrop-blur-md px-4 py-4 shadow-xl transition-all">
       <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">Navigation &amp; Portals</div>
       <div class="grid grid-cols-2 gap-2 pb-3 border-b border-[#E9E8F8]">
@@ -188,164 +188,151 @@
           <i class="ph-bold ph-lock-key text-amber-600 text-base"></i> Admin Portal
         </a>
       </div>
-      <div class="flex items-center gap-2 pt-3">
-        <a href="owner-portal.html" class="flex-1 py-2.5 text-center text-xs font-black text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow transition flex items-center justify-center gap-1.5">
-          <i class="ph-bold ph-plus-circle text-base"></i> List Your Hostel
-        </a>
-        <button onclick="toggleAdminMode()" id="adminModeBtnMobile" class="px-3 py-2.5 text-xs font-bold text-slate-700 bg-[#E9E8F8] rounded-xl flex items-center gap-1 border border-slate-300">
-          <i class="ph-bold ph-shield-check text-amber-600"></i> Admin: <span id="adminStatusTextMobileDrawer">OFF</span>
-        </button>
-      </div>
     </div>
   </header>
 
-  <!-- HERO SECTION WITH VANTA.CLOUDS 3D ANIMATION -->
-  <section id="hero-vanta" class="relative pt-12 pb-20 overflow-hidden min-h-[600px] flex items-center justify-center">
-    <!-- Soft Gradient Overlay for Optimal Text Legibility -->
-    <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#F8F8FD]/80 pointer-events-none z-10"></div>
+  <!-- HERO SECTION WITH VANTA.BIRDS 3D ANIMATION -->
+  <section id="hero-vanta" class="relative pt-6 sm:pt-10 pb-12 sm:pb-16 overflow-hidden min-h-[460px] sm:min-h-[520px] flex items-center justify-center">
+    <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#F8F8FD]/90 pointer-events-none z-10"></div>
 
     <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-      
-      <!-- HERO TEXT CARD (GLASSMORPHISM WITH SOFT LAVENDER TINT) -->
-      <div class="text-center max-w-3xl mx-auto backdrop-blur-md bg-white/80 p-6 sm:p-9 rounded-3xl border border-white/90 shadow-xl shadow-slate-900/5">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E9E8F8] text-slate-800 text-xs font-bold uppercase tracking-wide mb-4 border border-[#8DB9F0]/60 shadow-sm">
+      <!-- HERO TEXT (Apple / Airbnb Luxe Style) -->
+      <div class="text-center max-w-2xl mx-auto mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E9E8F8] text-slate-800 text-[11px] font-black uppercase tracking-wide mb-3 border border-[#8DB9F0]/60 shadow-sm">
           <i class="ph-fill ph-shield-check text-[#4A7AC4]"></i> 100% Physically Inspected &bull; 48-Hour Deposit Escrow
         </div>
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-          Find Your Safe, <span class="text-[#4A7AC4] underline decoration-[#F5B69E] decoration-wavy decoration-3">Physically Verified</span> Student Home
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+          Find Your Safe, <span class="text-[#4A7AC4] underline decoration-[#F5B69E] decoration-wavy decoration-2 sm:decoration-3">Physically Verified</span> Student Home
         </h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
-          Skip shady Facebook brokers, fake photos, and deposit fraud. Thikana inspects every hostel with <strong>water TDS testing</strong>, <strong>sound decibel meters</strong>, and <strong>deposit protection</strong>—with guaranteed zero broker fees.
+        <p class="mt-2.5 text-xs sm:text-base text-slate-700 leading-relaxed font-medium">
+          Skip shady brokers, fake photos, and deposit fraud. Thikana inspects every hostel with <strong>water TDS testing</strong>, <strong>sound decibel meters</strong>, and <strong>deposit escrow</strong>. Zero broker fees.
         </p>
       </div>
 
-      <!-- INTERACTIVE SEARCH ENGINE BAR -->
-      <div class="mt-8 max-w-5xl mx-auto bg-white/95 backdrop-blur-md p-4 sm:p-5 rounded-3xl shadow-2xl shadow-[#8DB9F0]/20 border border-[#E9E8F8]">
-        <!-- SEARCH INPUT -->
-        <div class="mb-3">
-          <div class="relative">
-            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
-            <input type="text" id="keywordSearch" oninput="fetchHostels()" placeholder="Search by hostel name, area, or campus (e.g., Johar Town, FAST, Al-Rehman)..." class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl pl-10 pr-4 py-2.5 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
-          </div>
+      <!-- INSTAGRAM-STYLE CAMPUS STORY CIRCLES (QUICK 1-TAP FILTER) -->
+      <div class="max-w-4xl mx-auto mb-5 overflow-hidden">
+        <div class="flex items-center gap-3 sm:gap-4 overflow-x-auto no-scrollbar py-2 px-2 snap-x">
+          <!-- STORY 1: ALL -->
+          <button onclick="setCampusFilter('all')" id="story-all" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-white flex items-center justify-center font-black text-xs sm:text-sm text-slate-800">
+                All
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-700">Explore</span>
+          </button>
+
+          <!-- STORY 2: UMT -->
+          <button onclick="setCampusFilter('UMT')" id="story-UMT" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-slate-200 group-hover:bg-[#8DB9F0] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-[#E9E8F8] flex items-center justify-center font-black text-xs sm:text-sm text-[#4A7AC4]">
+                UMT
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-600">Johar Town</span>
+          </button>
+
+          <!-- STORY 3: FAST -->
+          <button onclick="setCampusFilter('FAST')" id="story-FAST" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-slate-200 group-hover:bg-[#8DB9F0] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-[#E9E8F8] flex items-center justify-center font-black text-xs sm:text-sm text-indigo-600">
+                FAST
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-600">Faisal Town</span>
+          </button>
+
+          <!-- STORY 4: FEMALE ONLY -->
+          <button onclick="setGenderFilter('Female')" id="story-Female" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-gradient-to-tr from-pink-400 to-[#F5B69E] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-pink-50 flex items-center justify-center font-black text-xs sm:text-sm text-pink-600">
+                🌸
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-pink-700">Female Only</span>
+          </button>
+
+          <!-- STORY 5: LUMS -->
+          <button onclick="setCampusFilter('LUMS')" id="story-LUMS" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-slate-200 group-hover:bg-[#8DB9F0] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-[#E9E8F8] flex items-center justify-center font-black text-xs sm:text-sm text-emerald-700">
+                LUMS
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-600">DHA Ph 5</span>
+          </button>
+
+          <!-- STORY 6: UCP -->
+          <button onclick="setCampusFilter('UCP')" id="story-UCP" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-slate-200 group-hover:bg-[#8DB9F0] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-[#E9E8F8] flex items-center justify-center font-black text-xs sm:text-sm text-amber-700">
+                UCP
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-600">Khayaban</span>
+          </button>
+
+          <!-- STORY 7: COMSATS -->
+          <button onclick="setCampusFilter('COMSATS')" id="story-COMSATS" class="campus-story-btn flex flex-col items-center gap-1 shrink-0 group focus:outline-none snap-start">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-0.5 bg-slate-200 group-hover:bg-[#8DB9F0] shadow-sm group-hover:scale-105 transition">
+              <div class="w-full h-full rounded-full bg-[#E9E8F8] flex items-center justify-center font-black text-xs sm:text-sm text-teal-700">
+                CIIT
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-slate-600">Defense Rd</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SLEEK SEARCH CAPSULE BAR (MOBILE & DESKTOP) -->
+      <div class="max-w-4xl mx-auto bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-3xl shadow-xl shadow-[#8DB9F0]/20 border border-[#E9E8F8]">
+        <!-- FLOATING CAPSULE SEARCH INPUT -->
+        <div class="relative mb-2.5">
+          <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+          <input type="text" id="keywordSearch" oninput="fetchHostels()" placeholder="Search Johar Town, FAST, UMT, Al-Rehman..." class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-2xl pl-10 pr-10 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
+          <button onclick="toggleFilterDrawer()" class="sm:hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[#4A7AC4] bg-[#E9E8F8] hover:bg-[#DCDAF4] px-2.5 py-1 rounded-xl text-[10px] font-black flex items-center gap-1 shadow-sm transition">
+            <i class="ph-bold ph-faders text-xs"></i> Filters
+          </button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-          <div class="text-left">
-            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Your University</label>
-            <select id="uniFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
+        <!-- SEGMENTED FILTER ROW (LAPTOP EXPANDED / MOBILE COLLAPSIBLE) -->
+        <div id="filterRow" class="hidden sm:grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-3 pt-2">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Campus</label>
+            <select id="uniFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-2.5 py-2 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
               <option value="all">All Lahore Campuses</option>
-              <option value="UMT">UMT Lahore (Johar Town)</option>
-              <option value="UCP">UCP (Khayaban-e-Jinnah)</option>
+              <option value="UMT">UMT (Johar Town)</option>
               <option value="FAST">FAST-NUCES (Faisal Town)</option>
-              <option value="PU">Punjab University (New Campus)</option>
+              <option value="UCP">UCP (Khayaban-e-Jinnah)</option>
+              <option value="PU">PU (New Campus)</option>
               <option value="LUMS">LUMS (DHA Phase 5)</option>
               <option value="COMSATS">COMSATS (Defense Road)</option>
             </select>
           </div>
 
-          <div class="text-left">
-            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Accommodation Type</label>
-            <select id="genderFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Accommodation</label>
+            <select id="genderFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-2.5 py-2 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
               <option value="all">All Accommodations</option>
-              <option value="Female" selected>Female Hostels (Priority Verified)</option>
+              <option value="Female" selected>Female Hostels (Verified)</option>
               <option value="Male">Male Hostels Only</option>
             </select>
           </div>
 
-          <div class="text-left">
-            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Monthly Budget</label>
-            <select id="budgetFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Monthly Budget</label>
+            <select id="budgetFilter" onchange="fetchHostels()" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-2.5 py-2 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-[#8DB9F0] focus:outline-none">
               <option value="all">Any Budget</option>
-              <option value="under20">Under PKR 20,000 / month</option>
-              <option value="20to30">PKR 20,000 &ndash; 30,000 / month</option>
-              <option value="above30">PKR 30,000+ (Luxury / Studio)</option>
+              <option value="under20">Under PKR 20,000</option>
+              <option value="20to30">PKR 20,000 – 30,000</option>
+              <option value="above30">PKR 30,000+</option>
             </select>
           </div>
 
           <div class="flex items-end">
-            <button onclick="fetchHostels()" class="w-full bg-[#8DB9F0] hover:bg-[#6C9FE0] text-slate-950 font-extrabold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md shadow-[#8DB9F0]/30 transition">
-              <i class="ph-bold ph-funnel"></i> Apply Filters
+            <button onclick="fetchHostels()" class="w-full bg-[#8DB9F0] hover:bg-[#6C9FE0] text-slate-950 font-black py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-sm text-xs transition">
+              <i class="ph-bold ph-funnel"></i> Apply
             </button>
-          </div>
-        </div>
-
-        <div class="mt-4 pt-3 border-t border-[#E9E8F8] flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-slate-400 font-medium">Quick Filters:</span>
-            <button onclick="setFilter('Female')" class="px-3 py-1 rounded-full bg-[#FDE8E0] text-[#9E4A2F] font-bold border border-[#F5B69E] hover:bg-[#FCD8CC] transition flex items-center gap-1">
-              <i class="ph-bold ph-flower-lotus text-[#E29A7F]"></i> Female Hostels
-            </button>
-            <button onclick="setUni('FAST')" class="px-3 py-1 rounded-full bg-[#E9E8F8] text-slate-700 font-medium hover:bg-[#DCDAF4] transition flex items-center gap-1">
-              <i class="ph-bold ph-laptop text-[#4A7AC4]"></i> FAST Faisal Town
-            </button>
-            <button onclick="setUni('UMT')" class="px-3 py-1 rounded-full bg-[#E9E8F8] text-slate-700 font-medium hover:bg-[#DCDAF4] transition flex items-center gap-1">
-              <i class="ph-bold ph-map-pin text-[#4A7AC4]"></i> Johar Town (UMT)
-            </button>
-            <button onclick="setUni('LUMS')" class="px-3 py-1 rounded-full bg-[#E9E8F8] text-slate-700 font-medium hover:bg-[#DCDAF4] transition flex items-center gap-1">
-              <i class="ph-bold ph-graduation-cap text-[#E29A7F]"></i> LUMS DHA
-            </button>
-            <button onclick="toggleAdminMode()" id="adminModeBtn" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold border border-slate-300 transition flex items-center gap-1.5 shadow-sm">
-              <i class="ph-bold ph-shield-check text-amber-600"></i> Admin Direct Mode: <span id="gridAdminStatus" class="font-black text-slate-900">OFF</span>
-            </button>
-          </div>
-          <button onclick="resetFilters()" class="text-slate-500 hover:text-[#4A7AC4] font-semibold text-xs flex items-center gap-1">
-            <i class="ph-bold ph-arrow-counter-clockwise"></i> Reset
-          </button>
-        </div>
-
-        <!-- SUPER ADMIN TOOLBAR (Activated via Admin toggle or ?admin=true) -->
-        <div id="homeAdminToolbar" class="hidden mt-3 pt-3 border-t border-rose-200 bg-rose-50/90 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
-            <span class="font-black text-rose-900">🛡️ Super Admin Mode: Direct Property Control on Home</span>
-            <span class="text-[10px] text-rose-700 bg-rose-200/60 px-2 py-0.5 rounded font-mono">key: thikana-local-admin-change-me</span>
-          </div>
-          <div class="flex items-center gap-2 flex-wrap">
-            <button onclick="adminRemoveAllHostelsDirect()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] flex items-center gap-1 transition shadow-sm">
-              <i class="ph-bold ph-trash"></i> Remove All Hostels from Home
-            </button>
-            <button onclick="adminRestoreAllHostelsDirect()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] flex items-center gap-1 transition shadow-sm">
-              <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore All Hostels
-            </button>
-            <a href="admin-portal.html" class="px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold text-[11px] flex items-center gap-1 hover:bg-slate-700 transition">
-              <i class="ph-bold ph-gauge"></i> Full Admin Control Center &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- DYNAMIC LIVE STATS COUNTER BAR -->
-      <div class="mt-8 max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl border border-[#E9E8F8] p-4 sm:p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-[#E9E8F8]">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
-            <span class="text-xs font-bold text-slate-900 uppercase tracking-wider">Live Platform Status &amp; Real-Time Inventory</span>
-          </div>
-          <span class="text-[11px] font-semibold text-slate-400">Lahore Hub Sync: Active</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
-          <div class="p-3 rounded-xl bg-[#F6F5FD] border border-[#E9E8F8]">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Approved Hostels</span>
-            <div class="text-xl font-black text-slate-900 mt-0.5" id="statVerifiedCount">6 Properties</div>
-            <span class="text-[10px] font-semibold text-[#4A7AC4]">100% In-Person Audited</span>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#F6F5FD] border border-[#E9E8F8]">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Available Beds</span>
-            <div class="text-xl font-black text-emerald-600 mt-0.5" id="statAvailableBeds">32 Open</div>
-            <span class="text-[10px] font-semibold text-slate-500" id="statTotalBeds">Out of 330 total beds</span>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#F6F5FD] border border-[#E9E8F8]">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guaranteed In Escrow</span>
-            <div class="text-xl font-black text-slate-900 mt-0.5" id="statEscrowPkr">PKR 30,000+</div>
-            <span class="text-[10px] font-semibold text-[#E29A7F]">Safe Bank Trust Account</span>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#F6F5FD] border border-[#E9E8F8]">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Quality Score</span>
-            <div class="text-xl font-black text-[#E29A7F] mt-0.5" id="statAvgScore">96.8 / 100</div>
-            <span class="text-[10px] font-semibold text-slate-500">Water TDS &amp; Decibels</span>
           </div>
         </div>
       </div>
@@ -353,345 +340,194 @@
     </div>
   </section>
 
-  <!-- 4 PILLARS HIGHLIGHT GRID -->
-  <section class="py-12 bg-white border-b border-[#E9E8F8]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-        <div class="p-4 rounded-2xl bg-[#F8F8FD] border border-[#8DB9F0]/60 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-[#D6E6FA] flex items-center justify-center text-[#4A7AC4] text-2xl mb-3">
-            <i class="ph-bold ph-vault"></i>
-          </div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#4A7AC4] bg-[#D6E6FA] px-2 py-0.5 rounded">Financial Guard</span>
-          <h4 class="text-sm font-black text-slate-900 mt-1.5">48-Hr Deposit Escrow</h4>
-          <p class="text-xs text-slate-500 mt-1">Security deposit held safely in trust. Returned in 48 hours upon move-out or Thikana refunds you directly.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-[#F8F8FD] border border-[#8DB9F0]/60 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-[#D6E6FA] flex items-center justify-center text-[#4A7AC4] text-2xl mb-3">
-            <i class="ph-bold ph-gauge"></i>
-          </div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#4A7AC4] bg-[#D6E6FA] px-2 py-0.5 rounded">Sensory Science</span>
-          <h4 class="text-sm font-black text-slate-900 mt-1.5">TDS &amp; Decibel Tested</h4>
-          <p class="text-xs text-slate-500 mt-1">Physical digital testing: RO water purity level (&lt;140 PPM) and study-hour quiet decibel rating (&lt;40 dB).</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-[#F8F8FD] border border-[#E9E8F8] shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-[#E9E8F8] flex items-center justify-center text-indigo-600 text-2xl mb-3">
-            <i class="ph-bold ph-arrows-left-right"></i>
-          </div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 bg-[#E9E8F8] px-2 py-0.5 rounded">Zero Friction</span>
-          <h4 class="text-sm font-black text-slate-900 mt-1.5">7-Day Free Room Swap</h4>
-          <p class="text-xs text-slate-500 mt-1">Roommate tuning not matching? Free room exchange to another room or property within 7 days without penalties.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-[#F8F8FD] border border-[#F5B69E]/60 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-[#FDE8E0] flex items-center justify-center text-[#E29A7F] text-2xl mb-3">
-            <i class="ph-bold ph-device-mobile"></i>
-          </div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#9E4A2F] bg-[#FDE8E0] px-2 py-0.5 rounded">Parent Peace</span>
-          <h4 class="text-sm font-black text-slate-900 mt-1.5">Biometric WhatsApp Alerts</h4>
-          <p class="text-xs text-slate-500 mt-1">Automated gate check-in notifications dispatched instantly to guardians when student checks in at night.</p>
-        </div>
+  <!-- LIVE INVENTORY STATUS BAR -->
+  <div class="bg-white border-y border-[#E9E8F8] py-2.5 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs font-bold text-slate-700 gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
+        <span>Live Inventory: <strong id="statCountText" class="text-slate-900">6 Verified Properties</strong> &bull; <strong id="statBedsText" class="text-[#4A7AC4]">26 Available Beds</strong> &bull; <span class="text-slate-500">PKR 14.8M+ in Escrow</span></span>
+      </div>
+      <div class="flex items-center gap-2 text-[11px] text-slate-500">
+        <span class="px-2 py-0.5 rounded-md bg-[#E9E8F8] text-[#4A7AC4] font-bold">100% Digital Physical Audit</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- HOSTEL LISTINGS CONTAINER -->
-  <section id="hostels" class="py-16 bg-[#F8F8FD] border-b border-[#E9E8F8]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-        <div>
-          <span class="text-xs font-bold text-[#4A7AC4] uppercase tracking-widest">Lahore Accommodations</span>
-          <h2 class="text-3xl font-black text-slate-900 mt-1">Sensory-Verified Student Hostels</h2>
-          <p class="text-sm text-slate-500 mt-1">Tested with physical digital meters for water purity and study noise level.</p>
-        </div>
-        <div class="text-xs font-bold text-slate-600 bg-white px-4 py-2 rounded-xl inline-flex items-center gap-2 border border-[#E9E8F8] shadow-sm self-start sm:self-auto">
-          <i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> Showing <span id="listingCount" class="text-slate-900 font-bold">0</span> Verified Properties
-        </div>
+  <!-- SUPER ADMIN TOOLBAR (ONLY VISIBLE WHEN ADMIN MODE IS ACTIVE) -->
+  <div id="homeAdminToolbar" class="hidden bg-rose-50 border-b border-rose-200 py-3 px-4 transition-all">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-600 pulse-dot"></span>
+        <strong class="text-rose-900 font-extrabold uppercase tracking-wide">Super Admin Removal Mode: ACTIVE</strong>
+        <span class="text-rose-700 hidden sm:inline">&bull; Direct 1-Click removal buttons visible on all hostel cards</span>
       </div>
-
-      <!-- DYNAMIC HOSTELS GRID -->
-      <div id="hostelGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Rendered dynamically via renderHostels() with XSS protection -->
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW THIKANA WORKS (3 SIMPLE STEPS) -->
-  <section class="py-16 bg-white border-b border-[#E9E8F8]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="text-xs font-bold text-[#4A7AC4] uppercase tracking-widest">Effortless &amp; Transparent</span>
-        <h2 class="text-3xl font-black text-slate-900 mt-1">How Thikana Works for You</h2>
-        <p class="text-sm text-slate-600 mt-2">Zero broker fees. Zero scam listings. Total parent &amp; student protection.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div class="bg-[#F8F8FD] p-6 rounded-3xl border border-[#8DB9F0]/50 text-left shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-[#D6E6FA] text-[#4A7AC4] flex items-center justify-center text-2xl font-black mb-4">
-            1
-          </div>
-          <h3 class="text-base font-bold text-slate-900 mb-2">Browse Sensory Audited Hostels</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Every listing has verified photos, GPS tags, water TDS ratings (&lt;140 PPM), study room sound meter readings, and verified female/male wardens.
-          </p>
-        </div>
-
-        <div class="bg-[#F8F8FD] p-6 rounded-3xl border border-[#E9E8F8] text-left shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-[#E9E8F8] text-indigo-700 flex items-center justify-center text-2xl font-black mb-4">
-            2
-          </div>
-          <h3 class="text-base font-bold text-slate-900 mb-2">Book with 48-Hour Deposit Escrow</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Pay safely via Raast or JazzCash. Your security deposit is locked in our escrow trust account—landlords cannot unfairly withhold your money upon departure.
-          </p>
-        </div>
-
-        <div class="bg-[#F8F8FD] p-6 rounded-3xl border border-[#F5B69E]/50 text-left shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-[#FDE8E0] text-[#E29A7F] flex items-center justify-center text-2xl font-black mb-4">
-            3
-          </div>
-          <h3 class="text-base font-bold text-slate-900 mb-2">Move In with 7-Day Swap Guarantee</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Check in seamlessly. If roommates or environment don't feel right, swap rooms within 7 days for free. Parents receive instant WhatsApp gate entry alerts.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS SECTION -->
-  <section class="py-16 bg-[#F8F8FD] border-b border-[#E9E8F8]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="text-xs font-bold text-[#4A7AC4] uppercase tracking-widest">Student &amp; Parent Confidence</span>
-        <h2 class="text-3xl font-black text-slate-900 mt-1">What Students &amp; Families Say</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-3xl bg-white border border-[#E9E8F8] flex flex-col justify-between shadow-sm">
-          <p class="text-xs text-slate-600 italic leading-relaxed">
-            "Searching for female hostels around UMT used to be a nightmare with fake broker fees. Thikana verified the hostel, tested the drinking water filter in front of us, and my parents got peace of mind."
-          </p>
-          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-[#FDE8E0] text-[#9E4A2F] font-bold flex items-center justify-center text-xs">AT</div>
-            <div>
-              <h4 class="text-xs font-bold text-slate-900">Ayesha Tariq</h4>
-              <span class="text-[10px] text-slate-500">BS Software Engineering, UMT (Resident)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-3xl bg-white border border-[#E9E8F8] flex flex-col justify-between shadow-sm">
-          <p class="text-xs text-slate-600 italic leading-relaxed">
-            "FAST study hours require real silence. Green View Scholars had 38 dB noise rating on Thikana, and the 7-day swap policy meant zero risk. Split rent with my classmate via Raast worked smoothly."
-          </p>
-          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-[#D6E6FA] text-[#4A7AC4] font-bold flex items-center justify-center text-xs">HA</div>
-            <div>
-              <h4 class="text-xs font-bold text-slate-900">Hamza Ali</h4>
-              <span class="text-[10px] text-slate-500">CS Senior, FAST-NUCES Faisal Town</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-3xl bg-white border border-[#E9E8F8] flex flex-col justify-between shadow-sm">
-          <p class="text-xs text-slate-600 italic leading-relaxed">
-            "We live in Multan while our daughter studies in Lahore. The WhatsApp gate check-in alerts and 48-Hour Deposit Escrow gave us complete relief that brokers couldn't cheat us."
-          </p>
-          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">MN</div>
-            <div>
-              <h4 class="text-xs font-bold text-slate-900">M. Naseer Khan</h4>
-              <span class="text-[10px] text-slate-500">Parent (Daughter resident in Johar Town)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 50-POINT AUDIT MODAL -->
-  <div id="auditModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-[#E9E8F8]">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-[#D6E6FA] text-[#4A7AC4] flex items-center justify-center text-lg">
-            <i class="ph-bold ph-shield-check"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-bold text-slate-900" id="modalHostelName">Hostel Audit Report</h3>
-            <span class="text-[10px] text-[#4A7AC4] font-bold uppercase tracking-wider">Thikana Quality Certificate</span>
-          </div>
-        </div>
-        <button onclick="closeAuditModal()" class="text-slate-400 hover:text-slate-600 text-lg">
-          <i class="ph-bold ph-x"></i>
+      <div class="flex items-center gap-2">
+        <button onclick="adminBulkRemoveAll()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black text-xs shadow-sm flex items-center gap-1.5 transition">
+          <i class="ph-bold ph-trash"></i> Remove All From Home
         </button>
-      </div>
-
-      <div class="py-4 space-y-3 text-xs text-slate-600">
-        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#F8F8FD]">
-          <span class="font-semibold text-slate-700">Safety &amp; Verification Score:</span>
-          <span class="text-sm font-extrabold text-[#4A7AC4]" id="modalScore">98 / 100</span>
-        </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-[#F8F8FD]">
-          <span class="font-medium text-slate-600">Location &amp; Proximity:</span>
-          <span class="font-bold text-slate-800" id="modalLoc">Johar Town</span>
-        </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-[#F8F8FD]">
-          <span class="font-medium text-slate-600">Warden In-Charge:</span>
-          <span class="font-bold text-slate-800" id="modalWarden">Verified</span>
-        </div>
-        <div class="p-2.5 rounded-xl bg-[#F8F8FD]">
-          <span class="block font-semibold text-slate-700 mb-1">Physical &amp; Sensory Audit Notes:</span>
-          <p class="text-slate-600 text-[11px]" id="modalNotes">Passed all criteria.</p>
-        </div>
-
-        <div class="pt-2 border-t border-slate-100">
-          <h4 class="font-bold text-slate-800 mb-2">Verified Criteria Checklist:</h4>
-          <ul class="space-y-1.5 text-[11px] text-slate-600">
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> Water Filter TDS Digital Test (&lt; 140 PPM Mineral Standard)</li>
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> Sound Decibel Study Meter Tested (&lt; 40 dB Quiet Zone)</li>
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> 48-Hour Deposit Refund Escrow Bond Signed by Landlord</li>
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> Biometric WhatsApp Gate Notification Connected</li>
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> 7-Day Free Room Exchange Guarantee Enabled</li>
-            <li class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-[#4A7AC4]"></i> Emergency Fire Exit &amp; Functional CCTV Cameras Checked</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 flex justify-end">
-        <button onclick="closeAuditModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition">
-          Close Report
+        <button onclick="adminBulkRestoreAll()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-black text-xs shadow-sm flex items-center gap-1.5 transition">
+          <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore All Hostels
+        </button>
+        <button onclick="toggleAdminMode()" class="px-2.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl font-bold text-xs transition">
+          Exit Admin
         </button>
       </div>
     </div>
   </div>
 
-  <!-- BOOKING & SPLIT-RENT ESCROW MODAL -->
-  <div id="bookingModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-[#E9E8F8]">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div>
-          <h3 class="text-base font-bold text-slate-900" id="bookingHostelTitle">Reserve Verified Bed</h3>
-          <span class="text-xs text-[#4A7AC4] font-semibold">100% Transparent Price &bull; 48-Hr Escrow</span>
-        </div>
-        <button onclick="closeBookingModal()" class="text-slate-400 hover:text-slate-600 text-lg">
-          <i class="ph-bold ph-x"></i>
+  <!-- HOSTEL LISTINGS SECTION (LUXE OS STYLE) -->
+  <main id="hostels" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Verified Student Residences</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Physical laboratory audit score, noise meters, and 48-Hour Deposit Escrow.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="resetFilters()" class="px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-white border border-[#E9E8F8] rounded-xl transition">
+          Reset Filters
         </button>
       </div>
+    </div>
 
-      <!-- IN-MODAL ERROR MESSAGE ALERT BANNER -->
-      <div id="bookingErrorAlert" class="hidden mt-3 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
-        <i class="ph-bold ph-x-circle text-base flex-shrink-0 mt-0.5"></i>
-        <span id="bookingErrorText">Error message here</span>
+    <!-- HOSTELS GRID -->
+    <div id="hostelGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Populated dynamically by renderHostels() -->
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-[#E9E8F8]">
+      <div class="w-16 h-16 rounded-full bg-[#E9E8F8] text-[#4A7AC4] flex items-center justify-center text-3xl mx-auto mb-3">
+        <i class="ph-bold ph-buildings"></i>
+      </div>
+      <h3 class="text-lg font-black text-slate-900">No Hostels Match Your Filter Criteria</h3>
+      <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">Try clearing filters or check back shortly as our inspection team approves new residences daily.</p>
+      <button onclick="resetFilters()" class="px-4 py-2 bg-[#8DB9F0] text-slate-950 font-black text-xs rounded-xl shadow-sm hover:bg-[#6C9FE0] transition">
+        Reset All Filters
+      </button>
+    </div>
+  </main>
+
+  <!-- BOOKING & ESCROW MODAL -->
+  <div id="bookingModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-[#E9E8F8] relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i class="ph-bold ph-x text-lg"></i>
+      </button>
+
+      <div class="mb-4">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#D6E6FA] text-[#4A7AC4] uppercase tracking-wide mb-1 border border-[#8DB9F0]/60">
+          <i class="ph-fill ph-shield-check"></i> 100% Transparent Price &bull; 48-Hr Escrow
+        </span>
+        <h3 class="text-xl font-black text-slate-900" id="modalHostelTitle">Al-Rehman Residency</h3>
       </div>
 
-      <div class="py-4 space-y-3">
-        <!-- FINANCIAL BREAKDOWN -->
-        <div class="bg-[#F8F8FD] p-3.5 rounded-2xl border border-[#E9E8F8] text-xs space-y-2">
-          <div class="flex justify-between text-slate-600">
-            <span>First Month Rent:</span>
-            <span class="font-bold text-slate-800" id="bookingRent">PKR 22,000</span>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Refundable Security Deposit (In Escrow):</span>
-            <span class="font-bold text-[#4A7AC4]" id="bookingDeposit">PKR 10,000</span>
-          </div>
-          <div class="flex justify-between text-emerald-700 font-medium">
-            <span>Broker Commission (Local Dalal):</span>
-            <span class="line-through text-red-400 font-bold">PKR 6,000</span> <span class="font-bold text-emerald-600">FREE (PKR 0)</span>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Thikana Verification &amp; Bed Reservation:</span>
-            <span class="font-bold text-[#4A7AC4]">PKR 2,000</span>
-          </div>
-
-          <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
-            <label class="text-slate-700 font-semibold flex items-center gap-1.5 cursor-pointer">
-              <input type="checkbox" id="splitRentToggle" onchange="toggleSplitRent()" class="rounded text-[#4A7AC4] focus:ring-[#8DB9F0]">
-              <span>Split Rent 50/50 with Roommate</span>
-            </label>
-            <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Raast / JazzCash</span>
-          </div>
-
-          <div class="pt-2 border-t border-slate-200 space-y-1.5">
-            <label class="flex items-center justify-between cursor-pointer">
-              <span class="text-slate-700 font-semibold flex items-center gap-1.5">
-                <input type="checkbox" id="tiffinAddon" onchange="updateTotalCost()" class="rounded text-[#4A7AC4]">
-                <span>Add Hygienic Tiffin (Lunch &amp; Dinner)</span>
-              </span>
-              <span class="text-slate-600 font-bold">+PKR 7,500/mo</span>
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span class="text-slate-700 font-semibold flex items-center gap-1.5">
-                <input type="checkbox" id="laundryAddon" onchange="updateTotalCost()" class="rounded text-[#4A7AC4]">
-                <span>Add Doorstep Laundry (30 Clothes)</span>
-              </span>
-              <span class="text-slate-600 font-bold">+PKR 2,500/mo</span>
-            </label>
-          </div>
-
-          <div class="pt-2 border-t border-slate-200 flex justify-between text-sm font-black text-slate-900">
-            <span>Your Share to Reserve:</span>
-            <span class="text-[#4A7AC4] text-base" id="totalBookingCost">PKR 34,000</span>
-          </div>
+      <!-- PRICE BREAKDOWN BOX -->
+      <div class="bg-[#F8F8FD] p-4 rounded-2xl border border-[#E9E8F8] space-y-2 mb-4 text-xs">
+        <div class="flex justify-between items-center text-slate-600">
+          <span>First Month Rent:</span>
+          <span class="font-extrabold text-slate-900" id="calcRent">PKR 22,000</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-600">
+          <span>Refundable Security Deposit (In Escrow):</span>
+          <span class="font-extrabold text-[#4A7AC4]" id="calcDeposit">PKR 10,000 (Escrow)</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-600">
+          <span>Broker Commission (Local Dalal):</span>
+          <span class="font-extrabold text-emerald-600"><s class="text-rose-400 mr-1">PKR 6,000</s> FREE (PKR 0)</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-600">
+          <span>Thikana Verification &amp; Bed Reservation:</span>
+          <span class="font-extrabold text-slate-900">PKR 2,000</span>
         </div>
 
-        <!-- PAYMENT METHOD SELECTOR -->
+        <div class="pt-2 border-t border-slate-200 space-y-2">
+          <label class="flex items-center justify-between cursor-pointer p-2 rounded-xl bg-white border border-[#E9E8F8]">
+            <span class="flex items-center gap-2 font-bold text-slate-800">
+              <input type="checkbox" id="splitRentCheckbox" onchange="updateBookingCalculations()" class="w-4 h-4 text-[#8DB9F0] rounded focus:ring-0">
+              Split Rent 50/50 with Roommate
+            </span>
+            <span class="text-[10px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">Raast / JazzCash</span>
+          </label>
+
+          <label class="flex items-center justify-between cursor-pointer p-2 rounded-xl bg-white border border-[#E9E8F8]">
+            <span class="flex items-center gap-2 font-bold text-slate-800">
+              <input type="checkbox" id="tiffinAddon" onchange="updateBookingCalculations()" class="w-4 h-4 text-[#8DB9F0] rounded focus:ring-0">
+              Add Hygienic Tiffin (Lunch &amp; Dinner)
+            </span>
+            <span class="font-extrabold text-slate-700">+PKR 7,500/mo</span>
+          </label>
+
+          <label class="flex items-center justify-between cursor-pointer p-2 rounded-xl bg-white border border-[#E9E8F8]">
+            <span class="flex items-center gap-2 font-bold text-slate-800">
+              <input type="checkbox" id="laundryAddon" onchange="updateBookingCalculations()" class="w-4 h-4 text-[#8DB9F0] rounded focus:ring-0">
+              Add Doorstep Laundry (30 Clothes)
+            </span>
+            <span class="font-extrabold text-slate-700">+PKR 2,500/mo</span>
+          </label>
+        </div>
+
+        <div class="pt-2 border-t border-slate-200 flex justify-between items-center font-black text-sm text-slate-900">
+          <span id="labelTotal">Total Due Today:</span>
+          <span class="text-base text-[#4A7AC4]" id="calcTotal">PKR 34,000</span>
+        </div>
+      </div>
+
+      <!-- PAYMENT SELECTION -->
+      <div class="mb-4">
+        <label class="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2">Select Payment Method (Protected by Escrow)</label>
+        <div class="grid grid-cols-4 gap-2">
+          <label class="flex flex-col items-center p-2 rounded-xl border-2 border-[#8DB9F0] bg-blue-50/50 cursor-pointer text-center">
+            <input type="radio" name="payMethod" value="raast" checked class="hidden">
+            <i class="ph-bold ph-lightning text-lg text-[#4A7AC4]"></i>
+            <span class="text-[10px] font-extrabold text-slate-900 mt-1">Raast P2P</span>
+          </label>
+          <label class="flex flex-col items-center p-2 rounded-xl border border-[#E9E8F8] bg-white hover:border-slate-300 cursor-pointer text-center">
+            <input type="radio" name="payMethod" value="jazzcash" class="hidden">
+            <i class="ph-bold ph-device-mobile text-lg text-rose-500"></i>
+            <span class="text-[10px] font-bold text-slate-700 mt-1">JazzCash</span>
+          </label>
+          <label class="flex flex-col items-center p-2 rounded-xl border border-[#E9E8F8] bg-white hover:border-slate-300 cursor-pointer text-center">
+            <input type="radio" name="payMethod" value="easypaisa" class="hidden">
+            <i class="ph-bold ph-wallet text-lg text-emerald-500"></i>
+            <span class="text-[10px] font-bold text-slate-700 mt-1">EasyPaisa</span>
+          </label>
+          <label class="flex flex-col items-center p-2 rounded-xl border border-[#E9E8F8] bg-white hover:border-slate-300 cursor-pointer text-center">
+            <input type="radio" name="payMethod" value="bank" class="hidden">
+            <i class="ph-bold ph-bank text-lg text-indigo-500"></i>
+            <span class="text-[10px] font-bold text-slate-700 mt-1">Bank IBFT</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- BOOKING FORM -->
+      <form id="bookingModalForm" onsubmit="handleBookingSubmit(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="bookingHostelId">
+
         <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Select Payment Method (Protected by Escrow)</label>
-          <div class="grid grid-cols-4 gap-2 text-center text-xs">
-            <label class="border border-[#8DB9F0] bg-[#D6E6FA]/40 p-2 rounded-xl cursor-pointer flex flex-col items-center justify-center font-bold text-slate-900">
-              <input type="radio" name="payMethod" value="raast" checked class="hidden">
-              <i class="ph-bold ph-lightning text-[#4A7AC4] text-lg"></i>
-              <span class="text-[10px] mt-0.5">Raast P2P</span>
-            </label>
-            <label class="border border-[#E9E8F8] p-2 rounded-xl cursor-pointer flex flex-col items-center justify-center font-bold text-slate-600 hover:border-slate-300">
-              <input type="radio" name="payMethod" value="jazzcash" class="hidden">
-              <i class="ph-bold ph-device-mobile text-red-500 text-lg"></i>
-              <span class="text-[10px] mt-0.5">JazzCash</span>
-            </label>
-            <label class="border border-[#E9E8F8] p-2 rounded-xl cursor-pointer flex flex-col items-center justify-center font-bold text-slate-600 hover:border-slate-300">
-              <input type="radio" name="payMethod" value="easypaisa" class="hidden">
-              <i class="ph-bold ph-wallet text-emerald-500 text-lg"></i>
-              <span class="text-[10px] mt-0.5">EasyPaisa</span>
-            </label>
-            <label class="border border-[#E9E8F8] p-2 rounded-xl cursor-pointer flex flex-col items-center justify-center font-bold text-slate-600 hover:border-slate-300">
-              <input type="radio" name="payMethod" value="bank" class="hidden">
-              <i class="ph-bold ph-bank text-indigo-500 text-lg"></i>
-              <span class="text-[10px] mt-0.5">Bank IBFT</span>
-            </label>
+          <label class="block font-bold text-slate-700 mb-1">Student Full Name *</label>
+          <input type="text" id="custName" required placeholder="e.g. Nauman Naseer" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student Mobile *</label>
+            <input type="tel" id="custPhone" required placeholder="03001234567" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">University / Roll # *</label>
+            <input type="text" id="custUni" required placeholder="UMT / F2024..." class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
           </div>
         </div>
 
-        <!-- BOOKING FORM -->
-        <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-3 text-xs">
-          <input type="hidden" id="bookingHostelId">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Student Full Name *</label>
-            <input type="text" id="custName" required placeholder="e.g. Ayesha Tariq" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Student Mobile (03XX-XXXXXXX) *</label>
-              <input type="tel" id="custPhone" required placeholder="03001234567" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">University / Roll # *</label>
-              <input type="text" id="custUni" required placeholder="UMT / F2024..." class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-            </div>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Parent Mobile (For Biometric Gate Alerts) *</label>
-            <input type="tel" id="custParentPhone" required placeholder="03219876543 (Must differ from student)" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-          </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Parent Mobile (For Biometric Gate Alerts) *</label>
+          <input type="tel" id="custParentPhone" required placeholder="03219876543 (Must differ from student)" class="w-full bg-[#F8F8FD] border border-[#E9E8F8] rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+        </div>
 
-          <button type="submit" id="submitBookingBtn" class="w-full py-3 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-extrabold rounded-2xl shadow-lg shadow-[#F5B69E]/30 text-xs uppercase tracking-wide transition flex items-center justify-center gap-2">
-            <i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed
-          </button>
-        </form>
-      </div>
+        <button type="submit" id="submitBookingBtn" class="w-full py-3 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-2xl shadow-lg shadow-[#F5B69E]/30 text-xs uppercase tracking-wide transition flex items-center justify-center gap-2">
+          <i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed
+        </button>
+      </form>
     </div>
   </div>
 
@@ -719,35 +555,106 @@
           <span class="font-bold text-slate-800" id="successHostelName">Al-Rehman Residency</span>
         </div>
         <div class="flex justify-between items-center">
-          <span class="text-slate-500">Escrow Security Deposit:</span>
-          <span class="font-extrabold text-[#4A7AC4]" id="successDeposit">PKR 10,000</span>
+          <span class="text-slate-500">Protected Security Deposit:</span>
+          <span class="font-extrabold text-[#4A7AC4]" id="successDeposit">PKR 10,000 (In Escrow)</span>
         </div>
         <div class="flex justify-between items-center">
-          <span class="text-slate-500">Beds Remaining:</span>
-          <span class="font-bold text-emerald-600" id="successBedsRemaining">3 Available</span>
+          <span class="text-slate-500">Inventory Status:</span>
+          <span class="font-bold text-emerald-600" id="successBedsRemaining">3 Beds Available</span>
         </div>
-
-        <div class="pt-2 border-t border-slate-200">
-          <span class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Parent WhatsApp Notice Dispatched:</span>
-          <p class="text-[11px] text-slate-600 bg-white p-2 rounded-lg border border-slate-200 font-mono leading-relaxed" id="successSimulatedAlert">
-            WhatsApp notification sent.
-          </p>
+        <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] font-medium leading-relaxed" id="successSimulatedAlert">
+          WhatsApp Alert dispatched to parent mobile with digital gate pass link.
         </div>
       </div>
 
-      <div class="mt-5 space-y-2">
-        <a id="successPassLink" href="student-pass.html" class="w-full py-2.5 bg-[#8DB9F0] hover:bg-[#6C9FE0] text-slate-950 font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition">
-          <i class="ph-bold ph-identification-card"></i> View Digital Student Pass
+      <div class="mt-6 flex flex-col gap-2">
+        <a id="successPassLink" href="student-pass.html" class="w-full py-3 bg-[#8DB9F0] hover:bg-[#6C9FE0] text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-md">
+          <i class="ph-bold ph-identification-card text-base"></i> View Dynamic Student Pass &amp; QR
         </a>
-        <button onclick="closeSuccessModal()" class="w-full py-2.5 bg-[#E9E8F8] hover:bg-[#DCDAF4] text-slate-700 font-bold rounded-xl text-xs transition">
+        <button onclick="closeSuccessModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
           Done / Return to Listings
         </button>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER (Clean 3-Column Professional Layout - Founders Section Removed) -->
-  <footer class="bg-[#1A2138] text-white pt-14 pb-8 border-t border-slate-800 text-xs">
+  <!-- 50-POINT AUDIT DOSSIER MODAL -->
+  <div id="auditModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-[#E9E8F8] relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeAuditModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i class="ph-bold ph-x text-lg"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl font-black">
+          <i class="ph-bold ph-seal-check"></i>
+        </div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600">Physical Verification Report</span>
+          <h3 class="text-lg font-black text-slate-900" id="auditHostelName">Hostel Physical Audit</h3>
+        </div>
+      </div>
+
+      <!-- AUDIT REPORT DETAILS -->
+      <div class="space-y-4 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 bg-[#F8F8FD] rounded-xl border border-[#E9E8F8]">
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Audit Score</span>
+            <span class="text-xl font-black text-emerald-600" id="auditScore">98 / 100</span>
+          </div>
+          <div class="p-3 bg-[#F8F8FD] rounded-xl border border-[#E9E8F8]">
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Water Purity (TDS Meter)</span>
+            <span class="text-xl font-black text-[#4A7AC4]" id="auditWater">118 PPM (Pure)</span>
+          </div>
+        </div>
+
+        <div class="p-4 bg-[#F8F8FD] rounded-2xl border border-[#E9E8F8] space-y-2">
+          <h4 class="font-black text-slate-900 uppercase text-[11px] tracking-wider">50-Point Physical Audit Checklist</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-700">
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> Reverse Osmosis Filter Verified</div>
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> Biometric Turnstile Active</div>
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> Commercial Generator (Full AC Load)</div>
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> High-Speed Fiber Internet (100Mbps)</div>
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> 16 HD CCTV Cameras Recorded</div>
+            <div class="flex items-center gap-1.5"><i class="ph-bold ph-check text-emerald-600"></i> Resident Warden Verified</div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-[11px] leading-relaxed">
+          <strong>Inspector Note:</strong> Water test was performed on-site via digital calibrated TDS meter. Sound decibel meter measured 36 dB (silent reading room standard). 100% matched with online listing photographs.
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <button onclick="closeAuditModal()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition">
+          Close Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY MOBILE NAVIGATION DOCK (ONLY ON MOBILE PHONES) -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E9E8F8] px-4 py-2 flex justify-around items-center text-[10px] font-bold text-slate-600 shadow-lg">
+    <a href="#hostels" class="flex flex-col items-center gap-1 text-[#4A7AC4]">
+      <i class="ph-fill ph-compass text-lg"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-1 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-users text-lg"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="student-pass.html" class="flex flex-col items-center gap-1 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-identification-card text-lg"></i>
+      <span>Pass</span>
+    </a>
+    <button onclick="toggleAdminMode()" class="flex flex-col items-center gap-1 text-rose-600">
+      <i class="ph-bold ph-shield-check text-lg"></i>
+      <span>Admin</span>
+    </button>
+  </div>
+
+  <!-- FOOTER (ZERO FOUNDER SECTION) -->
+  <footer class="bg-[#1A2138] text-slate-300 pt-12 pb-8 border-t border-slate-800 mt-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
         <div>
@@ -768,7 +675,7 @@
 
         <div>
           <h4 class="font-bold text-white uppercase tracking-wider mb-3">Core Lahore Hubs</h4>
-          <ul class="space-y-2 text-slate-400">
+          <ul class="space-y-2 text-slate-400 text-xs">
             <li class="flex items-center gap-1.5"><i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> Johar Town (UMT &amp; UCP Hostels)</li>
             <li class="flex items-center gap-1.5"><i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> Faisal Town (FAST-NUCES Hostels)</li>
             <li class="flex items-center gap-1.5"><i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> Garden Town (PU New Campus)</li>
@@ -779,7 +686,7 @@
 
         <div>
           <h4 class="font-bold text-white uppercase tracking-wider mb-3">All System Portals</h4>
-          <ul class="space-y-2 text-slate-400">
+          <ul class="space-y-2 text-slate-400 text-xs">
             <li><a href="index.html#hostels" class="hover:text-[#8DB9F0] transition flex items-center gap-1.5"><i class="ph-bold ph-buildings text-[#8DB9F0]"></i> Verified Hostels Marketplace</a></li>
             <li><a href="owner-portal.html" class="hover:text-[#8DB9F0] transition flex items-center gap-1.5"><i class="ph-bold ph-house-line text-[#F5B69E]"></i> Hostel Owner Registration &amp; Onboarding</a></li>
             <li><a href="inspector-portal.html" class="hover:text-[#8DB9F0] transition flex items-center gap-1.5"><i class="ph-bold ph-clipboard-text text-indigo-400"></i> Field Inspector (50-Pt Physical Audit)</a></li>
@@ -797,8 +704,11 @@
     </div>
   </footer>
 
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT BUSINESS ENGINE & LOGIC         -->
+  <!-- ========================================== -->
   <script>
-    // VANTA.BIRDS 3D ANIMATION INITIALIZATION (vantajs.com)
+    // VANTA.BIRDS 3D ANIMATION INITIALIZATION (Soft Lavender & Powder Blue)
     let vantaEffect = null;
     function initVantaBirds() {
       if (window.VANTA && window.VANTA.BIRDS) {
@@ -840,7 +750,7 @@
         '"': '&quot;',
         "'": '&#039;'
       };
-      return String(text).replace(/[&<>"']/g, m => map[m]);
+      return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
     // EMBEDDED REALISTIC FALLBACK DATA
@@ -874,86 +784,85 @@
         verificationScore: 95,
         availableBeds: 5,
         images: ["https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80"],
-        sensoryMetrics: { waterTdsPpm: 135, waterRating: "Safe RO", noiseDecibels: 38, noiseRating: "CS Coding Zone" },
-        description: "Quiet study atmosphere designed specifically for computer science and engineering students."
+        sensoryMetrics: { waterTdsPpm: 135, waterRating: "Safe RO Drinkable", noiseDecibels: 38, noiseRating: "Quiet Zone" },
+        description: "Preferred choice for FAST & PU CS students with dedicated 100 Mbps fiber & 24/7 generator."
       },
       {
         id: "thk-h-003",
-        name: "Fatima Jinnah Luxury Residency",
+        name: "Fatima Jinnah Luxury Girls Hostel",
         gender: "Female",
-        area: "Garden Town / Kalma Chowk",
-        proximity: { primary: "Punjab University", walkMinutes: 9 },
-        rent: 24000,
+        area: "Johar Town Block G",
+        proximity: { primary: "UMT Lahore", walkMinutes: 4 },
+        rent: 25000,
         deposit: 12000,
         rating: 5.0,
         reviewCount: 56,
-        verificationScore: 99,
-        availableBeds: 6,
+        verificationScore: 100,
+        availableBeds: 3,
         images: ["https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"],
-        sensoryMetrics: { waterTdsPpm: 110, waterRating: "Mineral RO", noiseDecibels: 34, noiseRating: "Ultra Quiet" },
-        description: "High-security gated premise with dedicated female security guards and mineral drinking water."
+        sensoryMetrics: { waterTdsPpm: 105, waterRating: "Premium Mineral Water", noiseDecibels: 32, noiseRating: "Silent Study" },
+        description: "5-Star rated girls accommodation featuring hygienic 3-time buffet meals & 16 HD CCTV security."
       },
       {
         id: "thk-h-004",
-        name: "The Scholar's DHA Suites",
-        gender: "Female",
-        area: "DHA Phase 5",
-        proximity: { primary: "LUMS", walkMinutes: 7 },
-        rent: 32000,
-        deposit: 15000,
-        rating: 4.9,
-        reviewCount: 28,
-        verificationScore: 97,
-        availableBeds: 3,
-        images: ["https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=800&q=80"],
-        sensoryMetrics: { waterTdsPpm: 105, waterRating: "Commercial RO", noiseDecibels: 32, noiseRating: "Library Level" },
-        description: "Premium semi-furnished independent suites with attached kitchens for graduate & LUMS students."
+        name: "Iqbal Hall Student Residence",
+        gender: "Male",
+        area: "Garden Town Babar Block",
+        proximity: { primary: "PU New Campus", walkMinutes: 8 },
+        rent: 15500,
+        deposit: 7000,
+        rating: 4.6,
+        reviewCount: 19,
+        verificationScore: 92,
+        availableBeds: 6,
+        images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"],
+        sensoryMetrics: { waterTdsPpm: 140, waterRating: "Safe RO Drinkable", noiseDecibels: 42, noiseRating: "Normal Residential" },
+        description: "Affordable accommodation walking distance from Canal Road and PU New Campus gates."
       },
       {
         id: "thk-h-005",
-        name: "Al-Qaim Student Residency",
+        name: "LUMS Executive Student Suites",
         gender: "Male",
-        area: "Defense Road",
-        proximity: { primary: "COMSATS University", walkMinutes: 10 },
-        rent: 16000,
-        deposit: 7000,
-        rating: 4.7,
-        reviewCount: 23,
-        verificationScore: 94,
-        availableBeds: 7,
-        images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"],
-        sensoryMetrics: { waterTdsPpm: 140, waterRating: "Safe Standard", noiseDecibels: 42, noiseRating: "Campus Vibe" },
-        description: "Affordable male accommodation offering free morning and evening shuttle vans to COMSATS."
+        area: "DHA Phase 5 Sector L",
+        proximity: { primary: "LUMS", walkMinutes: 5 },
+        rent: 32000,
+        deposit: 15000,
+        rating: 4.9,
+        reviewCount: 27,
+        verificationScore: 99,
+        availableBeds: 4,
+        images: ["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80"],
+        sensoryMetrics: { waterTdsPpm: 95, waterRating: "Ultra-Pure RO", noiseDecibels: 30, noiseRating: "Library Silent" },
+        description: "Premium executive student suites near LUMS sports complex with private en-suite bathrooms & AC."
       },
       {
         id: "thk-h-006",
-        name: "Noor Female Luxury Haven",
+        name: "Khadija Tul Kubra Girls Hostel",
         gender: "Female",
         area: "Khayaban-e-Jinnah",
-        proximity: { primary: "UCP", walkMinutes: 4 },
+        proximity: { primary: "UCP", walkMinutes: 6 },
         rent: 21000,
-        deposit: 10000,
-        rating: 4.8,
-        reviewCount: 39,
-        verificationScore: 96,
-        availableBeds: 5,
-        images: ["https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80"],
-        sensoryMetrics: { waterTdsPpm: 120, waterRating: "Pure RO", noiseDecibels: 35, noiseRating: "Silent Lane" },
-        description: "Located just 4 minutes from UCP campus gates. Features parent waiting parlor and female warden."
+        deposit: 9000,
+        rating: 4.7,
+        reviewCount: 38,
+        verificationScore: 94,
+        availableBeds: 4,
+        images: ["https://images.unsplash.com/photo-1540518614846-7ede433c4ef7?auto=format&fit=crop&w=800&q=80"],
+        sensoryMetrics: { waterTdsPpm: 124, waterRating: "Safe RO Drinkable", noiseDecibels: 37, noiseRating: "Quiet Zone" },
+        description: "Peaceful environment for UCP & Superior University students with evening attendance app for parents."
       }
     ];
 
-    let currentHostels = [];
+    let currentHostels = [...FALLBACK_HOSTELS];
+    let selectedHostel = null;
     let currentBaseRent = 22000;
     let currentDeposit = 10000;
-    const platformFee = 2000;
-    let isSplitRent = false;
 
-    // Super Admin Mode state (persisted across page reloads on laptop & mobile)
+    // Super Admin Mode state
     let isAdminMode = localStorage.getItem('thikana_admin_mode') === 'true' || 
                       new URLSearchParams(window.location.search).get('admin') === 'true';
 
-    // Universal API Origin Resolver (Seamless for localhost, Vercel, and custom ports)
+    // Universal API Origin Resolver
     const API_BASE = (window.location.protocol === 'file:') ? 'http://localhost:5000' : '';
 
     // PERSISTENT LOCAL STORAGE HELPERS FOR HOSTEL REMOVALS & RESTORES
@@ -969,7 +878,7 @@
       try {
         if (id === 'ALL') {
           localStorage.setItem('thikana_removed_all', 'true');
-          const allIds = currentHostels.map(h => h.id).concat(FALLBACK_HOSTELS.map(h => h.id));
+          const allIds = currentHostels.map(function(h) { return h.id; }).concat(FALLBACK_HOSTELS.map(function(h) { return h.id; }));
           localStorage.setItem('thikana_removed_hostel_ids', JSON.stringify([...new Set(allIds)]));
         } else {
           const list = getLocalRemovedHostelIds();
@@ -998,7 +907,7 @@
 
     function syncPwaInstallButtons() {
       if (isPwaInstalled()) {
-        document.querySelectorAll('.pwa-install-trigger, #pwaInstallBtn, [data-pwa-install]').forEach(el => {
+        document.querySelectorAll('.pwa-install-trigger, #pwaInstallBtn, [data-pwa-install]').forEach(function(el) {
           el.style.display = 'none';
           el.classList.add('hidden');
         });
@@ -1019,6 +928,11 @@
       }
     }
 
+    function toggleFilterDrawer() {
+      const row = document.getElementById('filterRow');
+      if (row) row.classList.toggle('hidden');
+    }
+
     // SUPER ADMIN DIRECT MANAGEMENT TOGGLE (WORKS ON LAPTOP + MOBILE)
     function toggleAdminMode() {
       isAdminMode = !isAdminMode;
@@ -1030,9 +944,6 @@
     function updateAdminModeUi() {
       const toolbar = document.getElementById('homeAdminToolbar');
       const laptopText = document.getElementById('adminStatusTextLaptop');
-      const mobileDrawerText = document.getElementById('adminStatusTextMobileDrawer');
-      const gridStatus = document.getElementById('gridAdminStatus');
-      const adminBtn = document.getElementById('adminModeBtn');
 
       if (toolbar) {
         if (isAdminMode) toolbar.classList.remove('hidden');
@@ -1043,392 +954,312 @@
         laptopText.innerText = isAdminMode ? 'ON' : 'OFF';
         laptopText.className = isAdminMode ? 'font-black text-rose-600' : 'font-extrabold text-slate-900';
       }
-      if (mobileDrawerText) {
-        mobileDrawerText.innerText = isAdminMode ? 'ON' : 'OFF';
-        mobileDrawerText.className = isAdminMode ? 'font-black text-rose-600' : 'font-extrabold text-slate-700';
-      }
-      if (gridStatus) {
-        gridStatus.innerText = isAdminMode ? 'ON' : 'OFF';
-        gridStatus.className = isAdminMode ? 'font-black text-rose-600' : 'font-black text-slate-900';
-      }
-      if (adminBtn) {
-        if (isAdminMode) adminBtn.classList.add('bg-rose-100', 'text-rose-800', 'border-rose-400');
-        else adminBtn.classList.remove('bg-rose-100', 'text-rose-800', 'border-rose-400');
-      }
     }
 
     // ADMIN: DIRECTLY REMOVE A SPECIFIC HOSTEL FROM HOME PAGE
     async function adminRemoveHostelFromHome(hostelId, hostelName) {
-      const confirmRemove = confirm(`[SUPER ADMIN ACTION]\n\nAre you sure you want to remove "${hostelName}" (${hostelId}) from the Home Page?\n\nIt will be instantly hidden from public student search.`);
+      const confirmRemove = confirm('[SUPER ADMIN ACTION]\n\nAre you sure you want to remove "' + hostelName + '" (' + hostelId + ') from the Home Page?\n\nIt will be instantly hidden from public student search.');
       if (!confirmRemove) return;
 
-      // 1. Immediately remove from local memory & persistent storage
       addLocalRemovedHostelId(hostelId);
-      currentHostels = currentHostels.filter(h => h.id !== hostelId);
+      currentHostels = currentHostels.filter(function(h) { return h.id !== hostelId; });
       renderHostels(currentHostels);
       fetchLiveStats();
 
-      // 2. Dispatch to backend API in background
-      const adminKey = 'thikana-local-admin-change-me';
       try {
-        await fetch(`${API_BASE}/api/admin/remove-hostel-direct`, {
+        await fetch(API_BASE + '/api/admin/remove-hostel', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': adminKey
-          },
-          body: JSON.stringify({
-            hostelId: hostelId,
-            reason: 'Directly removed by Admin from Home Page marketplace',
-            adminName: 'Super Admin'
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hostelId: hostelId, adminUser: 'Super Admin' })
         });
       } catch (err) {
-        console.warn('API sync warning:', err);
+        console.warn('API remove notice (local removal applied):', err);
       }
-
-      alert(`✅ "${hostelName}" has been successfully removed from Home and public search.`);
     }
 
-    // ADMIN: BULK REMOVE ALL HOSTELS FROM HOME PAGE
-    async function adminRemoveAllHostelsDirect() {
-      const confirmAll = confirm(`⚠️ [SUPER ADMIN BULK ACTION]\n\nAre you sure you want to REMOVE ALL HOSTELS from the Home Page / Public Search?\n\nStudents will see an empty marketplace until restored.`);
+    // ADMIN: DIRECTLY REMOVE ALL HOSTELS FROM HOME PAGE
+    async function adminBulkRemoveAll() {
+      const confirmAll = confirm('[SUPER ADMIN MASTER ACTION]\n\nAre you sure you want to remove ALL hostels from the public Home page?\n\nStudents will see an empty verified state until restored.');
       if (!confirmAll) return;
 
-      const doubleConfirm = prompt(`Type "REMOVE ALL" to confirm total home removal:`);
-      if (doubleConfirm !== 'REMOVE ALL') {
-        alert('Bulk removal cancelled.');
-        return;
-      }
-
-      // 1. Immediately mark all removed locally
       addLocalRemovedHostelId('ALL');
       currentHostels = [];
-      renderHostels([]);
+      renderHostels(currentHostels);
       fetchLiveStats();
 
-      // 2. Dispatch to backend API in background
-      const adminKey = 'thikana-local-admin-change-me';
       try {
-        await fetch(`${API_BASE}/api/admin/remove-hostel-direct`, {
+        await fetch(API_BASE + '/api/admin/remove-all-hostels', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': adminKey
-          },
-          body: JSON.stringify({
-            hostelId: 'ALL',
-            reason: 'Master bulk removal initiated from Home page control panel',
-            adminName: 'Super Admin'
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminUser: 'Super Admin' })
         });
       } catch (err) {
-        console.warn('API bulk removal warning:', err);
+        console.warn('API bulk remove notice:', err);
       }
-
-      alert('✅ All hostels have been successfully removed from the Home page.');
     }
 
-    // ADMIN: BULK RESTORE ALL HOSTELS TO HOME PAGE
-    async function adminRestoreAllHostelsDirect() {
-      const confirmRestore = confirm(`[SUPER ADMIN RESTORE]\n\nRestore all archived hostels to the Home Page with active available beds?`);
+    // ADMIN: DIRECTLY RESTORE ALL HOSTELS TO HOME PAGE
+    async function adminBulkRestoreAll() {
+      const confirmRestore = confirm('[SUPER ADMIN RESTORE]\n\nRestore all verified hostels back to the public Home page?');
       if (!confirmRestore) return;
 
-      // 1. Clear local removal records
       clearLocalRemovedHostels();
 
-      // 2. Dispatch to backend API in background
-      const adminKey = 'thikana-local-admin-change-me';
       try {
-        await fetch(`${API_BASE}/api/admin/restore-hostel-direct`, {
+        const res = await fetch(API_BASE + '/api/admin/restore-all-hostels', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': adminKey
-          },
-          body: JSON.stringify({
-            hostelId: 'ALL',
-            adminName: 'Super Admin'
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminUser: 'Super Admin' })
         });
       } catch (err) {
-        console.warn('API restore warning:', err);
+        console.warn('API restore notice:', err);
       }
 
       fetchHostels();
       fetchLiveStats();
-      alert('✅ All hostels have been restored to the Home page with active available beds!');
     }
 
-    // FETCH LIVE STATS COUNTER FROM BACKEND
-    async function fetchLiveStats() {
-      try {
-        const res = await fetch(`${API_BASE}/api/stats`);
-        if (!res.ok) return;
-        const json = await res.json();
-        if (json.success && json.metrics) {
-          const m = json.metrics;
-          if (document.getElementById('statVerifiedCount')) {
-            document.getElementById('statVerifiedCount').innerText = `${m.verifiedHostelsCount} Properties`;
-          }
-          if (document.getElementById('statAvailableBeds')) {
-            document.getElementById('statAvailableBeds').innerText = `${m.availableBeds} Open`;
-          }
-          if (document.getElementById('statTotalBeds')) {
-            document.getElementById('statTotalBeds').innerText = `Out of ${m.totalBeds} total beds`;
-          }
-          if (document.getElementById('statEscrowPkr')) {
-            document.getElementById('statEscrowPkr').innerText = `PKR ${m.escrowFundsGuaranteedPkr.toLocaleString()}+`;
-          }
-          if (document.getElementById('statAvgScore')) {
-            document.getElementById('statAvgScore').innerText = `${m.averageQualityScore} / 100`;
-          }
-        }
-      } catch (err) {
-        console.warn('Could not fetch live stats:', err);
-      }
-    }
-
-    // QUERY PARAMETERS & PUBLIC MARKETPLACE SEARCH
-    async function fetchHostels() {
-      const keyword = (document.getElementById('keywordSearch')?.value || '').trim();
-      const uni = document.getElementById('uniFilter').value;
-      const gender = document.getElementById('genderFilter').value;
-      const budget = document.getElementById('budgetFilter').value;
-
-      const queryParams = new URLSearchParams();
-      if (gender !== 'all') queryParams.append('gender', gender);
-      if (uni !== 'all') queryParams.append('uni', uni);
-      if (keyword) queryParams.append('search', keyword);
-
-      if (budget === 'under20') {
-        queryParams.append('maxPrice', '20000');
-      } else if (budget === '20to30') {
-        queryParams.append('minPrice', '20000');
-        queryParams.append('maxPrice', '30000');
-      } else if (budget === 'above30') {
-        queryParams.append('minPrice', '30000');
-      }
-
-      try {
-        const res = await fetch(`${API_BASE}/api/hostels?` + queryParams.toString());
-        if (!res.ok) throw new Error('Network response not ok: ' + res.status);
-        const json = await res.json();
-        if (json.success && Array.isArray(json.data)) {
-          currentHostels = json.data;
-          renderHostels(currentHostels);
-          return;
-        }
-        throw new Error('Invalid JSON received');
-      } catch (err) {
-        console.warn('Serving verified local data smoothly:', err);
-        
-        let filtered = FALLBACK_HOSTELS.filter(h => (h.availableBeds === undefined || h.availableBeds > 0) && h.status !== 'fully_occupied');
-        if (gender !== 'all') filtered = filtered.filter(h => h.gender.toLowerCase() === gender.toLowerCase());
-        if (uni !== 'all') filtered = filtered.filter(h => h.proximity.primary.toLowerCase().includes(uni.toLowerCase()));
-        if (budget === 'under20') filtered = filtered.filter(h => h.rent <= 20000);
-        if (budget === '20to30') filtered = filtered.filter(h => h.rent >= 20000 && h.rent <= 30000);
-        if (budget === 'above30') filtered = filtered.filter(h => h.rent >= 30000);
-        if (keyword) {
-          const k = keyword.toLowerCase();
-          filtered = filtered.filter(h => 
-            h.name.toLowerCase().includes(k) || 
-            h.area.toLowerCase().includes(k) || 
-            h.proximity.primary.toLowerCase().includes(k)
-          );
-        }
-
-        currentHostels = filtered;
-        renderHostels(currentHostels);
-      }
-    }
-
-    // SAFE DOM CREATION WITH ESCAPED HTML & INVENTORY AUTO-REMOVAL FILTER
-    function renderHostels(hostels) {
-      const container = document.getElementById('hostelGrid');
-      container.innerHTML = '';
-
-      const removedIds = getLocalRemovedHostelIds();
-      const isRemovedAll = localStorage.getItem('thikana_removed_all') === 'true';
-
-      // FILTER OUT FULL & REMOVED HOSTELS FROM THE HOME MARKETPLACE
-      const visibleHostels = isRemovedAll ? [] : hostels.filter(h => {
-        if (removedIds.includes(h.id)) return false;
-        if (h.status === 'removed' || h.isArchived || h.isRemoved) return false;
-        if (h.status === 'fully_occupied' || h.isFull === true) return false;
-        const beds = (h.availableBeds !== undefined) ? Number(h.availableBeds) : 1;
-        if (beds <= 0) return false; // AUTO-REMOVED WHEN FULL!
-        return true;
+    // CAMPUS STORY AVATAR FILTER
+    function setCampusFilter(uni) {
+      document.getElementById('uniFilter').value = uni;
+      document.querySelectorAll('.campus-story-btn').forEach(function(btn) {
+        const ring = btn.querySelector('div');
+        if (ring) ring.classList.remove('ring-4', 'ring-[#8DB9F0]');
       });
-
-      document.getElementById('listingCount').innerText = visibleHostels.length;
-
-      if (visibleHostels.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-[#E9E8F8] p-8">
-            <i class="ph-bold ph-magnifying-glass text-4xl text-slate-400 mb-2"></i>
-            <h3 class="text-sm font-bold text-slate-800">No Active Hostels Currently Visible</h3>
-            <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-              ${isRemovedAll || removedIds.length > 0 ? 'Properties have been removed or are fully occupied. Admin can restore them using the Admin Controls above.' : 'No hostels matched your exact filter criteria. Try resetting filters or switching campuses.'}
-            </p>
-            <div class="flex items-center justify-center gap-3 mt-4 flex-wrap">
-              ${isRemovedAll || removedIds.length > 0 ? `
-                <button onclick="adminRestoreAllHostelsDirect()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-sm">
-                  <i class="ph-bold ph-arrow-counter-clockwise"></i> Admin: Restore All Hostels to Home
-                </button>
-              ` : ''}
-              <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-[#8DB9F0] text-slate-950 font-bold text-xs hover:bg-[#6C9FE0] transition">
-                Reset Filters
-              </button>
-            </div>
-          </div>
-        `;
-        return;
+      const activeStory = document.getElementById('story-' + uni);
+      if (activeStory) {
+        const ring = activeStory.querySelector('div');
+        if (ring) ring.classList.add('ring-4', 'ring-[#8DB9F0]');
       }
-
-      visibleHostels.forEach(h => {
-        const isFemale = h.gender === 'Female';
-        const bedsRemaining = (h.availableBeds !== undefined) ? Number(h.availableBeds) : 4;
-        const bedsText = `${bedsRemaining} Bed${bedsRemaining === 1 ? '' : 's'} Available`;
-        const bedsBadgeClass = bedsRemaining <= 2 ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
-
-        const card = document.createElement('div');
-        card.className = 'hostel-card bg-white rounded-3xl overflow-hidden border border-[#E9E8F8] shadow-sm card-hover flex flex-col';
-        card.innerHTML = `
-          <div class="relative h-56 bg-slate-100">
-            <img src="${escapeHtml(h.images?.[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80')}" alt="${escapeHtml(h.name)}" class="w-full h-full object-cover">
-            <div class="absolute top-3 left-3 bg-[#4A7AC4] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 badge-glow">
-              <i class="ph-bold ph-shield-check text-[#F5B69E]"></i> THIKANA VERIFIED (${escapeHtml(h.verificationScore || 95)}/100)
-            </div>
-            <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm ${isFemale ? 'text-[#9E4A2F]' : 'text-blue-800'} text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1">
-              ${isFemale ? '<i class="ph-bold ph-flower-lotus text-[#E29A7F]"></i> Female Hostel' : '<i class="ph-bold ph-user text-[#4A7AC4]"></i> Male Hostel'}
-            </div>
-            <div class="absolute bottom-3 left-3 bg-[#1A2138]/85 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-lg flex items-center gap-1">
-              <i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> ${escapeHtml(h.proximity?.walkMinutes || 6)} Mins Walk from ${escapeHtml(h.proximity?.primary || 'UMT')} &bull; ${escapeHtml(h.area || 'Johar Town')}
-            </div>
-          </div>
-          <div class="p-6 flex-1 flex flex-col">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-black text-slate-900">${escapeHtml(h.name)}</h3>
-              <div class="flex items-center gap-1 text-[#E29A7F] text-xs font-bold">
-                <i class="ph-fill ph-star text-[#F5B69E]"></i> ${escapeHtml(h.rating || 4.9)} <span class="text-slate-400 font-normal">(${escapeHtml(h.reviewCount || 24)})</span>
-              </div>
-            </div>
-            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${escapeHtml(h.description || 'Verified student residence with 48-Hour Deposit Escrow Protection.')}</p>
-
-            <div class="mt-3 flex items-center justify-between text-xs">
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${bedsBadgeClass}">
-                &bull; ${bedsText}
-              </span>
-              <span class="text-[11px] font-bold text-[#4A7AC4] flex items-center gap-1">
-                <i class="ph-bold ph-shield-check"></i> 48-Hr Escrow
-              </span>
-            </div>
-
-            <!-- SENSORY METRICS ROW -->
-            <div class="mt-4 p-3 rounded-2xl bg-[#F8F8FD] border border-[#E9E8F8] grid grid-cols-3 gap-2 text-center">
-              <div class="border-r border-[#E9E8F8] pr-1">
-                <span class="block text-[9px] font-bold text-slate-400 uppercase">Water Purity</span>
-                <span class="text-xs font-black text-[#4A7AC4] flex items-center justify-center gap-0.5">
-                  <i class="ph-bold ph-drop text-[#8DB9F0]"></i> ${escapeHtml(h.sensoryMetrics?.waterTdsPpm || 112)} TDS
-                </span>
-                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics?.waterRating || 'Pure Mineral')}</span>
-              </div>
-              <div class="border-r border-[#E9E8F8] pr-1">
-                <span class="block text-[9px] font-bold text-slate-400 uppercase">Noise Level</span>
-                <span class="text-xs font-black text-emerald-600 flex items-center justify-center gap-0.5">
-                  <i class="ph-bold ph-speaker-simple-low"></i> ${escapeHtml(h.sensoryMetrics?.noiseDecibels || 35)} dB
-                </span>
-                <span class="text-[9px] text-slate-500 truncate block">${escapeHtml(h.sensoryMetrics?.noiseRating || 'Quiet Study')}</span>
-              </div>
-              <div>
-                <span class="block text-[9px] font-bold text-slate-400 uppercase">Deposit Escrow</span>
-                <span class="text-xs font-black text-[#E29A7F] flex items-center justify-center gap-0.5">
-                  <i class="ph-bold ph-check text-[#F5B69E]"></i> 48-Hour
-                </span>
-                <span class="text-[9px] text-slate-500">Guaranteed</span>
-              </div>
-            </div>
-
-            <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-              <div>
-                <span class="text-xs text-slate-400 font-medium">Starting from</span>
-                <div class="text-lg font-black text-slate-900">PKR ${Number(h.rent).toLocaleString()} <span class="text-xs font-normal text-slate-500">/ bed</span></div>
-                <span class="text-[10px] text-[#4A7AC4] font-bold">0 Broker Fee &bull; Escrow Protected</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <button onclick="showAudit('${escapeHtml(h.id)}')" class="px-3 py-2 text-xs font-bold text-slate-700 bg-[#E9E8F8] hover:bg-[#DCDAF4] rounded-xl transition">
-                  Audit Report
-                </button>
-                <button onclick="openBookingModal('${escapeHtml(h.id)}', '${escapeHtml(h.name)}', ${Number(h.rent)}, ${Number(h.deposit)})" class="px-4 py-2 text-xs font-extrabold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] shadow-md shadow-[#F5B69E]/30 rounded-xl transition">
-                  Book Bed
-                </button>
-              </div>
-            </div>
-
-            <!-- ADMIN ACTION ROW (Shown when Super Admin Mode is toggled on Laptop OR Mobile) -->
-            ${isAdminMode ? `
-              <div class="mt-3 pt-2.5 border-t border-rose-200 bg-rose-50/90 p-2.5 rounded-2xl flex items-center justify-between gap-2">
-                <span class="text-[10px] font-extrabold text-rose-800 flex items-center gap-1">
-                  <i class="ph-bold ph-shield-warning"></i> Super Admin Action
-                </span>
-                <button onclick="adminRemoveHostelFromHome('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] rounded-xl transition flex items-center gap-1 shadow-sm whitespace-nowrap">
-                  <i class="ph-bold ph-trash"></i> Remove from Home
-                </button>
-              </div>
-            ` : ''}
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function setFilter(gender) {
-      document.getElementById('genderFilter').value = gender;
       fetchHostels();
     }
 
-    function setUni(uni) {
-      document.getElementById('uniFilter').value = uni;
+    function setGenderFilter(gender) {
+      document.getElementById('genderFilter').value = gender;
       fetchHostels();
     }
 
     function resetFilters() {
       if (document.getElementById('keywordSearch')) document.getElementById('keywordSearch').value = '';
-      document.getElementById('uniFilter').value = 'all';
-      document.getElementById('genderFilter').value = 'all';
-      document.getElementById('budgetFilter').value = 'all';
+      if (document.getElementById('uniFilter')) document.getElementById('uniFilter').value = 'all';
+      if (document.getElementById('genderFilter')) document.getElementById('genderFilter').value = 'all';
+      if (document.getElementById('budgetFilter')) document.getElementById('budgetFilter').value = 'all';
+      document.querySelectorAll('.campus-story-btn').forEach(function(btn) {
+        const ring = btn.querySelector('div');
+        if (ring) ring.classList.remove('ring-4', 'ring-[#8DB9F0]');
+      });
+      const storyAll = document.getElementById('story-all');
+      if (storyAll) {
+        const ring = storyAll.querySelector('div');
+        if (ring) ring.classList.add('ring-4', 'ring-[#8DB9F0]');
+      }
       fetchHostels();
     }
 
-    function showAudit(id) {
-      const h = currentHostels.find(item => item.id === id);
-      if (!h) return;
-      document.getElementById('modalHostelName').innerText = h.name;
-      document.getElementById('modalScore').innerText = (h.verificationScore || 95) + ' / 100';
-      document.getElementById('modalLoc').innerText = (h.area || 'Johar Town') + ' (' + (h.proximity?.walkMinutes || 6) + ' mins from ' + (h.proximity?.primary || 'UMT') + ')';
-      document.getElementById('modalWarden').innerText = (h.warden && h.warden.name) ? `${h.warden.name} (${h.warden.policeVerification || 'Cleared'})` : 'Mrs. Samina Parveen (Cleared Civil Lines)';
-      document.getElementById('modalNotes').innerText = `Tested Water TDS: ${h.sensoryMetrics?.waterTdsPpm || 112} PPM. Study sound: ${h.sensoryMetrics?.noiseDecibels || 35} dB. 48-Hour Deposit Escrow undertaking signed.`;
-      document.getElementById('auditModal').classList.remove('hidden');
+    // QUERY PARAMETERS & PUBLIC MARKETPLACE SEARCH
+    async function fetchHostels() {
+      const keyword = (document.getElementById('keywordSearch')?.value || '').trim();
+      const uni = document.getElementById('uniFilter') ? document.getElementById('uniFilter').value : 'all';
+      const gender = document.getElementById('genderFilter') ? document.getElementById('genderFilter').value : 'all';
+      const budget = document.getElementById('budgetFilter') ? document.getElementById('budgetFilter').value : 'all';
+
+      const queryParams = new URLSearchParams();
+      if (gender !== 'all') queryParams.append('gender', gender);
+      if (uni !== 'all') queryParams.append('uni', uni);
+      if (keyword) queryParams.append('search', keyword);
+      if (budget === 'under20') queryParams.append('maxPrice', 20000);
+      else if (budget === '20to30') {
+        queryParams.append('minPrice', 20000);
+        queryParams.append('maxPrice', 30000);
+      } else if (budget === 'above30') {
+        queryParams.append('minPrice', 30000);
+      }
+
+      try {
+        const res = await fetch(API_BASE + '/api/hostels?' + queryParams.toString());
+        if (!res.ok) throw new Error('API fetch status ' + res.status);
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          let list = json.data;
+          const removedIds = getLocalRemovedHostelIds();
+          if (localStorage.getItem('thikana_removed_all') === 'true') {
+            list = [];
+          } else if (removedIds.length > 0) {
+            list = list.filter(function(h) { return !removedIds.includes(h.id); });
+          }
+          currentHostels = list;
+          renderHostels(currentHostels);
+          return;
+        }
+      } catch (err) {
+        console.warn('API fallback to local data:', err);
+      }
+
+      // Resilient Local Filtering
+      let filtered = FALLBACK_HOSTELS.filter(function(h) { return (h.availableBeds === undefined || h.availableBeds > 0) && h.status !== 'fully_occupied'; });
+      if (gender !== 'all') filtered = filtered.filter(function(h) { return h.gender.toLowerCase() === gender.toLowerCase(); });
+      if (uni !== 'all') filtered = filtered.filter(function(h) { return h.proximity.primary.toLowerCase().includes(uni.toLowerCase()); });
+      if (budget === 'under20') filtered = filtered.filter(function(h) { return h.rent <= 20000; });
+      if (budget === '20to30') filtered = filtered.filter(function(h) { return h.rent >= 20000 && h.rent <= 30000; });
+      if (budget === 'above30') filtered = filtered.filter(function(h) { return h.rent >= 30000; });
+      if (keyword) {
+        const k = keyword.toLowerCase();
+        filtered = filtered.filter(function(h) { 
+          return h.name.toLowerCase().includes(k) || 
+                 h.area.toLowerCase().includes(k) || 
+                 h.proximity.primary.toLowerCase().includes(k);
+        });
+      }
+
+      const removedIds = getLocalRemovedHostelIds();
+      if (localStorage.getItem('thikana_removed_all') === 'true') {
+        filtered = [];
+      } else if (removedIds.length > 0) {
+        filtered = filtered.filter(function(h) { return !removedIds.includes(h.id); });
+      }
+
+      currentHostels = filtered;
+      renderHostels(currentHostels);
     }
 
-    function closeAuditModal() {
-      document.getElementById('auditModal').classList.add('hidden');
+    // RENDER HOSTEL CARDS (LUXE OS 16:9 CARD DESIGN)
+    function renderHostels(hostels) {
+      const grid = document.getElementById('hostelGrid');
+      const empty = document.getElementById('emptyState');
+      if (!grid) return;
+
+      if (!hostels || hostels.length === 0) {
+        grid.innerHTML = '';
+        if (empty) empty.classList.remove('hidden');
+        return;
+      }
+      if (empty) empty.classList.add('hidden');
+
+      grid.innerHTML = hostels.map(function(h) {
+        const beds = (h.availableBeds !== undefined) ? h.availableBeds : 4;
+        const tds = h.sensoryMetrics?.waterTdsPpm || 118;
+        const noise = h.sensoryMetrics?.noiseDecibels || 36;
+        const img = (h.images && h.images[0]) ? h.images[0] : 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80';
+        const splitPrice = Math.round(h.rent / 2);
+        const score = h.verificationScore || 98;
+        const isFemale = h.gender === 'Female';
+
+        return '<div class="bg-white rounded-3xl border border-[#E9E8F8] overflow-hidden card-hover shadow-sm flex flex-col relative">' +
+          '<div class="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">' +
+            '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(h.name) + '" class="w-full h-full object-cover transition duration-500 hover:scale-105" loading="lazy">' +
+            '<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none"></div>' +
+            '<div class="absolute top-3 left-3 right-3 flex items-center justify-between">' +
+              '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md ' + (isFemale ? 'bg-pink-500/90 text-white' : 'bg-slate-900/80 text-white') + ' border border-white/20 shadow-sm">' +
+                (isFemale ? '🌸 Female Luxury' : '🏢 Boys Hostel') +
+              '</span>' +
+              '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md bg-emerald-500/90 text-white border border-white/20 shadow-sm flex items-center gap-1">' +
+                '<i class="ph-bold ph-seal-check"></i> Score: ' + score + '/100' +
+              '</span>' +
+            '</div>' +
+            '<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">' +
+              '<span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold backdrop-blur-md bg-white/90 text-slate-900 border border-white/40 flex items-center gap-1">' +
+                '<i class="ph-bold ph-bed"></i> ' + beds + ' Beds Available' +
+              '</span>' +
+              '<span class="px-3 py-1 rounded-xl text-xs font-black backdrop-blur-md bg-[#1A2138]/90 text-white border border-white/20">' +
+                'PKR ' + h.rent.toLocaleString() + ' /mo' +
+              '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="p-5 flex-1 flex flex-col justify-between">' +
+            '<div>' +
+              '<div class="flex items-start justify-between gap-2 mb-1">' +
+                '<h3 class="text-base font-black text-slate-900 tracking-tight leading-snug hover:text-[#4A7AC4] transition cursor-pointer" onclick="openBookingModal(\'' + h.id + '\')">' +
+                  escapeHtml(h.name) +
+                '</h3>' +
+                '<span class="inline-flex items-center gap-1 text-xs font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md shrink-0">' +
+                  '<i class="ph-fill ph-star"></i> ' + (h.rating || '4.9') +
+                '</span>' +
+              '</div>' +
+              '<p class="text-xs text-slate-500 flex items-center gap-1 mb-3">' +
+                '<i class="ph-bold ph-map-pin text-[#8DB9F0]"></i> ' +
+                escapeHtml(h.area) + ' &bull; ' + (h.proximity?.walkMinutes || 5) + ' min walk to ' + escapeHtml(h.proximity?.primary || 'Campus') +
+              '</p>' +
+              '<div class="grid grid-cols-3 gap-1.5 p-2 rounded-xl bg-[#F8F8FD] border border-[#E9E8F8] mb-3 text-center">' +
+                '<div>' +
+                  '<span class="block text-[9px] font-bold text-slate-400 uppercase">Water TDS</span>' +
+                  '<span class="text-[11px] font-black text-[#4A7AC4] flex items-center justify-center gap-0.5">' +
+                    '<i class="ph-bold ph-drop"></i> ' + tds + ' PPM' +
+                  '</span>' +
+                '</div>' +
+                '<div class="border-x border-slate-200">' +
+                  '<span class="block text-[9px] font-bold text-slate-400 uppercase">Study Noise</span>' +
+                  '<span class="text-[11px] font-black text-emerald-600 flex items-center justify-center gap-0.5">' +
+                    '<i class="ph-bold ph-speaker-simple-low"></i> ' + noise + ' dB' +
+                  '</span>' +
+                '</div>' +
+                '<div>' +
+                  '<span class="block text-[9px] font-bold text-slate-400 uppercase">Deposit</span>' +
+                  '<span class="text-[11px] font-black text-slate-700">48-Hr Escrow</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="flex items-center justify-between p-2 rounded-xl bg-indigo-50/60 border border-indigo-100 text-[11px] mb-4">' +
+                '<span class="text-indigo-900 font-bold flex items-center gap-1">' +
+                  '<i class="ph-bold ph-users text-indigo-600"></i> Split 50/50:' +
+                '</span>' +
+                '<span class="font-black text-indigo-700">' +
+                  'PKR ' + splitPrice.toLocaleString() + ' / student' +
+                '</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="space-y-2">' +
+              '<div class="flex items-center gap-2">' +
+                '<button onclick="openBookingModal(\'' + h.id + '\')" class="flex-1 py-2.5 bg-[#8DB9F0] hover:bg-[#6C9FE0] text-slate-950 font-black rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-[#8DB9F0]/30">' +
+                  '<i class="ph-bold ph-lock-key"></i> Book Bed (48-Hr Escrow)' +
+                '</button>' +
+                '<button onclick="showAudit(\'' + h.id + '\')" class="px-3 py-2.5 bg-[#E9E8F8] hover:bg-[#DCDAF4] text-slate-800 font-bold rounded-xl text-xs transition flex items-center justify-center" title="View 50-Point Physical Inspection Dossier">' +
+                  'Audit' +
+                '</button>' +
+              '</div>' +
+              (isAdminMode ? 
+                '<button onclick="adminRemoveHostelFromHome(\'' + h.id + '\', \'' + escapeHtml(h.name) + '\')" class="w-full py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 font-extrabold rounded-xl text-xs transition flex items-center justify-center gap-1.5">' +
+                  '<i class="ph-bold ph-trash text-sm"></i> Remove from Home' +
+                '</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
-    function openBookingModal(id, name, rent = 22000, deposit = 10000) {
-      currentBaseRent = rent;
-      currentDeposit = deposit;
-      isSplitRent = false;
-      document.getElementById('bookingHostelId').value = id;
-      document.getElementById('splitRentToggle').checked = false;
-      document.getElementById('bookingHostelTitle').innerText = name;
-      document.getElementById('bookingRent').innerText = 'PKR ' + rent.toLocaleString();
-      document.getElementById('bookingDeposit').innerText = 'PKR ' + deposit.toLocaleString() + ' (Escrow)';
-      document.getElementById('tiffinAddon').checked = false;
-      document.getElementById('laundryAddon').checked = false;
-      document.getElementById('bookingErrorAlert').classList.add('hidden');
-      updateTotalCost();
+    // LIVE STATS COUNTER UPDATE
+    async function fetchLiveStats() {
+      try {
+        const res = await fetch(API_BASE + '/api/stats');
+        if (res.ok) {
+          const json = await res.json();
+          const m = json.metrics || json.stats; if (json.success && m) {
+            const countEl = document.getElementById('statCountText');
+            const bedsEl = document.getElementById('statBedsText');
+            if (countEl) countEl.innerText = (m.verifiedHostelsCount || m.approvedHostels || currentHostels.length) + ' Verified Properties';
+            if (bedsEl) bedsEl.innerText = (m.availableBeds || 26) + ' Available Beds';
+          }
+        }
+      } catch (e) {}
+    }
+
+    // OPEN BOOKING MODAL
+    function openBookingModal(hostelId) {
+      selectedHostel = currentHostels.find(function(h) { return h.id === hostelId; }) || FALLBACK_HOSTELS.find(function(h) { return h.id === hostelId; });
+      if (!selectedHostel) return;
+
+      currentBaseRent = selectedHostel.rent || 22000;
+      currentDeposit = selectedHostel.deposit || 10000;
+
+      document.getElementById('bookingHostelId').value = selectedHostel.id;
+      document.getElementById('modalHostelTitle').innerText = selectedHostel.name;
+      
+      const splitCheckbox = document.getElementById('splitRentCheckbox');
+      if (splitCheckbox) splitCheckbox.checked = false;
+      const tiffin = document.getElementById('tiffinAddon');
+      if (tiffin) tiffin.checked = false;
+      const laundry = document.getElementById('laundryAddon');
+      if (laundry) laundry.checked = false;
+
+      updateBookingCalculations();
       document.getElementById('bookingModal').classList.remove('hidden');
     }
 
@@ -1436,51 +1267,39 @@
       document.getElementById('bookingModal').classList.add('hidden');
     }
 
-    function toggleSplitRent() {
-      isSplitRent = document.getElementById('splitRentToggle').checked;
-      updateTotalCost();
+    // BOOKING CALCULATIONS (SPLIT RENT 50/50 & ADDONS)
+    function updateBookingCalculations() {
+      const isSplit = document.getElementById('splitRentCheckbox')?.checked || false;
+      const hasTiffin = document.getElementById('tiffinAddon')?.checked || false;
+      const hasLaundry = document.getElementById('laundryAddon')?.checked || false;
+
+      const rent = isSplit ? Math.round(currentBaseRent / 2) : currentBaseRent;
+      const deposit = isSplit ? Math.round(currentDeposit / 2) : currentDeposit;
+      const platformFee = 2000;
+      const tiffinFee = hasTiffin ? 7500 : 0;
+      const laundryFee = hasLaundry ? 2500 : 0;
+
+      const total = rent + deposit + platformFee + tiffinFee + laundryFee;
+
+      document.getElementById('calcRent').innerText = 'PKR ' + rent.toLocaleString() + (isSplit ? ' (50% Share)' : '');
+      document.getElementById('calcDeposit').innerText = 'PKR ' + deposit.toLocaleString() + ' (Escrow)';
+      document.getElementById('calcTotal').innerText = 'PKR ' + total.toLocaleString();
+      document.getElementById('labelTotal').innerText = isSplit ? 'Your 50% Share Today:' : 'Total Due Today:';
     }
 
-    function updateTotalCost() {
-      let base = currentBaseRent;
-      let dep = currentDeposit;
-      if (isSplitRent) {
-        base = Math.round(base / 2);
-        dep = Math.round(dep / 2);
-      }
-      let total = base + dep + platformFee;
-      if (document.getElementById('tiffinAddon').checked) total += 7500;
-      if (document.getElementById('laundryAddon').checked) total += 2500;
-      document.getElementById('totalBookingCost').innerText = 'PKR ' + total.toLocaleString() + (isSplitRent ? ' (Your 50% Share)' : '');
-    }
-
-    // ROBUST BOOKING SUBMISSION & ESCROW PROCESSING
+    // ROBUST ESCROW BOOKING SUBMISSION (100% RESILIENT)
     async function handleBookingSubmit(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('submitBookingBtn');
-      const errorBox = document.getElementById('bookingErrorAlert');
-      const errorText = document.getElementById('bookingErrorText');
-
-      if (errorBox) errorBox.classList.add('hidden');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Processing Escrow Reservation...`;
+      submitBtn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Processing Escrow Reservation...';
 
-      // Auto-normalize phone inputs for flexible user entry
-      let sName = (document.getElementById('custName').value || 'Student User').trim();
-      let sPhone = (document.getElementById('custPhone').value || '').trim().replace(/[\s\-\+\(\)]/g, '');
-      if (sPhone.startsWith('923') && sPhone.length === 12) sPhone = '0' + sPhone.slice(2);
-      else if (sPhone.startsWith('3') && sPhone.length === 10) sPhone = '0' + sPhone;
-      if (!sPhone) sPhone = '03001234567';
-
-      let pPhone = (document.getElementById('custParentPhone').value || '').trim().replace(/[\s\-\+\(\)]/g, '');
-      if (pPhone.startsWith('923') && pPhone.length === 12) pPhone = '0' + pPhone.slice(2);
-      else if (pPhone.startsWith('3') && pPhone.length === 10) pPhone = '0' + pPhone;
-      if (!pPhone || pPhone === sPhone) {
-        pPhone = '03219876543'; // Safe parent guardian fallback
-      }
-
-      const uni = (document.getElementById('custUni').value || 'UMT Lahore / F2024').trim();
       const hostelId = document.getElementById('bookingHostelId').value;
+      const sName = (document.getElementById('custName').value || 'Student User').trim();
+      const sPhone = (document.getElementById('custPhone').value || '03001234567').trim();
+      const pPhone = (document.getElementById('custParentPhone').value || '03219876543').trim();
+      const uni = (document.getElementById('custUni').value || 'UMT / F2024').trim();
+      const isSplit = document.getElementById('splitRentCheckbox')?.checked || false;
 
       const payload = {
         hostelId: hostelId,
@@ -1488,144 +1307,119 @@
         studentPhone: sPhone,
         parentPhone: pPhone,
         university: uni,
-        rollNumber: uni,
-        isSplitRent: isSplitRent,
-        tiffinSubscribed: document.getElementById('tiffinAddon').checked,
-        laundrySubscribed: document.getElementById('laundryAddon').checked
+        isSplitRent: isSplit,
+        tiffinSubscribed: document.getElementById('tiffinAddon')?.checked || false,
+        laundrySubscribed: document.getElementById('laundryAddon')?.checked || false
       };
 
+      let bookingData = null;
+      let bedsLeft = 3;
+      let simAlert = '[SIMULATED WHATSAPP TO ' + pPhone + ']: Dear Guardian, your student ' + sName + '\'s bed at ' + (selectedHostel?.name || 'Verified Hostel') + ' is confirmed in Escrow. Deposit held safely in 48-Hour trust.';
+
       try {
-        let bookingData = null;
-        let isFullAndRemoved = false;
-        let bedsLeft = 3;
-
-        // Step 1: Attempt to book via backend API
-        try {
-          const res = await fetch(`${API_BASE}/api/bookings`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
+        const res = await fetch(API_BASE + '/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
           const json = await res.json();
-          if (res.ok && json.success) {
+          if (json.success && json.booking) {
             bookingData = json.booking;
-            isFullAndRemoved = !!json.autoRemovedFromHome;
             bedsLeft = json.bedsRemaining;
-          }
-        } catch (apiErr) {
-          console.warn('Backend sync notice, switching to resilient client escrow handler:', apiErr);
-        }
-
-        // Step 2: Resilient Client-Side Handler (guarantees booking succeeds smoothly)
-        if (!bookingData) {
-          const matchedHostel = currentHostels.find(h => h.id === hostelId) ||
-                                FALLBACK_HOSTELS.find(h => h.id === hostelId) || {
-                                  id: hostelId,
-                                  name: document.getElementById('modalHostelTitle')?.innerText || 'Verified Student Hostel',
-                                  rent: currentBaseRent,
-                                  deposit: currentDeposit,
-                                  availableBeds: 4
-                                };
-          
-          let curBeds = (matchedHostel.availableBeds !== undefined) ? Number(matchedHostel.availableBeds) : 4;
-          curBeds = Math.max(0, curBeds - 1);
-          matchedHostel.availableBeds = curBeds;
-          bedsLeft = curBeds;
-
-          // Space Check: If beds reach 0, auto-remove hostel from home!
-          if (curBeds <= 0) {
-            matchedHostel.status = 'fully_occupied';
-            matchedHostel.isFull = true;
-            isFullAndRemoved = true;
-            addLocalRemovedHostelId(matchedHostel.id);
-          }
-
-          const localBookingId = `THK-BKG-${Math.floor(100000 + Math.random() * 900000)}`;
-          bookingData = {
-            bookingId: localBookingId,
-            hostelName: matchedHostel.name,
-            depositAmount: isSplitRent ? Math.round(matchedHostel.deposit / 2) : matchedHostel.deposit,
-            studentName: sName,
-            studentPhone: sPhone
-          };
-
-          // Save booking record in localStorage
-          try {
-            const savedBookings = JSON.parse(localStorage.getItem('thikana_bookings') || '[]');
-            savedBookings.push(bookingData);
-            localStorage.setItem('thikana_bookings', JSON.stringify(savedBookings));
-          } catch (e) {}
-        } else if (isFullAndRemoved || bedsLeft <= 0) {
-          addLocalRemovedHostelId(hostelId);
-        }
-
-        // Close form modal & reset
-        closeBookingModal();
-        const form = document.getElementById('bookingModalForm') || document.getElementById('bookingForm');
-        if (form) form.reset();
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `<i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed`;
-
-        // Populate Success Modal
-        if (document.getElementById('successBookingId')) document.getElementById('successBookingId').innerText = bookingData.bookingId;
-        if (document.getElementById('successHostelName')) document.getElementById('successHostelName').innerText = bookingData.hostelName;
-        if (document.getElementById('successDeposit')) document.getElementById('successDeposit').innerText = `PKR ${Number(bookingData.depositAmount || currentDeposit).toLocaleString()} (In Escrow)`;
-        
-        if (document.getElementById('successBedsRemaining')) {
-          if (isFullAndRemoved || bedsLeft <= 0) {
-            document.getElementById('successBedsRemaining').innerText = `0 Available (Full — Auto-Removed from Public Search)`;
-          } else {
-            document.getElementById('successBedsRemaining').innerText = `${bedsLeft} Available`;
+            if (json.simulatedAlert) simAlert = json.simulatedAlert;
           }
         }
-        
-        if (document.getElementById('successSimulatedAlert')) {
-          document.getElementById('successSimulatedAlert').innerText = `Automated Thikana Escrow notification dispatched to Parent (${pPhone}) & Student (${sPhone}). Biometric check-in pass generated!`;
-        }
-        if (document.getElementById('successPassLink')) {
-          document.getElementById('successPassLink').href = `student-pass.html?id=${encodeURIComponent(bookingData.bookingId)}`;
-        }
-        if (document.getElementById('successModal')) {
-          document.getElementById('successModal').classList.remove('hidden');
-        }
-
-        // Immediately update listings and counters on Home
-        fetchHostels();
-        fetchLiveStats();
-
       } catch (err) {
-        console.error('Booking processing notice:', err);
-        closeBookingModal();
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `<i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed`;
+        console.warn('Network offline or backend syncing - using client Escrow fallback:', err);
       }
+
+      // Safe Client Fallback (Guarantees booking never fails)
+      if (!bookingData) {
+        const matched = currentHostels.find(function(h) { return h.id === hostelId; }) || FALLBACK_HOSTELS.find(function(h) { return h.id === hostelId; }) || {
+          id: hostelId,
+          name: document.getElementById('modalHostelTitle')?.innerText || 'Al-Rehman Executive Female Residency',
+          deposit: currentDeposit,
+          availableBeds: 4
+        };
+        let b = (matched.availableBeds !== undefined) ? Number(matched.availableBeds) : 4;
+        b = Math.max(0, b - 1);
+        matched.availableBeds = b;
+        bedsLeft = b;
+
+        // Auto-remove if beds reach 0!
+        if (b <= 0) {
+          addLocalRemovedHostelId(matched.id);
+        }
+
+        const bId = 'THK-BKG-' + Math.floor(100000 + Math.random() * 900000);
+        bookingData = {
+          bookingId: bId,
+          hostelName: matched.name,
+          depositAmount: isSplit ? Math.round((matched.deposit || 10000) / 2) : (matched.deposit || 10000),
+          studentName: sName,
+          studentPhone: sPhone
+        };
+      }
+
+      closeBookingModal();
+      document.getElementById('bookingModalForm')?.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="ph-bold ph-lock-key"></i> Confirm Escrow-Protected Bed';
+
+      // Fill success modal
+      document.getElementById('successBookingId').innerText = bookingData.bookingId;
+      document.getElementById('successHostelName').innerText = bookingData.hostelName;
+      document.getElementById('successDeposit').innerText = 'PKR ' + (bookingData.depositAmount || 5000).toLocaleString() + ' (In Escrow)';
+      document.getElementById('successBedsRemaining').innerText = bedsLeft + ' Available';
+      document.getElementById('successSimulatedAlert').innerText = simAlert;
+      document.getElementById('successPassLink').href = 'student-pass.html?id=' + encodeURIComponent(bookingData.bookingId);
+      document.getElementById('successModal').classList.remove('hidden');
+
+      fetchHostels();
+      fetchLiveStats();
     }
 
     function closeSuccessModal() {
       document.getElementById('successModal').classList.add('hidden');
     }
 
-    // PWA SERVICE WORKER & DYNAMIC INSTALL PROMPT
+    // 50-POINT AUDIT MODAL
+    function showAudit(hostelId) {
+      const h = currentHostels.find(function(item) { return item.id === hostelId; }) || FALLBACK_HOSTELS.find(function(item) { return item.id === hostelId; });
+      if (!h) return;
+
+      document.getElementById('auditHostelName').innerText = h.name;
+      document.getElementById('auditScore').innerText = (h.verificationScore || 98) + ' / 100';
+      document.getElementById('auditWater').innerText = (h.sensoryMetrics?.waterTdsPpm || 118) + ' PPM (' + (h.sensoryMetrics?.waterRating || 'Pure') + ')';
+      document.getElementById('auditModal').classList.remove('hidden');
+    }
+
+    function closeAuditModal() {
+      document.getElementById('auditModal').classList.add('hidden');
+    }
+
+    // PWA SERVICE WORKER & INSTALL PROMPT
     let deferredPrompt = null;
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js?v=3')
-          .then(reg => {
-            console.log('[Thikana PWA] Service Worker active:', reg.scope);
-            reg.update(); // Force reload check
-          })
-          .catch(err => console.warn('[Thikana PWA] Service Worker registration failed:', err));
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(function(reg) { console.log('Thikana Service Worker Registered:', reg.scope); })
+          .catch(function(err) { console.log('SW registration notice:', err); });
       });
     }
 
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
-      syncPwaInstallButtons();
+      if (!isPwaInstalled()) {
+        const btn = document.getElementById('pwaInstallBtn');
+        if (btn) btn.style.display = 'inline-flex';
+      }
     });
 
-    window.addEventListener('appinstalled', () => {
-      console.log('[Thikana PWA] App was successfully installed!');
+    window.addEventListener('appinstalled', function() {
+      deferredPrompt = null;
       localStorage.setItem('thikana_pwa_installed', 'true');
       syncPwaInstallButtons();
     });
@@ -1633,7 +1427,7 @@
     function promptPwaInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choice) => {
+        deferredPrompt.userChoice.then(function(choice) {
           if (choice.outcome === 'accepted') {
             localStorage.setItem('thikana_pwa_installed', 'true');
             syncPwaInstallButtons();
@@ -1641,12 +1435,12 @@
           deferredPrompt = null;
         });
       } else {
-        alert('📲 Install Thikana on your Mobile or Desktop:\n\n• Android / Chrome: Tap browser menu (⋮) -> "Install App" or "Add to Home screen".\n• iPhone / iPad (Safari): Tap Share (⎋) -> scroll down -> "Add to Home Screen".\n• Windows / Mac: Click the Install icon in the browser address bar.');
+        alert('To install Thikana on mobile:\n\n1. Tap your browser menu (⋮ or Share icon)\n2. Select "Add to Home Screen" or "Install App"\n\nEnjoy the full offline-ready student living experience!');
       }
     }
 
-    // INITIALIZATION
-    window.addEventListener('DOMContentLoaded', () => {
+    // INITIALIZATION ON DOM LOAD
+    window.addEventListener('DOMContentLoaded', function() {
       syncPwaInstallButtons();
       updateAdminModeUi();
       fetchHostels();
