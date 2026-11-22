@@ -57,7 +57,7 @@
     }
   </style>
 </head>
-<body class="bg-[#0F172A] text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#F5B69E] selection:text-slate-900 relative">
+<body class="pb-20 bg-[#0F172A] text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#F5B69E] selection:text-slate-900 relative">
 
   <!-- 3D Vanta Background Canvas -->
   <div id="vanta-admin-bg"></div>
@@ -198,6 +198,9 @@
           <div class="h-6 w-px bg-slate-700 mx-1 hidden sm:block"></div>
           <button onclick="directRemoveAllHostels()" class="px-3 py-1.5 rounded-xl bg-rose-950/80 border border-rose-600/60 text-rose-300 hover:bg-rose-900 text-xs font-extrabold transition flex items-center gap-1 shadow-sm" title="Remove all hostels from public search">
             <i class="ph-bold ph-warning-octagon"></i> Bulk Remove All
+          </button>
+          <button onclick="adminPurgeAllRemovedHostels()" class="px-3 py-1.5 rounded-xl bg-red-900/80 border border-red-500 text-red-200 hover:bg-red-800 text-xs font-black transition flex items-center gap-1 shadow-sm" title="Permanently delete all removed hostels from database">
+            <i class="ph-bold ph-trash"></i> Purge All Removed
           </button>
           <button onclick="directRestoreAllHostels()" class="px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-600/60 text-emerald-300 hover:bg-emerald-900 text-xs font-extrabold transition flex items-center gap-1 shadow-sm" title="Restore all hostels to public search">
             <i class="ph-bold ph-arrow-counter-clockwise"></i> Bulk Restore All
@@ -541,8 +544,11 @@
               <a href="index.html#hostels" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-[#8DB9F0] rounded-xl text-xs font-bold flex items-center gap-1 transition">
                 <i class="ph-bold ph-arrow-square-out"></i> Live View
               </a>
-              <button onclick="directRemoveHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow transition">
-                <i class="ph-bold ph-trash"></i> Remove from Home
+              <button onclick="directRemoveHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-2 bg-rose-600/90 hover:bg-rose-600 text-white font-extrabold rounded-xl text-xs flex items-center gap-1 shadow transition" title="Hide from Home search">
+                <i class="ph-bold ph-eye-slash"></i> Hide from Home
+              </button>
+              <button onclick="adminDeleteHostelPermanent('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-2 bg-red-950 hover:bg-red-900 text-red-300 border border-red-800 font-extrabold rounded-xl text-xs flex items-center gap-1 shadow transition" title="Delete permanently from database">
+                <i class="ph-bold ph-trash"></i> Delete
               </button>
             `;
           }
@@ -552,8 +558,11 @@
             <button onclick="viewDossier('${escapeHtml(h.id)}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition">
               <i class="ph-bold ph-file-text"></i> Dossier
             </button>
-            <button onclick="directRestoreHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow transition">
-              <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore to Home
+            <button onclick="directRestoreHostel('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+              <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore
+            </button>
+            <button onclick="adminDeleteHostelPermanent('${escapeHtml(h.id)}', '${escapeHtml(h.name)}')" class="px-3 py-2 bg-rose-700 hover:bg-rose-800 text-white font-black rounded-xl text-xs flex items-center gap-1.5 shadow transition" title="Permanently delete from database">
+              <i class="ph-bold ph-trash"></i> Delete Permanently
             </button>
           `;
         }
@@ -926,5 +935,25 @@
       loadHostels();
     });
   </script>
+
+  <!-- FROZEN BOTTOM NAVIGATION DOCK (ADMIN ACTIVE) -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-t border-slate-700 px-3 py-2 flex justify-around items-center text-[10px] font-bold text-slate-400 shadow-2xl safe-bottom">
+    <a href="index.html#hostels" class="flex flex-col items-center gap-0.5 hover:text-[#8DB9F0] transition">
+      <i class="ph-bold ph-compass text-xl"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 hover:text-[#8DB9F0] transition">
+      <i class="ph-bold ph-users text-xl"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="student-pass.html" class="flex flex-col items-center gap-0.5 hover:text-[#8DB9F0] transition">
+      <i class="ph-bold ph-identification-card text-xl"></i>
+      <span>Pass</span>
+    </a>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 text-rose-400 font-black transition">
+      <i class="ph-fill ph-shield-check text-xl"></i>
+      <span>Admin</span>
+    </a>
+  </div>
 </body>
 </html>

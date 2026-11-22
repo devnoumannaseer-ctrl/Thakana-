@@ -117,5 +117,12 @@
     "details": "Super Admin restored all 6 hostels to the public marketplace.",
     "performedBy": "Super Admin",
     "timestamp": "2026-11-22T07:19:05.485Z"
+  },
+  {
+    "logId": "LOG-1795335983165-725",
+    "action": "ADMIN_PURGED_REMOVED_HOSTELS",
+    "details": "Purged 0 removed hostels permanently.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T08:26:23.165Z"
   }
 ]

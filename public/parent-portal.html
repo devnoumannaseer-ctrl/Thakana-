@@ -55,7 +55,7 @@
     }
   </style>
 </head>
-<body class="bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 min-h-screen flex flex-col relative">
+<body class="pb-20 bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 min-h-screen flex flex-col relative">
 
   <!-- 3D Vanta Animated Background -->
   <div id="vanta-birds-bg"></div>
@@ -306,5 +306,25 @@
       initVantaBirds();
     });
   </script>
+
+  <!-- FROZEN BOTTOM NAVIGATION DOCK -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#E9E8F8] px-3 py-2 flex justify-around items-center text-[10px] font-bold text-slate-600 shadow-2xl safe-bottom">
+    <a href="index.html#hostels" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-compass text-xl"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-users text-xl"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="student-pass.html" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-identification-card text-xl"></i>
+      <span>Pass</span>
+    </a>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 text-slate-600 hover:text-rose-600 transition">
+      <i class="ph-bold ph-shield-check text-xl"></i>
+      <span>Admin</span>
+    </a>
+  </div>
 </body>
 </html>

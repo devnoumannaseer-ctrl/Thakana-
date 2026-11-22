@@ -159,7 +159,7 @@
         </a>
 
         <!-- MOBILE HAMBURGER BUTTON -->
-        <button id="mobileNavToggleBtn" onclick="toggleMobileNav()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center shrink-0">
+        <button id="mobileNavToggleBtn" onclick="closeMobileNav()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center shrink-0">
           <i id="mobileNavIcon" class="ph-bold ph-list text-xl"></i>
         </button>
       </div>
@@ -169,7 +169,7 @@
     <div id="mobileNavDrawer" class="hidden lg:hidden border-t border-[#E9E8F8] bg-white/98 backdrop-blur-md px-4 py-4 shadow-xl transition-all">
       <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">Navigation &amp; Portals</div>
       <div class="grid grid-cols-2 gap-2 pb-3 border-b border-[#E9E8F8]">
-        <a href="index.html#hostels" onclick="toggleMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="index.html#hostels" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-buildings text-[#4A7AC4] text-base"></i> Verified Hostels
         </a>
         <a href="roommate-match.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
@@ -190,6 +190,9 @@
       </div>
     </div>
   </header>
+  <!-- MOBILE NAV BACKDROP OVERLAY (TOUCH ANYWHERE TO CLOSE) -->
+  <div id="mobileNavBackdrop" onclick="closeMobileNav()" class="hidden fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-[2px] transition-opacity"></div>
+
 
   <!-- HERO SECTION WITH VANTA.BIRDS 3D ANIMATION -->
   <section id="hero-vanta" class="relative pt-6 sm:pt-10 pb-12 sm:pb-16 overflow-hidden min-h-[460px] sm:min-h-[520px] flex items-center justify-center">
@@ -633,24 +636,24 @@
     </div>
   </div>
 
-  <!-- STICKY MOBILE NAVIGATION DOCK (ONLY ON MOBILE PHONES) -->
-  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E9E8F8] px-4 py-2 flex justify-around items-center text-[10px] font-bold text-slate-600 shadow-lg">
-    <a href="#hostels" class="flex flex-col items-center gap-1 text-[#4A7AC4]">
-      <i class="ph-fill ph-compass text-lg"></i>
+  <!-- FROZEN BOTTOM NAVIGATION DOCK (PERMANENTLY VISIBLE ACROSS ALL SECTIONS) -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#E9E8F8] px-3 py-2 flex justify-around items-center text-[10px] font-bold text-slate-600 shadow-2xl safe-bottom">
+    <a href="index.html#hostels" class="flex flex-col items-center gap-0.5 text-[#4A7AC4] font-black">
+      <i class="ph-fill ph-compass text-xl"></i>
       <span>Explore</span>
     </a>
-    <a href="roommate-match.html" class="flex flex-col items-center gap-1 hover:text-[#4A7AC4] transition">
-      <i class="ph-bold ph-users text-lg"></i>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-users text-xl"></i>
       <span>Roommates</span>
     </a>
-    <a href="student-pass.html" class="flex flex-col items-center gap-1 hover:text-[#4A7AC4] transition">
-      <i class="ph-bold ph-identification-card text-lg"></i>
+    <a href="student-pass.html" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-identification-card text-xl"></i>
       <span>Pass</span>
     </a>
-    <button onclick="toggleAdminMode()" class="flex flex-col items-center gap-1 text-rose-600">
-      <i class="ph-bold ph-shield-check text-lg"></i>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 text-slate-600 hover:text-rose-600 transition">
+      <i class="ph-bold ph-shield-check text-xl"></i>
       <span>Admin</span>
-    </button>
+    </a>
   </div>
 
   <!-- FOOTER (ZERO FOUNDER SECTION) -->
@@ -914,19 +917,48 @@
       }
     }
 
-    // RESPONSIVE MOBILE NAVIGATION DRAWER TOGGLE
+    // RESPONSIVE MOBILE NAVIGATION DRAWER TOGGLE & TOUCH-OUTSIDE DISMISS
     function toggleMobileNav() {
       const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
       const icon = document.getElementById('mobileNavIcon');
       if (!drawer) return;
       if (drawer.classList.contains('hidden')) {
         drawer.classList.remove('hidden');
+        if (backdrop) backdrop.classList.remove('hidden');
         if (icon) icon.className = 'ph-bold ph-x text-xl text-rose-600';
       } else {
-        drawer.classList.add('hidden');
-        if (icon) icon.className = 'ph-bold ph-list text-xl text-slate-800';
+        closeMobileNav();
       }
     }
+
+    function closeMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      const icon = document.getElementById('mobileNavIcon');
+      if (drawer) drawer.classList.add('hidden');
+      if (backdrop) backdrop.classList.add('hidden');
+      if (icon) icon.className = 'ph-bold ph-list text-xl text-slate-800';
+    }
+
+    // Auto-close on touch / click anywhere outside drawer
+    document.addEventListener('click', function(e) {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const toggleBtn = document.getElementById('mobileNavToggleBtn');
+      if (drawer && !drawer.classList.contains('hidden')) {
+        if (!drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+          closeMobileNav();
+        }
+      }
+    });
+
+    // Auto-close on screen scroll
+    window.addEventListener('scroll', function() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      if (drawer && !drawer.classList.contains('hidden')) {
+        closeMobileNav();
+      }
+    }, { passive: true });
 
     function toggleFilterDrawer() {
       const row = document.getElementById('filterRow');
@@ -1197,13 +1229,19 @@
                   '<span class="text-[11px] font-black text-slate-700">48-Hr Escrow</span>' +
                 '</div>' +
               '</div>' +
-              '<div class="flex items-center justify-between p-2 rounded-xl bg-indigo-50/60 border border-indigo-100 text-[11px] mb-4">' +
-                '<span class="text-indigo-900 font-bold flex items-center gap-1">' +
-                  '<i class="ph-bold ph-users text-indigo-600"></i> Split 50/50:' +
-                '</span>' +
-                '<span class="font-black text-indigo-700">' +
-                  'PKR ' + splitPrice.toLocaleString() + ' / student' +
-                '</span>' +
+              '<div class="p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-100 text-[11px] mb-4">' +
+                '<div class="flex items-center justify-between">' +
+                  '<span class="text-indigo-900 font-bold flex items-center gap-1">' +
+                    '<i class="ph-bold ph-users text-indigo-600"></i> Split 50/50:' +
+                  '</span>' +
+                  '<span class="font-black text-indigo-700">' +
+                    'PKR ' + splitPrice.toLocaleString() + ' / student' +
+                  '</span>' +
+                '</div>' +
+                '<a href="roommate-match.html?hostel=' + encodeURIComponent(h.id) + '&gender=' + encodeURIComponent(h.gender) + '" class="mt-1.5 pt-1.5 border-t border-indigo-200/60 flex items-center justify-between text-[10px] font-extrabold text-[#4A7AC4] hover:text-indigo-800 transition">' +
+                  '<span><i class="ph-bold ph-sparkle text-amber-500"></i> Find AI Roommate to Split (7-Day Swap)</span>' +
+                  '<i class="ph-bold ph-arrow-right"></i>' +
+                '</a>' +
               '</div>' +
             '</div>' +
             '<div class="space-y-2">' +

@@ -1452,6 +1452,72 @@ app.post('/api/admin/restore-hostels', (req, res) => {
   return handleDirectRestoreHostel(req, res);
 });
 
+// -------------------------------------------------------------
+// 28. PERMANENT DELETE HANDLERS (PURGE FROM DATABASE)
+// -------------------------------------------------------------
+function handleDeleteHostelPermanent(req, res) {
+  const hostelId = req.body?.hostelId || req.params?.id;
+  const adminName = req.body?.adminName || 'Super Admin';
+  let hostels = readJson(HOSTELS_FILE);
+
+  if (!hostelId) {
+    return res.status(400).json({ success: false, message: 'Hostel ID is required for permanent deletion.' });
+  }
+
+  if (hostelId === 'ALL_REMOVED') {
+    const beforeCount = hostels.length;
+    hostels = hostels.filter(h => h.status !== 'removed' && !h.isArchived && !h.isRemoved);
+    const purgedCount = beforeCount - hostels.length;
+    writeJson(HOSTELS_FILE, hostels);
+    logAction('ADMIN_PURGED_REMOVED_HOSTELS', `Purged ${purgedCount} removed hostels permanently.`, adminName);
+    return res.json({
+      success: true,
+      message: `Successfully purged ${purgedCount} removed hostels permanently from database.`,
+      purgedCount: purgedCount
+    });
+  }
+
+  if (hostelId === 'ALL') {
+    const total = hostels.length;
+    writeJson(HOSTELS_FILE, []);
+    logAction('ADMIN_PURGED_ALL_HOSTELS', `Purged all ${total} hostels permanently from database.`, adminName);
+    return res.json({
+      success: true,
+      message: `All ${total} hostels deleted permanently.`,
+      purgedCount: total
+    });
+  }
+
+  const idx = hostels.findIndex(h => h.id === hostelId);
+  if (idx === -1) {
+    return res.status(404).json({ success: false, message: `Hostel "${hostelId}" not found.` });
+  }
+
+  const deleted = hostels.splice(idx, 1)[0];
+  writeJson(HOSTELS_FILE, hostels);
+  logAction('ADMIN_PERMANENT_DELETE', `Deleted "${deleted.name}" (${deleted.id}) permanently from database.`, adminName);
+
+  return res.json({
+    success: true,
+    message: `Hostel "${deleted.name}" has been permanently deleted from database.`,
+    deletedHostel: deleted
+  });
+}
+
+app.post('/api/admin/delete-hostel-permanent', handleDeleteHostelPermanent);
+app.post('/api/admin/delete-hostel', handleDeleteHostelPermanent);
+app.delete('/api/admin/hostels/:id', (req, res) => {
+  req.body = req.body || {};
+  req.body.hostelId = req.params.id;
+  return handleDeleteHostelPermanent(req, res);
+});
+app.delete('/api/hostels/:id', (req, res) => {
+  req.body = req.body || {};
+  req.body.hostelId = req.params.id;
+  return handleDeleteHostelPermanent(req, res);
+});
+
+
 // Fallback route serves index.html
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

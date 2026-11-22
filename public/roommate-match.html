@@ -56,7 +56,7 @@
     }
   </style>
 </head>
-<body class="bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 min-h-screen flex flex-col relative">
+<body class="pb-20 bg-[#F8F8FD] text-slate-800 antialiased selection:bg-[#F5B69E] selection:text-slate-900 min-h-screen flex flex-col relative">
 
   <!-- 3D Vanta.js Animated Background Container -->
   <div id="vanta-net-bg"></div>
@@ -109,7 +109,7 @@
         <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
           <i class="ph-bold ph-plus-circle text-sm"></i> <span class="hidden sm:inline">List</span> Hostel
         </a>
-        <button onclick="document.getElementById('roommateMobileDrawer').classList.toggle('hidden')" aria-label="Toggle Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition">
+        <button onclick="toggleRoommateDrawer()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition">
           <i class="ph-bold ph-list text-xl"></i>
         </button>
       </div>
@@ -152,6 +152,55 @@
       <p class="text-xs sm:text-sm text-slate-600 mt-2 font-medium">
         Pair with verified university peers who share your sleep schedule, study discipline, and hygiene habits. Backed by Thikana's <strong>7-Day Free Room Swap Guarantee</strong>.
       </p>
+    </div>
+
+    
+    <!-- 3-STEP EXPLAINER: HOW ROOMMATE AI WORKS -->
+    <div class="mb-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#E9E8F8] via-white to-[#FDE8E0] border border-[#8DB9F0]/60 shadow-lg shadow-[#8DB9F0]/10">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#4A7AC4] animate-pulse"></span>
+        <h2 class="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+          How Roommate AI Works &bull; 3 Simple Steps
+        </h2>
+        <span class="text-[10px] font-black uppercase tracking-wider bg-[#8DB9F0] text-slate-950 px-2.5 py-0.5 rounded-full ml-auto">
+          Rent Cut 50%
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <!-- STEP 1 -->
+        <div class="p-3.5 rounded-2xl bg-white/90 border border-[#E9E8F8] shadow-sm">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-[#8DB9F0] text-slate-950 font-black text-xs flex items-center justify-center">1</span>
+            <strong class="text-slate-900">Select Living Habits</strong>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Answer 4 quick lifestyle questions (Sleep timing, Study silence, Cleanliness, Major). Takes only 15 seconds.
+          </p>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="p-3.5 rounded-2xl bg-white/90 border border-[#E9E8F8] shadow-sm">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-[#F5B69E] text-slate-950 font-black text-xs flex items-center justify-center">2</span>
+            <strong class="text-slate-900">AI Compatibility Score</strong>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            AI calculates a match score (e.g. <strong class="text-[#4A7AC4]">96% Synergy</strong>) with verified students in Johar Town, FAST &amp; UMT.
+          </p>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="p-3.5 rounded-2xl bg-white/90 border border-[#E9E8F8] shadow-sm">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-emerald-400 text-slate-950 font-black text-xs flex items-center justify-center">3</span>
+            <strong class="text-slate-900">Split 50/50 &amp; Move In</strong>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Split rent in half (50%) with Raast / JazzCash. Backed by our <strong>7-Day Free Room Swap Guarantee</strong>.
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- QUIZ & RESULTS CONTAINER -->
@@ -467,5 +516,25 @@
       runMatching(null);
     });
   </script>
+
+  <!-- FROZEN BOTTOM NAVIGATION DOCK (ROOMMATES ACTIVE) -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#E9E8F8] px-3 py-2 flex justify-around items-center text-[10px] font-bold text-slate-600 shadow-2xl safe-bottom">
+    <a href="index.html#hostels" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-compass text-xl"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 text-[#4A7AC4] font-black transition">
+      <i class="ph-fill ph-users text-xl"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="student-pass.html" class="flex flex-col items-center gap-0.5 hover:text-[#4A7AC4] transition">
+      <i class="ph-bold ph-identification-card text-xl"></i>
+      <span>Pass</span>
+    </a>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 text-slate-600 hover:text-rose-600 transition">
+      <i class="ph-bold ph-shield-check text-xl"></i>
+      <span>Admin</span>
+    </a>
+  </div>
 </body>
 </html>
