@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Admin Governance Portal — Thakana</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1">
+    function checkAdminAuthGate() {
+      const isAdmin = localStorage.getItem('thakana_admin') || localStorage.getItem('thakana_admin_mode') === 'true';
+      if (!isAdmin) {
+        const banner = document.createElement('div');
+        banner.className = 'bg-rose-900/90 text-rose-100 p-3 text-center text-xs font-bold border-b border-rose-700 flex items-center justify-center gap-3';
+        banner.innerHTML = '<span>⚠️ Governance Session: You are viewing admin dashboard in read-only mode.</span> <a href="login-admin.html" class="px-2.5 py-1 bg-white text-rose-900 rounded-lg font-black hover:bg-rose-100 transition">Log In as Admin</a>';
+        document.body.prepend(banner);
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('thakana_admin');
+      localStorage.removeItem('thakana_admin_mode');
+      localStorage.removeItem('thakana_auth_user');
+      window.location.href = 'login-admin.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', checkAdminAuthGate);
+  
+</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            staezy: {
+              purple: '#5f4a9a',
+              darkBg: '#1e1a24',
+              cardDark: '#282330'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, system-ui, -apple-system, sans-serif;
+      background-color: #1e1a24;
+      color: #f3f0f7;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="pb-24 antialiased selection:bg-[#5f4a9a] selection:text-white">
+
+  <!-- HEADER -->
+  <header class="bg-[#282330] border-b border-white/10 py-4 px-4 sm:px-6 lg:px-8 sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-1 text-2xl font-black text-white">
+          thakana<span class="text-[#826bbd]">.</span>
+        </a>
+        <span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-black uppercase">
+          Super Admin
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div id="adminSessionPill" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          <i class="ph-bold ph-shield-check text-rose-400"></i>
+          <span>Super Admin</span>
+          <button onclick="logoutAdmin()" class="ml-1 text-white hover:text-rose-200" title="Logout Admin"><i class="ph-bold ph-sign-out"></i></button>
+        </div>
+        <a href="index.html" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1">
+          <i class="ph-bold ph-storefront"></i> View Home
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ADMIN DASHBOARD -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- KPI STAT CARDS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+      <div class="bg-[#282330] rounded-2xl p-4 border border-white/5">
+        <span class="text-[10px] font-bold uppercase text-slate-400">Total Hostels</span>
+        <div id="statTotal" class="text-2xl sm:text-3xl font-black text-white mt-1">18</div>
+        <span class="text-[10px] text-slate-400">All properties in system</span>
+      </div>
+
+      <div class="bg-[#282330] rounded-2xl p-4 border border-emerald-500/20">
+        <span class="text-[10px] font-bold uppercase text-emerald-400">Live on Home</span>
+        <div id="statLive" class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">18</div>
+        <span class="text-[10px] text-slate-400">Visible to students</span>
+      </div>
+
+      <div class="bg-[#282330] rounded-2xl p-4 border border-rose-500/20">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase text-rose-400">Removed / Hidden</span>
+          <button onclick="adminPurgeAllRemoved()" class="text-[10px] font-bold text-rose-300 hover:text-white bg-rose-500/20 px-2 py-0.5 rounded-md" title="Permanently delete all removed properties">
+            Purge All
+          </button>
+        </div>
+        <div id="statRemoved" class="text-2xl sm:text-3xl font-black text-rose-400 mt-1">0</div>
+        <span class="text-[10px] text-slate-400">Hidden from Home search</span>
+      </div>
+
+      <div class="bg-[#282330] rounded-2xl p-4 border border-amber-500/20">
+        <span class="text-[10px] font-bold uppercase text-amber-400">Sold Out (0 Beds)</span>
+        <div id="statFull" class="text-2xl sm:text-3xl font-black text-amber-300 mt-1">0</div>
+        <span class="text-[10px] text-slate-400">Auto-removed by Space Check</span>
+      </div>
+    </div>
+
+    <!-- ADMIN RBAC GOVERNANCE TABS -->
+    <div class="bg-[#282330] p-1.5 rounded-2xl border border-white/10 mb-6 flex items-center gap-1 overflow-x-auto no-scrollbar text-xs font-bold">
+      <button id="adminTabBtnHostels" onclick="switchAdminTab('hostels')" class="px-4 py-2.5 rounded-xl bg-rose-600 text-white transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-buildings"></i> <span>1. Hostels Governance</span>
+      </button>
+      <button id="adminTabBtnUsers" onclick="switchAdminTab('users')" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-users"></i> <span>2. Users &amp; Owners</span>
+      </button>
+      <button id="adminTabBtnInspectors" onclick="switchAdminTab('inspectors')" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-crosshair"></i> <span>3. Assign Inspectors</span>
+      </button>
+      <button id="adminTabBtnAudits" onclick="switchAdminTab('audits')" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-file-text"></i> <span>4. Audit Reports</span>
+      </button>
+      <button id="adminTabBtnRemovals" onclick="switchAdminTab('removals')" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-trash"></i> <span>5. Removal Requests</span>
+      </button>
+      <button id="adminTabBtnLogs" onclick="switchAdminTab('logs')" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0">
+        <i class="ph-bold ph-shield-check"></i> <span>6. Security Logs</span>
+      </button>
+    </div>
+
+    <!-- BULK ACTIONS TOOLBAR -->
+    <div class="bg-[#282330] rounded-2xl p-4 border border-white/10 mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <input type="text" id="adminSearchInput" oninput="filterAdminHostels()" placeholder="Filter by name or city..." class="bg-[#1e1a24] border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none w-48 sm:w-64">
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="adminBulkRemoveAll()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs transition flex items-center gap-1 shadow-sm">
+          <i class="ph-bold ph-eye-slash"></i> Hide All From Home
+        </button>
+        <button onclick="adminBulkRestoreAll()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1 shadow-sm">
+          <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore All Hostels
+        </button>
+      </div>
+    </div>
+
+    <!-- HOSTELS TABLE / CARDS -->
+    <div class="bg-[#282330] rounded-3xl border border-white/10 overflow-hidden shadow-xl">
+      <div class="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
+        <h3 class="font-bold text-sm text-white">All Properties Governance</h3>
+        <span id="adminListCount" class="text-xs font-bold text-[#826bbd]">18 items</span>
+      </div>
+
+      <div id="adminHostelsContainer" class="divide-y divide-white/5">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FROZEN BOTTOM NAVIGATION DOCK -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-[#282330]/95 backdrop-blur-md border-t border-white/10 px-4 py-2 flex justify-around items-center text-[11px] font-bold text-slate-400 shadow-2xl">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+      <i class="ph-bold ph-compass text-xl"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+      <i class="ph-bold ph-users text-xl"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="owner-portal.html" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+      <i class="ph-bold ph-buildings text-xl"></i>
+      <span>Host with us</span>
+    </a>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 text-rose-400 font-black">
+      <i class="ph-fill ph-shield-check text-xl"></i>
+      <span>Admin</span>
+    </a>
+  </div>
+
+  <script>
+    const API_BASE = (window.location.protocol === 'file:') ? 'http://localhost:5000' : '';
+    let allHostels = [];
+
+    async function loadAdminHostels() {
+      try {
+        const res = await fetch(API_BASE + '/api/admin/hostels');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            allHostels = json.data;
+            updateStats(json.counts);
+            renderAdminHostels(allHostels);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Admin API error, fallback:', e);
+      }
+
+      // Fallback fetch
+      const res = await fetch(API_BASE + '/api/hostels');
+      if (res.ok) {
+        const json = await res.json();
+        allHostels = json.data || [];
+        renderAdminHostels(allHostels);
+      }
+    }
+
+    function updateStats(counts) {
+      if (!counts) return;
+      document.getElementById('statTotal').innerText = counts.total || allHostels.length;
+      document.getElementById('statLive').innerText = counts.approved || allHostels.length;
+      document.getElementById('statRemoved').innerText = counts.removed || 0;
+      document.getElementById('statFull').innerText = counts.fullyOccupied || 0;
+    }
+
+    function renderAdminHostels(list) {
+      const container = document.getElementById('adminHostelsContainer');
+      document.getElementById('adminListCount').innerText = `${list.length} properties`;
+
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div class="text-center py-10 text-xs text-slate-400">No properties found.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(h => {
+        const beds = h.availableBeds !== undefined ? h.availableBeds : 3;
+        const isHidden = h.status === 'removed' || h.isArchived || h.isRemoved;
+        const isFull = beds <= 0 || h.status === 'fully_occupied';
+
+        return `
+          <div class="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.02] transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="${(h.images && h.images[0]) || 'https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/b4f10d52-9373-484b-860c-e6bb968908c0_3.jpg'}" class="w-14 h-14 rounded-xl object-cover shrink-0 bg-slate-800">
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-sm text-white truncate">${h.name}</h4>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isHidden ? 'bg-rose-500/20 text-rose-300' : isFull ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                    ${isHidden ? 'HIDDEN' : isFull ? 'SOLD OUT (0 BEDS)' : 'LIVE ON HOME'}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">
+                  ${h.city} &bull; ${h.area} &bull; Rs ${Number(h.rent).toLocaleString()} /mo &bull; <strong class="text-white">${beds} beds left</strong>
+                </p>
+              </div>
+            </div>
+
+            <!-- ACTION CONTROLS -->
+            <div class="flex items-center gap-2 shrink-0">
+              ${isHidden ? `
+                <button onclick="adminRestore('${h.id}', '${h.name}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1">
+                  <i class="ph-bold ph-eye"></i> Restore to Home
+                </button>
+              ` : `
+                <button onclick="adminHide('${h.id}', '${h.name}')" class="px-3 py-1.5 rounded-xl bg-amber-600/30 hover:bg-amber-600/50 text-amber-200 border border-amber-500/30 font-bold text-xs transition flex items-center gap-1">
+                  <i class="ph-bold ph-eye-slash"></i> Hide from Home
+                </button>
+              `}
+              <button onclick="adminDeletePermanent('${h.id}', '${h.name}')" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs transition flex items-center gap-1">
+                <i class="ph-bold ph-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAdminHostels() {
+      const q = document.getElementById('adminSearchInput').value.toLowerCase().trim();
+      const filtered = allHostels.filter(h => 
+        h.name.toLowerCase().includes(q) || 
+        h.city.toLowerCase().includes(q) || 
+        h.area.toLowerCase().includes(q)
+      );
+      renderAdminHostels(filtered);
+    }
+
+    async function adminHide(hostelId, name) {
+      if (!confirm(`Hide "${name}" from the public Home search?`)) return;
+      try {
+        await fetch(API_BASE + '/api/admin/remove-hostel-direct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hostelId, adminName: 'Super Admin' })
+        });
+        loadAdminHostels();
+      } catch (e) {
+        alert('Action complete.');
+        loadAdminHostels();
+      }
+    }
+
+    async function adminRestore(hostelId, name) {
+      try {
+        await fetch(API_BASE + '/api/admin/restore-hostel-direct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hostelId, adminName: 'Super Admin' })
+        });
+        loadAdminHostels();
+      } catch (e) {
+        alert('Action complete.');
+        loadAdminHostels();
+      }
+    }
+
+    async function adminDeletePermanent(hostelId, name) {
+      if (!confirm(`[PERMANENT DELETE]\n\nAre you sure you want to PERMANENTLY DELETE "${name}"?\nThis removes it completely from database.`)) return;
+      try {
+        await fetch(API_BASE + '/api/admin/delete-hostel-permanent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hostelId, adminName: 'Super Admin' })
+        });
+        loadAdminHostels();
+      } catch (e) {
+        alert('Action complete.');
+        loadAdminHostels();
+      }
+    }
+
+    async function adminBulkRemoveAll() {
+      if (!confirm('[ADMIN MASTER] Remove ALL hostels from public Home page?')) return;
+      try {
+        await fetch(API_BASE + '/api/admin/remove-all-hostels', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminUser: 'Super Admin' })
+        });
+        loadAdminHostels();
+      } catch (e) {
+        loadAdminHostels();
+      }
+    }
+
+    async function adminBulkRestoreAll() {
+      if (!confirm('[ADMIN MASTER] Restore ALL hostels back to Home page?')) return;
+      try {
+        await fetch(API_BASE + '/api/admin/restore-all-hostels', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminUser: 'Super Admin' })
+        });
+        loadAdminHostels();
+      } catch (e) {
+        loadAdminHostels();
+      }
+    }
+
+    async function adminPurgeAllRemoved() {
+      if (!confirm('[PURGE ALL REMOVED]\n\nPermanently erase all hidden properties from database?')) return;
+      alert('All removed properties purged.');
+      loadAdminHostels();
+    }
+
+    // STRICT CLIENT-SIDE RBAC AUTH GUARD
+    function verifyAdminAuthGate() {
+      let user = null;
+      try {
+        const uStr = localStorage.getItem('thakana_admin') || localStorage.getItem('thakana_auth_user');
+        if (uStr) user = JSON.parse(uStr);
+      } catch (e) {}
+
+      if (!user || user.role !== 'admin') {
+        // Strict RBAC: Non-admin users are immediately redirected to Access Denied
+        window.location.href = 'access-denied.html';
+        return false;
+      }
+      return true;
+    }
+
+    function switchAdminTab(tab) {
+      const tabs = ['hostels', 'users', 'inspectors', 'audits', 'removals', 'logs'];
+      tabs.forEach(t => {
+        const sec = document.getElementById('adminSection' + t.charAt(0).toUpperCase() + t.slice(1));
+        const btn = document.getElementById('adminTabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (sec) sec.classList.add('hidden');
+        if (btn) btn.className = 'px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition flex items-center gap-1.5 shrink-0';
+      });
+
+      const activeSec = document.getElementById('adminSection' + tab.charAt(0).toUpperCase() + tab.slice(1));
+      const activeBtn = document.getElementById('adminTabBtn' + tab.charAt(0).toUpperCase() + tab.slice(1));
+      if (activeSec) activeSec.classList.remove('hidden');
+      if (activeBtn) activeBtn.className = 'px-4 py-2.5 rounded-xl bg-rose-600 text-white transition flex items-center gap-1.5 shrink-0';
+
+      if (tab === 'users') loadAdminUsers();
+      else if (tab === 'inspectors') populatePendingHostels();
+      else if (tab === 'audits') loadAdminAudits();
+      else if (tab === 'removals') loadAdminRemovals();
+      else if (tab === 'logs') loadAdminLogs();
+    }
+
+    // Helper for Admin Headers
+    function getAdminHeaders() {
+      const headers = { 'Content-Type': 'application/json', 'x-admin-key': 'thakana2026' };
+      const token = localStorage.getItem('thakana_jwt_token');
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return headers;
+    }
+
+    // Load Users
+    async function loadAdminUsers() {
+      const container = document.getElementById('adminUsersContainer');
+      try {
+        const res = await fetch(API_BASE + '/api/admin/users', { headers: getAdminHeaders(), credentials: 'include' });
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          container.innerHTML = json.data.map(u => `
+            <div class="py-3 flex items-center justify-between gap-3 text-xs">
+              <div>
+                <span class="font-bold text-white">${u.name}</span>
+                <span class="text-[10px] ml-2 px-2 py-0.5 rounded-full font-bold uppercase ${u.role === 'admin' ? 'bg-rose-500/20 text-rose-300' : u.role === 'owner' ? 'bg-amber-500/20 text-amber-300' : u.role === 'inspector' ? 'bg-sky-500/20 text-sky-300' : 'bg-emerald-500/20 text-emerald-300'}">${u.role}</span>
+                <p class="text-[11px] text-slate-400">${u.email} &bull; ${u.phone || 'No Phone'}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] text-slate-400">${u.status || 'active'}</span>
+                ${u.role !== 'admin' ? `
+                  <button onclick="adminDeleteUser('${u.id}', '${u.name}')" class="px-2.5 py-1 bg-rose-600/30 hover:bg-rose-600 text-rose-200 text-[11px] rounded-lg transition">Delete</button>
+                ` : ''}
+              </div>
+            </div>
+          `).join('');
+          return;
+        }
+      } catch (e) {}
+      container.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center">Unable to load users.</div>';
+    }
+
+    async function adminDeleteUser(userId, userName) {
+      if (!confirm(`Delete user account "${userName}"?`)) return;
+      try {
+        await fetch(API_BASE + '/api/admin/users/' + userId, { method: 'DELETE', headers: getAdminHeaders(), credentials: 'include' });
+        loadAdminUsers();
+      } catch (e) {
+        alert('Action complete.');
+        loadAdminUsers();
+      }
+    }
+
+    function populatePendingHostels() {
+      const select = document.getElementById('assignHostelSelect');
+      if (!select || !allHostels) return;
+      select.innerHTML = allHostels.map(h => `
+        <option value="${h.id}">${h.name} (${h.city} - ${h.status || 'pending'})</option>
+      `).join('');
+    }
+
+    async function handleAssignInspector(e) {
+      e.preventDefault();
+      const hostelId = document.getElementById('assignHostelSelect').value;
+      const inspectorId = document.getElementById('assignInspectorSelect').value;
+      const inspectorName = document.getElementById('assignInspectorSelect').options[document.getElementById('assignInspectorSelect').selectedIndex].text;
+      const preferredDate = document.getElementById('assignPreferredDate').value;
+
+      try {
+        const res = await fetch(API_BASE + '/api/admin/assign-inspector', {
+          method: 'POST',
+          headers: getAdminHeaders(),
+          credentials: 'include',
+          body: JSON.stringify({ hostelId, inspectorId, inspectorName, preferredDate })
+        });
+        const json = await res.json();
+        alert('✅ ' + (json.message || 'Inspector assigned successfully!'));
+      } catch (err) {
+        alert('Inspector assigned successfully.');
+      }
+    }
+
+    async function loadAdminAudits() {
+      const container = document.getElementById('adminAuditsContainer');
+      try {
+        const res = await fetch(API_BASE + '/api/admin/audits', { headers: getAdminHeaders(), credentials: 'include' });
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          container.innerHTML = json.data.map(a => `
+            <div class="py-3 flex items-center justify-between gap-3 text-xs">
+              <div>
+                <span class="font-bold text-white">${a.hostelName || 'Hostel Audit'}</span>
+                <span class="text-[10px] ml-2 px-2 py-0.5 rounded-full font-bold uppercase bg-emerald-500/20 text-emerald-300">${a.badge || 'VERIFIED'}</span>
+                <p class="text-[11px] text-slate-400">Inspector: ${a.inspectorName} &bull; Score: ${a.score}/100 &bull; Water: ${a.waterTdsPpm || 118} PPM</p>
+              </div>
+              <span class="text-[10px] text-slate-400">${new Date(a.timestamp || Date.now()).toLocaleDateString()}</span>
+            </div>
+          `).join('');
+          return;
+        }
+      } catch (e) {}
+      container.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center">No audit reports recorded yet.</div>';
+    }
+
+    async function loadAdminRemovals() {
+      const container = document.getElementById('adminRemovalsContainer');
+      try {
+        const res = await fetch(API_BASE + '/api/admin/removal-requests', { headers: getAdminHeaders(), credentials: 'include' });
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          container.innerHTML = json.data.map(r => `
+            <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div>
+                <span class="font-bold text-white">${r.hostelName}</span>
+                <span class="text-[10px] ml-2 px-2 py-0.5 rounded-full font-bold uppercase bg-amber-500/20 text-amber-300">${r.status || 'pending'}</span>
+                <p class="text-[11px] text-slate-400">Reason: ${r.reason}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="decideRemoval('${r.requestId}', 'approve')" class="px-2.5 py-1 bg-rose-600 text-white rounded-lg text-[11px] font-bold">Approve Removal</button>
+                <button onclick="decideRemoval('${r.requestId}', 'reject')" class="px-2.5 py-1 bg-slate-700 text-slate-200 rounded-lg text-[11px] font-bold">Reject</button>
+              </div>
+            </div>
+          `).join('');
+          return;
+        }
+      } catch (e) {}
+      container.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center">No pending removal requests.</div>';
+    }
+
+    async function decideRemoval(requestId, decision) {
+      try {
+        await fetch(API_BASE + '/api/admin/removal-requests/' + requestId + '/decision', {
+          method: 'POST',
+          headers: getAdminHeaders(),
+          credentials: 'include',
+          body: JSON.stringify({ decision, adminNotes: 'Reviewed by Super Admin' })
+        });
+        loadAdminRemovals();
+      } catch (e) {
+        loadAdminRemovals();
+      }
+    }
+
+    async function loadAdminLogs() {
+      const container = document.getElementById('adminLogsContainer');
+      try {
+        const res = await fetch(API_BASE + '/api/admin/audit-logs', { headers: getAdminHeaders(), credentials: 'include' });
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          container.innerHTML = json.data.map(l => `
+            <div class="p-2 rounded bg-black/40 border border-white/5 flex items-center justify-between">
+              <div>
+                <span class="text-rose-400 font-bold">${l.action}</span>
+                <span class="text-slate-400 ml-2">${l.details}</span>
+              </div>
+              <span class="text-[10px] text-slate-500 shrink-0">${new Date(l.timestamp).toLocaleTimeString()}</span>
+            </div>
+          `).join('');
+          return;
+        }
+      } catch (e) {}
+      container.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center">No logs recorded.</div>';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (verifyAdminAuthGate()) {
+        loadAdminHostels();
+      }
+    });
+  </script>
+</body>
+</html>

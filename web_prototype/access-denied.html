@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 Access Denied — Thakana RBAC</title>
+
+  <!-- INTER TIGHT & INTER FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            thakana: {
+              purple: '#5f4a9a',
+              purpleHover: '#4d3b7e',
+              purpleLight: '#f0edfb',
+              purpleDark: '#322d3a'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-[#f8f7fc] text-[#342f3d] flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl text-center">
+    <div class="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center text-3xl mx-auto mb-4">
+      <i class="ph-bold ph-shield-warning"></i>
+    </div>
+    
+    <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800 text-[10px] font-extrabold uppercase tracking-widest inline-block mb-2">
+      HTTP 403 &bull; Forbidden
+    </span>
+    
+    <h1 class="text-2xl font-black text-slate-800">Access Denied</h1>
+    <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+      You do not have the required permissions or role authorization to access this portal. Thikana Role-Based Access Control (RBAC) strictly enforces role boundaries.
+    </p>
+
+    <div class="my-6 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-left text-xs space-y-1">
+      <div class="flex justify-between text-slate-500 text-[11px]">
+        <span>Security Rule:</span>
+        <strong class="text-rose-600">Strict Role Separation</strong>
+      </div>
+      <div class="flex justify-between text-slate-500 text-[11px]">
+        <span>Server Authorization:</span>
+        <span class="font-mono text-slate-700">Enforced by Express Middleware</span>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <a href="index.html" class="w-full py-3 rounded-xl bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+        <i class="ph-bold ph-arrow-left"></i> Return to Public Marketplace
+      </a>
+      <a href="login.html" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-sign-in"></i> Sign In to Authorized Portal
+      </a>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-400">
+      thakana<span class="text-[#826bbd]">.</span> Platform Security OS &bull; Anti-IDOR Protected
+    </div>
+  </div>
+</body>
+</html>

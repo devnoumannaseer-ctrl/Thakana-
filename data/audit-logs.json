@@ -138,5 +138,306 @@
     "details": "Hostel \"Al-Rehman Executive Female Residency\" restored to public marketplace.",
     "performedBy": "Test Suite",
     "timestamp": "2026-11-22T09:49:13.753Z"
+  },
+  {
+    "logId": "LOG-1795348564279-4",
+    "action": "OWNER_UPDATED_BEDS",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" updated to 3 available beds.",
+    "performedBy": "03009481234",
+    "timestamp": "2026-11-22T11:56:04.279Z"
+  },
+  {
+    "logId": "LOG-1795348575264-880",
+    "action": "OWNER_UPDATED_BEDS_FULL",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" marked full (0 beds). Auto-removed from Home page.",
+    "performedBy": "03009481234",
+    "timestamp": "2026-11-22T11:56:15.264Z"
+  },
+  {
+    "logId": "LOG-1795348575289-239",
+    "action": "OWNER_UPDATED_BEDS",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" updated to 4 available beds.",
+    "performedBy": "03009481234",
+    "timestamp": "2026-11-22T11:56:15.289Z"
+  },
+  {
+    "logId": "LOG-1795349994714-32",
+    "action": "OWNER_UPDATED_BEDS_FULL",
+    "details": "Hostel \"The Capital Girls Hostel & Guest House\" marked full (0 beds). Auto-removed from Home page.",
+    "performedBy": "03001234567",
+    "timestamp": "2026-11-22T12:19:54.714Z"
+  },
+  {
+    "logId": "LOG-1795349994739-19",
+    "action": "OWNER_UPDATED_BEDS",
+    "details": "Hostel \"The Capital Girls Hostel & Guest House\" updated to 3 available beds.",
+    "performedBy": "03001234567",
+    "timestamp": "2026-11-22T12:19:54.739Z"
+  },
+  {
+    "logId": "LOG-1795350007816-950",
+    "action": "ADMIN_DIRECT_REMOVAL",
+    "details": "Hostel \"Gateway Residency F-6 Executive\" (thk-isb-002) was directly removed from Home / public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T12:20:07.816Z"
+  },
+  {
+    "logId": "LOG-1795350007857-257",
+    "action": "ADMIN_DIRECT_RESTORE",
+    "details": "Hostel \"Gateway Residency F-6 Executive\" restored to public marketplace.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T12:20:07.857Z"
+  },
+  {
+    "logId": "LOG-1795350187208-289",
+    "action": "ADMIN_PERMANENT_DELETE",
+    "details": "Deleted \"Al-Rehman Executive Female Residency\" (thk-h-001) permanently from database.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T12:23:07.208Z"
+  },
+  {
+    "logId": "LOG-1795350189954-378",
+    "action": "ADMIN_PERMANENT_DELETE",
+    "details": "Deleted \"Green View Scholars Hostel\" (thk-h-002) permanently from database.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T12:23:09.954Z"
+  },
+  {
+    "logId": "LOG-1795351321915-351",
+    "action": "OWNER_UPDATED_BEDS_FULL",
+    "details": "Hostel \"AL-ALI Boys Hostel\" marked full (0 beds). Auto-removed from Home page.",
+    "performedBy": "Owner",
+    "timestamp": "2026-11-22T12:42:01.915Z"
+  },
+  {
+    "logId": "LOG-1795351321936-578",
+    "action": "OWNER_UPDATED_BEDS",
+    "details": "Hostel \"AL-ALI Boys Hostel\" updated to 3 available beds.",
+    "performedBy": "Owner",
+    "timestamp": "2026-11-22T12:42:01.936Z"
+  },
+  {
+    "logId": "LOG-1795356218238-938",
+    "action": "ADMIN_PERMANENT_DELETE",
+    "details": "Deleted \"The Capital Girls Hostel & Guest House\" (staezy-5) permanently from database.",
+    "performedBy": "Super Admin",
+    "timestamp": "2026-11-22T14:03:38.238Z"
+  },
+  {
+    "logId": "LOG-1795358692743-563",
+    "action": "STUDENT_LOGIN",
+    "details": "Student logged in successfully",
+    "performedBy": "Ali Raza",
+    "timestamp": "2026-11-22T14:44:52.743Z"
+  },
+  {
+    "logId": "LOG-1795358699324-403",
+    "action": "OWNER_LOGIN",
+    "details": "Owner logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T14:44:59.324Z"
+  },
+  {
+    "logId": "LOG-1795358706167-916",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T14:45:06.167Z"
+  },
+  {
+    "logId": "LOG-1795360185292-575",
+    "action": "INSPECTOR_LOGIN",
+    "details": "Inspector logged in successfully",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-22T15:09:45.292Z"
+  },
+  {
+    "logId": "LOG-1795360316340-298",
+    "action": "BOOKING_CANCELLED",
+    "details": "Booking THK-BKG-1011 cancelled by student. Escrow refund triggered.",
+    "performedBy": "Verification Student",
+    "timestamp": "2026-11-22T15:11:56.340Z"
+  },
+  {
+    "logId": "LOG-1795360316363-89",
+    "action": "OWNER_BOOKING_DECISION",
+    "details": "Booking THK-BKG-1010 accepted by hostel owner",
+    "performedBy": "Hostel Owner",
+    "timestamp": "2026-11-22T15:11:56.363Z"
+  },
+  {
+    "logId": "LOG-1795360498477-777",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T15:14:58.477Z"
+  },
+  {
+    "logId": "LOG-1795360636499-183",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T15:17:16.499Z"
+  },
+  {
+    "logId": "LOG-1795362284484-52",
+    "action": "USER_LOGIN",
+    "details": "User Ali Raza (student) logged in successfully",
+    "performedBy": "Ali Raza",
+    "timestamp": "2026-11-22T15:44:44.484Z"
+  },
+  {
+    "logId": "LOG-1795362284601-261",
+    "action": "USER_LOGIN",
+    "details": "User Malik Tariq Mehmood (owner) logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T15:44:44.601Z"
+  },
+  {
+    "logId": "LOG-1795362284713-955",
+    "action": "USER_LOGIN",
+    "details": "User Inspector Saif Ur Rehman (inspector) logged in successfully",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-22T15:44:44.713Z"
+  },
+  {
+    "logId": "LOG-1795362284848-720",
+    "action": "USER_LOGIN",
+    "details": "User Super Admin Governance (admin) logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T15:44:44.848Z"
+  },
+  {
+    "logId": "LOG-1795362284857-723",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Ali Raza",
+    "timestamp": "2026-11-22T15:44:44.857Z"
+  },
+  {
+    "logId": "LOG-1795362284860-841",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/owner/my-hostels. Required roles: [owner, admin]",
+    "performedBy": "Ali Raza",
+    "timestamp": "2026-11-22T15:44:44.860Z"
+  },
+  {
+    "logId": "LOG-1795362284863-22",
+    "action": "PROFILE_UPDATED",
+    "details": "Profile updated for usr-student-1 (student)",
+    "performedBy": "Hacker Student",
+    "timestamp": "2026-11-22T15:44:44.863Z"
+  },
+  {
+    "logId": "LOG-1795362284866-534",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-owner-1 (owner) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T15:44:44.866Z"
+  },
+  {
+    "logId": "LOG-1795362284872-898",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-inspector-1 (inspector) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-22T15:44:44.872Z"
+  },
+  {
+    "logId": "LOG-1795363588220-441",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (Student Resident) (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-22T16:06:28.220Z"
+  },
+  {
+    "logId": "LOG-1795363588348-503",
+    "action": "USER_LOGIN",
+    "details": "User Malik Tariq Mehmood (owner) logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T16:06:28.348Z"
+  },
+  {
+    "logId": "LOG-1795363588459-721",
+    "action": "USER_LOGIN",
+    "details": "User Inspector Saif Ur Rehman (inspector) logged in successfully",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-22T16:06:28.459Z"
+  },
+  {
+    "logId": "LOG-1795363588565-500",
+    "action": "USER_LOGIN",
+    "details": "User Super Admin Governance (admin) logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T16:06:28.565Z"
+  },
+  {
+    "logId": "LOG-1795363588614-905",
+    "action": "BOOKING_CANCELLED",
+    "details": "Booking THK-BKG-1015 cancelled. Escrow refund triggered.",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-22T16:06:28.614Z"
+  },
+  {
+    "logId": "LOG-1795363588616-64",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-owner-1 (owner) denied access to POST /api/bookings/THK-BKG-1015/cancel. Required roles: [student, admin]",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T16:06:28.616Z"
+  },
+  {
+    "logId": "LOG-1795363687756-409",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (Student Resident) (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-22T16:08:07.756Z"
+  },
+  {
+    "logId": "LOG-1795363687898-875",
+    "action": "USER_LOGIN",
+    "details": "User Malik Tariq Mehmood (owner) logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T16:08:07.898Z"
+  },
+  {
+    "logId": "LOG-1795363688007-911",
+    "action": "USER_LOGIN",
+    "details": "User Inspector Saif Ur Rehman (inspector) logged in successfully",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-22T16:08:08.007Z"
+  },
+  {
+    "logId": "LOG-1795363688120-378",
+    "action": "USER_LOGIN",
+    "details": "User Super Admin Governance (admin) logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-22T16:08:08.120Z"
+  },
+  {
+    "logId": "LOG-1795363688183-896",
+    "action": "BOOKING_CANCELLED",
+    "details": "Booking THK-BKG-1016 cancelled. Escrow refund triggered.",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-22T16:08:08.183Z"
+  },
+  {
+    "logId": "LOG-1795363688186-635",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-owner-1 (owner) denied access to POST /api/bookings/THK-BKG-1016/cancel. Required roles: [student, admin]",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-22T16:08:08.186Z"
+  },
+  {
+    "logId": "LOG-1795363699506-474",
+    "action": "FAILED_LOGIN_ATTEMPT",
+    "details": "Account not found for role student: f2024266574",
+    "performedBy": "f2024266574",
+    "timestamp": "2026-11-22T16:08:19.506Z"
+  },
+  {
+    "logId": "LOG-1795363706115-131",
+    "action": "USER_LOGIN",
+    "details": "User STUDENT User (student) logged in successfully",
+    "performedBy": "STUDENT User",
+    "timestamp": "2026-11-22T16:08:26.115Z"
   }
 ]

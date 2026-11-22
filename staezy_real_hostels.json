@@ -1,0 +1,253 @@
+[
+  {
+    "url": "/hostel/al-ali-boys-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/b4f10d52-9373-484b-860c-e6bb968908c0_3.jpg",
+    "name": "AL-ALI Boys Hostel",
+    "rating": 5,
+    "address": "Lahore · Cantt, Lahore",
+    "price": "Rs 30,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Geyser"
+    ]
+  },
+  {
+    "url": "/hostel/doctors-inn-girls-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/449c0ea5-ee83-4264-bd56-a427cf929a93_9.jpg",
+    "name": "Doctor&#x27;s Inn Girls Hostel",
+    "rating": 4.9,
+    "address": "Lahore · Johar Town, Lahore",
+    "price": "Rs 35,000",
+    "tags": [
+      "ac",
+      "fridge",
+      "WiFi",
+      "UPS"
+    ]
+  },
+  {
+    "url": "/hostel/sethfateh-muhammad-boys-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6c6d4f3f-2c9f-4143-ae98-8db5afac3fb3_6.jpg",
+    "name": "SethFateh Muhammad Boys Hostel",
+    "rating": 4.7,
+    "address": "Lahore · Gulberg, Lahore",
+    "price": "Rs 21,500",
+    "tags": [
+      "beds",
+      "Geyser",
+      "Iron",
+      "Laundry"
+    ]
+  },
+  {
+    "url": "/hostel/gateway-residency-f6",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0ed28af1-7731-4092-9c2f-9e3bc1f2a2c4_2.jpg",
+    "name": "Gateway residency f6",
+    "rating": 5,
+    "address": "Islamabad · F-6, Islamabad",
+    "price": "Rs 12,500",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Geyser"
+    ]
+  },
+  {
+    "url": "/hostel/the-capital-girls-hostel-guest-house",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0afeb873-e7b9-4df8-9d94-5799c2361f37_1.jpg",
+    "name": "The Capital Girls Hostel &amp; Guest House",
+    "rating": 5,
+    "address": "Islamabad · G-11, Islamabad",
+    "price": "Rs 47,500",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Geyser"
+    ]
+  },
+  {
+    "url": "/hostel/alpine-lodge-2",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/2cac3be4-479c-47ea-b271-80f779febb20_5.jpg",
+    "name": "Alpine lodge (2)",
+    "rating": 4.9,
+    "address": "Islamabad · G-10, Islamabad",
+    "price": "Rs 5,000",
+    "tags": [
+      "WiFi",
+      "CCTV",
+      "Geyser",
+      "Parking"
+    ]
+  },
+  {
+    "url": "/hostel/sahar-girls-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/7169a55d-7485-4614-aa5b-209afe80d509.jpeg",
+    "name": "SAHAR Girls Hostel",
+    "rating": 5,
+    "address": "Rawalpindi · Satellite Town, Rawalpindi",
+    "price": "Rs 23,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Study area"
+    ]
+  },
+  {
+    "url": "/hostel/sa-residencia-boys-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/e3fcb4ed-29d5-457a-9870-5f5120c44baf_10.jpg",
+    "name": "SA Residencia Boys Hostel",
+    "rating": 4.9,
+    "address": "Rawalpindi · Satellite Town, Rawalpindi",
+    "price": "Rs 14,000",
+    "tags": [
+      "Mess",
+      "Laundry",
+      "WiFi",
+      "attached bathroom"
+    ]
+  },
+  {
+    "url": "/hostel/official-boys-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/21623151-d0f0-42a9-b65d-4029d4d68ec4.jpg",
+    "name": "OFFICIAL BOYS HOSTEL",
+    "rating": 4.7,
+    "address": "Rawalpindi · Satellite Town, Rawalpindi",
+    "price": "Rs 14,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ]
+  },
+  {
+    "url": "/hostel/shaheen-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/a7eaf7cf-74ca-424e-bd9a-6c962e2ecb42_2.jpg",
+    "name": "SHAHEEN HOSTEL",
+    "rating": 4.9,
+    "address": "Peshawar · Peshawar",
+    "price": "Rs 13,500",
+    "tags": [
+      "Cook",
+      "Study area",
+      "Mess"
+    ]
+  },
+  {
+    "url": "/hostel/mahepar-guest-house",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/c66d3834-58ad-4e51-b2a3-59bb081d4d81_2.jpg",
+    "name": "Mahepar Guest House",
+    "rating": 4.6,
+    "address": "Peshawar · Hayatabad Phase 2, Peshawar",
+    "price": "Rs 12,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "attached bathroom"
+    ]
+  },
+  {
+    "url": "/hostel/shelton-boys-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/eb4656f2-fc5a-4980-bfc7-2b862070de67_6.jpg",
+    "name": "Shelton Boys Hostel",
+    "rating": 4.1,
+    "address": "Peshawar · University Town, Peshawar",
+    "price": "Rs 8,000",
+    "tags": [
+      "Geyser",
+      "Parking",
+      "UPS",
+      "WiFi"
+    ]
+  },
+  {
+    "url": "/hostel/hotel-royal-sunset",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0d0cb99e-18fc-4b0e-b257-a1e9a0e9f692_8.jpg",
+    "name": "Hotel Royal Sunset",
+    "rating": 4.9,
+    "address": "Karachi · DHA Phase 2, Karachi",
+    "price": "Rs 7,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "ac"
+    ]
+  },
+  {
+    "url": "/hostel/bilal-boys-hostel-karachi",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/42a32663-3a72-46f4-ad0c-ba1159a483bc_10.jpg",
+    "name": "Bilal Boys Hostel",
+    "rating": 4.8,
+    "address": "Karachi · Gulshan-e-Iqbal, Karachi",
+    "price": "Rs 22,000",
+    "tags": [
+      "beds",
+      "closet",
+      "Geyser",
+      "mattress"
+    ]
+  },
+  {
+    "url": "/hostel/6-star-girls-hostel",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/f9c45852-ae85-4101-8aed-b1f549c84ec9_4.jpg",
+    "name": "6 Star Girls&#x27; Hostel",
+    "rating": 4.5,
+    "address": "Karachi · Clifton, Karachi",
+    "price": "Rs 40,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ]
+  },
+  {
+    "url": "/hostel/student-hostel-for-boys",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/af2d14c9-789e-465e-8f60-0d9277e655b1_6.jpg",
+    "name": "Student hostel for boys",
+    "rating": 5,
+    "address": "Faisalabad · Madina Town, Faisalabad",
+    "price": "Rs 20,000",
+    "tags": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ]
+  },
+  {
+    "url": "/hostel/horain-girls-hostel-faisalabad",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6683b1c4-c0d4-4fe8-a919-2e923d9b390d_1.jpg",
+    "name": "Horain Girls Hostel",
+    "rating": 5,
+    "address": "Faisalabad · Madina Town, Faisalabad",
+    "price": "Rs 7,000",
+    "tags": [
+      "attached bathroom",
+      "beds",
+      "closet",
+      "mattress"
+    ]
+  },
+  {
+    "url": "/hostel/darul-ehsan-girls-hostel-madina-town-faisalabad",
+    "img": "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/ebf3284b-4837-4164-86db-d880b92735be_10.jpg",
+    "name": "Darul Ehsan girls hostel Madina Town Faisalabad",
+    "rating": 4.7,
+    "address": "Faisalabad · Gulistan Colony, Faisalabad",
+    "price": "Rs 7,000",
+    "tags": [
+      "WiFi",
+      "Geyser",
+      "Parking",
+      "gas connection"
+    ]
+  }
+]

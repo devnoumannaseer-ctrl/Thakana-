@@ -1,0 +1,50 @@
+[
+  {
+    "id": "usr-student-1",
+    "name": "Hacker Student",
+    "email": "student@thakana.pk",
+    "phone": "03001234567",
+    "role": "student",
+    "university": "UMT Lahore - CS Department",
+    "city": "Lahore",
+    "createdAt": "2026-11-22T08:00:00.000Z",
+    "updatedAt": "2026-11-22T15:44:44.863Z",
+    "passwordHash": "$2b$10$5C3nNcc2HOQdHXJGUO/B2eIuuo88fcxfmHCNm3uyDDMD8at3bUJJm",
+    "status": "active"
+  },
+  {
+    "id": "usr-owner-1",
+    "name": "Malik Tariq Mehmood",
+    "email": "owner@thakana.pk",
+    "phone": "03009988776",
+    "role": "owner",
+    "hostelName": "AL-ALI Boys Hostel",
+    "city": "Lahore",
+    "createdAt": "2026-11-22T08:00:00.000Z",
+    "passwordHash": "$2b$10$0r2LCOKDsezLh0i.9Pe5ReQHgKwF4MAK6ojI2OaJTLE68XIb9fZVa",
+    "status": "active"
+  },
+  {
+    "id": "usr-inspector-1",
+    "name": "Inspector Saif Ur Rehman",
+    "email": "inspector@thakana.pk",
+    "phone": "03112233445",
+    "role": "inspector",
+    "fieldUnit": "Johar Town Field Unit, Lahore",
+    "badgeNumber": "THK-INS-904",
+    "createdAt": "2026-11-22T08:00:00.000Z",
+    "passwordHash": "$2b$10$WOmQXg1eBvP1o/Cw3OpemOhgnN0HvPBgi3xfMdV9VXUtWbZHHY6F.",
+    "status": "active"
+  },
+  {
+    "id": "usr-admin-1",
+    "name": "Super Admin Governance",
+    "email": "admin@thakana.pk",
+    "phone": "03350977787",
+    "role": "admin",
+    "secretKey": "thakana2026",
+    "createdAt": "2026-11-22T08:00:00.000Z",
+    "passwordHash": "$2b$10$mWuE1V8E4.sxyNaMMO7YP./T6YvYJ.dBEwrlexNPpZAdsv/4CoJt.",
+    "status": "active"
+  }
+]

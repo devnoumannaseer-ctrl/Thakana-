@@ -1,0 +1,63 @@
+{
+  "name": "Thikana - Student Living OS",
+  "short_name": "Thikana",
+  "description": "Pakistan's 1st Verified Student Living OS & Housing Marketplace in Lahore",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F8F8FD",
+  "theme_color": "#8DB9F0",
+  "lang": "en",
+  "categories": ["lifestyle", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Verified Hostels",
+      "short_name": "Hostels",
+      "description": "Browse verified student hostels in Lahore",
+      "url": "/index.html#hostels",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Roommate Match 2.0",
+      "short_name": "Roommates",
+      "description": "Find compatible roommates with 7-Day Swap",
+      "url": "/roommate-match.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Digital Student Pass",
+      "short_name": "Pass",
+      "description": "View verified student resident card",
+      "url": "/student-pass.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Hostel Owner Hub",
+      "short_name": "Owner Hub",
+      "description": "Manage listings, beds and inquiries",
+      "url": "/owner-portal.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

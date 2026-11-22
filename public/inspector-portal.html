@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thikana - Field Inspector Audit Tool (V-HIP)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Field Inspector Audit Tool (V-HIP) — Thakana</title>
 
-  <!-- THREE.JS & VANTA.NET 3D ANIMATION ENGINE (vantajs.com) -->
+  <!-- THREE.JS & VANTA.NET 3D ANIMATION ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
@@ -62,274 +62,435 @@
 
   <!-- TOP HEADER -->
   <header class="content-relative bg-[#1A2138]/90 backdrop-blur-md border-b border-slate-700/80 sticky top-0 z-40">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="index.html" class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#8DB9F0] via-[#A8C7F4] to-[#F5B69E] flex items-center justify-center text-slate-900 font-black shadow-md">
             <i class="ph-bold ph-shield-check text-lg"></i>
           </div>
           <div>
-            <span class="text-sm font-black text-white tracking-tight">THIKANA FIELD AUDIT</span>
+            <span class="text-sm font-black text-white tracking-tight">THAKANA FIELD AUDIT</span>
             <span class="block text-[9px] font-bold text-[#8DB9F0] uppercase tracking-widest -mt-0.5">V-HIP 50-Point Standard</span>
           </div>
         </a>
       </div>
       <div class="flex items-center gap-3">
-        <a href="admin-portal.html" class="text-xs text-[#F5B69E] hover:text-[#f8caa8] flex items-center gap-1 font-bold bg-[#F5B69E]/10 border border-[#F5B69E]/30 px-3 py-1.5 rounded-xl transition">
-          <i class="ph-bold ph-lock-key"></i> Admin Portal
-        </a>
+        <div id="inspectorSessionBadge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-200 border border-sky-400/30">
+          <i class="ph-bold ph-crosshair text-sky-300"></i>
+          <span id="inspectorBadgeName">Inspector</span>
+        </div>
+        <button onclick="logoutInspector()" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 bg-rose-500/10 border border-rose-500/30 px-3 py-1.5 rounded-xl transition font-bold">
+          <i class="ph-bold ph-sign-out"></i> Logout
+        </button>
         <a href="index.html" class="text-xs text-slate-300 hover:text-white flex items-center gap-1 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl transition">
-          <i class="ph-bold ph-arrow-left"></i> Marketplace
+          <i class="ph-bold ph-arrow-left"></i> Home
         </a>
       </div>
     </div>
   </header>
 
-  <main class="content-relative max-w-3xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 sm:p-8 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-700 pb-4 mb-6">
-        <div>
-          <span class="px-3 py-1 rounded-full bg-[#8DB9F0]/20 text-[#8DB9F0] text-[10px] font-extrabold uppercase tracking-wider border border-[#8DB9F0]/40 inline-flex items-center gap-1.5">
-            <i class="ph-bold ph-crosshair"></i> Inspector Mode (Anti-Fraud Geo-Fenced)
-          </span>
-          <h1 class="text-xl font-black text-white mt-2">50-Point Physical Quality &amp; Sensory Audit</h1>
-        </div>
-        <div class="text-right text-xs">
-          <span id="gpsStatusBadge" class="text-[#F5B69E] font-bold flex items-center gap-1 justify-end">
-            <span class="w-2 h-2 rounded-full bg-[#F5B69E] animate-pulse"></span> Acquiring GPS...
-          </span>
-          <span id="gpsCoordsText" class="text-slate-400 text-[10px]">Checking device location</span>
-        </div>
+  <main class="content-relative max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+
+    <!-- KPI / STATUS BAR -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="p-3.5 bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Assigned Hostels</span>
+        <p id="kpiAssignedCount" class="text-2xl font-black text-[#8DB9F0] mt-0.5">0</p>
       </div>
+      <div class="p-3.5 bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pending Audit</span>
+        <p id="kpiPendingCount" class="text-2xl font-black text-[#F5B69E] mt-0.5">0</p>
+      </div>
+      <div class="p-3.5 bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Completed Audits</span>
+        <p id="kpiCompletedCount" class="text-2xl font-black text-emerald-400 mt-0.5">0</p>
+      </div>
+      <div class="p-3.5 bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">My Inspector ID</span>
+        <p id="kpiInspectorId" class="text-sm font-mono font-bold text-slate-200 mt-1.5 truncate">usr-inspector-1</p>
+      </div>
+    </div>
 
-      <form id="auditForm" onsubmit="submitAudit(event)" class="space-y-5 text-xs">
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Select Property to Inspect *</label>
-          <select id="auditHostelSelect" onchange="onHostelSelectChange()" class="w-full bg-[#0F172A] border border-slate-700 rounded-xl p-3 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-            <option value="">Loading properties from database...</option>
-          </select>
-          <span id="selectedHostelStatus" class="text-[11px] text-[#8DB9F0] font-semibold mt-1 block"></span>
-        </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Lead Inspector Name *</label>
-          <input type="text" id="inspectorName" required value="Inspector Saif Ur Rehman (Johar Town Unit)" class="w-full bg-[#0F172A] border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-        </div>
-
-        <!-- REAL GPS READINGS (POPULATED BY GEOLOCATION API) -->
-        <div class="p-3.5 rounded-xl bg-[#0F172A]/80 border border-slate-700 grid grid-cols-2 gap-3">
+      <!-- LEFT: 50-POINT AUDIT FORM -->
+      <div class="lg:col-span-7 bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 sm:p-8 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-4 mb-6">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Hardware GPS Latitude</label>
-            <input type="text" id="gpsLat" readonly value="31.4697" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-[#8DB9F0] font-mono text-xs">
+            <span class="px-3 py-1 rounded-full bg-[#8DB9F0]/20 text-[#8DB9F0] text-[10px] font-extrabold uppercase tracking-wider border border-[#8DB9F0]/40 inline-flex items-center gap-1.5">
+              <i class="ph-bold ph-crosshair"></i> Geo-Fenced Physical Audit
+            </span>
+            <h1 class="text-xl font-black text-white mt-2">50-Point Inspection Submission</h1>
           </div>
+          <div class="text-right text-xs">
+            <span id="gpsStatusBadge" class="text-[#F5B69E] font-bold flex items-center gap-1 justify-end">
+              <span class="w-2 h-2 rounded-full bg-[#F5B69E] animate-pulse"></span> Acquiring GPS...
+            </span>
+            <span id="gpsCoordsText" class="text-slate-400 text-[10px]">Hardware check</span>
+          </div>
+        </div>
+
+        <form id="auditForm" onsubmit="submitAudit(event)" class="space-y-4 text-xs">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Hardware GPS Longitude</label>
-            <input type="text" id="gpsLon" readonly value="74.2728" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-[#8DB9F0] font-mono text-xs">
-          </div>
-        </div>
-
-        <!-- SENSORY METRICS INPUTS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="p-4 rounded-xl bg-[#0F172A] border border-slate-700">
-            <label class="block font-bold text-[#8DB9F0] mb-1 flex items-center gap-1.5">
-              <i class="ph-bold ph-drop"></i> 1. Water TDS Purity (PPM) *
-            </label>
-            <input type="number" id="tdsInput" required min="30" max="800" value="118" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white font-mono font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-            <span class="text-[10px] text-slate-400 mt-1 block">Safe standard: &lt; 140 PPM Mineral Water</span>
+            <label class="block font-bold text-slate-300 mb-1">Assigned Property to Inspect *</label>
+            <select id="auditHostelSelect" onchange="onHostelSelectChange()" required class="w-full bg-[#0F172A] border border-slate-700 rounded-xl p-3 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
+              <option value="">Loading assigned properties from server...</option>
+            </select>
+            <span id="selectedHostelStatus" class="text-[11px] text-[#8DB9F0] font-semibold mt-1 block"></span>
           </div>
 
-          <div class="p-4 rounded-xl bg-[#0F172A] border border-slate-700">
-            <label class="block font-bold text-[#F5B69E] mb-1 flex items-center gap-1.5">
-              <i class="ph-bold ph-speaker-simple-low"></i> 2. Study Noise Decibels (dB) *
-            </label>
-            <input type="number" id="noiseInput" required min="20" max="100" value="36" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white font-mono font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B69E]">
-            <span class="text-[10px] text-slate-400 mt-1 block">Safe standard: &lt; 40 dB for Pin-Drop Quiet</span>
-          </div>
-        </div>
-
-        <!-- PHYSICAL CHECKLIST -->
-        <div class="p-4 rounded-xl bg-[#0F172A] border border-slate-700 space-y-3">
-          <h4 class="font-bold text-slate-200">3. Physical Safety &amp; Governance Checklist</h4>
-          
           <div>
-            <label class="block font-bold text-slate-300 mb-1">Active Functional CCTV Cameras Count *</label>
-            <input type="number" id="cctvInput" required min="0" max="64" value="16" class="w-full sm:w-48 bg-slate-800 border border-slate-700 rounded-lg p-2 text-white font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
-            <span class="text-[10px] text-slate-400 mt-0.5 block">Minimum required: 8 cameras covering entrance &amp; corridors</span>
+            <label class="block font-bold text-slate-300 mb-1">Inspector Full Name *</label>
+            <input type="text" id="inspectorName" required value="Field Inspector" class="w-full bg-[#0F172A] border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#8DB9F0]">
           </div>
 
-          <label class="flex items-center gap-2.5 cursor-pointer pt-2 border-t border-slate-800">
-            <input type="checkbox" id="checkWarden" checked class="w-4 h-4 rounded text-[#8DB9F0] bg-slate-800 border-slate-600 focus:ring-[#8DB9F0]">
-            <span>Resident warden CNIC verified &amp; Police character certificate verified</span>
-          </label>
-          <label class="flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="checkGen" checked class="w-4 h-4 rounded text-[#8DB9F0] bg-slate-800 border-slate-600 focus:ring-[#8DB9F0]">
-            <span>Heavy generator load test executed with full building AC load</span>
-          </label>
-          <label class="flex items-center gap-2.5 cursor-pointer">
-            <input type="checkbox" id="checkEscrow" checked class="w-4 h-4 rounded text-[#8DB9F0] bg-slate-800 border-slate-600 focus:ring-[#8DB9F0]">
-            <span>Hostel owner signed 48-Hour Deposit Refund Escrow legal undertaking</span>
-          </label>
-        </div>
-
-        <button type="submit" id="submitAuditBtn" class="w-full py-4 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-black rounded-xl shadow-lg shadow-[#F5B69E]/20 text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
-          <i class="ph-bold ph-seal-check text-base"></i> Submit Audit &amp; Transmit to Admin
-        </button>
-      </form>
-
-      <!-- AUDIT RESULT DISPLAY -->
-      <div id="auditResult" class="hidden mt-6 p-5 rounded-2xl bg-slate-900/90 border border-[#8DB9F0]/40 text-xs animate-fade-in shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-[#8DB9F0]/20 text-[#8DB9F0] flex items-center justify-center text-2xl font-black border border-[#8DB9F0]/30">
-              ✓
+          <!-- GPS HARDWARE COORDINATES -->
+          <div class="p-3 rounded-xl bg-[#0F172A]/80 border border-slate-700 grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase">Hardware Latitude</label>
+              <input type="text" id="gpsLat" readonly value="31.4697" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-[#8DB9F0] font-mono text-xs">
             </div>
             <div>
-              <h4 class="font-black text-white text-sm" id="resultBadge">THIKANA VERIFIED GOLD</h4>
-              <p class="text-[#8DB9F0] text-xs mt-0.5 font-medium" id="resultDetails">Score: 98 / 100 • Status: Inspected (Awaiting Admin Approval)</p>
-              <p class="text-slate-400 text-[10px] mt-0.5 font-mono" id="resultGps">GPS: Verified on site</p>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase">Hardware Longitude</label>
+              <input type="text" id="gpsLon" readonly value="74.2728" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-[#8DB9F0] font-mono text-xs">
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <a href="admin-portal.html" class="px-4 py-2 bg-[#F5B69E] hover:bg-[#E29A7F] text-slate-900 font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1 transition">
-              <i class="ph-bold ph-lock-key"></i> Open Admin Approval
-            </a>
-            <a href="index.html" class="px-3.5 py-2 bg-slate-700 text-slate-200 font-bold text-xs rounded-xl hover:bg-slate-600 transition">
-              Marketplace
-            </a>
+
+          <!-- SENSORY HARDWARE METRICS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 rounded-xl bg-[#0F172A] border border-slate-700">
+              <label class="block font-bold text-slate-300 mb-1">Drinking Water TDS (PPM)</label>
+              <input type="number" id="tdsInput" required value="160" placeholder="e.g. 150" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white font-mono">
+              <span class="text-[10px] text-slate-400 block mt-1">Acceptable: &lt; 300 PPM</span>
+            </div>
+            <div class="p-3 rounded-xl bg-[#0F172A] border border-slate-700">
+              <label class="block font-bold text-slate-300 mb-1">Acoustic Noise (dB)</label>
+              <input type="number" id="noiseInput" required value="44" placeholder="e.g. 45" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white font-mono">
+              <span class="text-[10px] text-slate-400 block mt-1">Study friendly: &lt; 50 dB</span>
+            </div>
           </div>
+
+          <div class="p-3 rounded-xl bg-[#0F172A] border border-slate-700">
+            <label class="block font-bold text-slate-300 mb-1">Functional CCTV Cameras Count</label>
+            <input type="number" id="cctvInput" required value="8" min="0" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white font-mono">
+            <span class="text-[10px] text-slate-400 block mt-1">Minimum 4 required for security clearance</span>
+          </div>
+
+          <!-- 3-POINT PHYSICAL VERIFICATION CHECKLIST -->
+          <div class="space-y-2 pt-1">
+            <label class="block font-bold text-slate-300">Physical Protocol Verification</label>
+            
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-[#0F172A] border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+              <input type="checkbox" id="checkWarden" checked class="w-4 h-4 rounded text-[#8DB9F0] focus:ring-0">
+              <span class="text-slate-300 font-semibold text-xs">24/7 On-Premises Warden CNIC &amp; Police Clearance Verified</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-[#0F172A] border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+              <input type="checkbox" id="checkGen" checked class="w-4 h-4 rounded text-[#8DB9F0] focus:ring-0">
+              <span class="text-slate-300 font-semibold text-xs">Backup Generator / Solar Inverter Load Test Passed (Zero Cut)</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-[#0F172A] border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+              <input type="checkbox" id="checkEscrow" checked class="w-4 h-4 rounded text-[#8DB9F0] focus:ring-0">
+              <span class="text-slate-300 font-semibold text-xs">Owner Signed Thakana Zero Brokerage &amp; Deposit Escrow Agreement</span>
+            </label>
+          </div>
+
+          <!-- RECOMMENDATION SELECTION -->
+          <div class="p-3 rounded-xl bg-[#0F172A] border border-slate-700">
+            <label class="block font-bold text-slate-300 mb-1">Inspector Recommendation for Admin Approval *</label>
+            <select id="auditRecommendation" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white font-semibold focus:outline-none">
+              <option value="Gold Verified">🌟 Recommended: Gold Verified (Score 90-100)</option>
+              <option value="Silver Verified">⭐ Recommended: Silver Verified (Score 75-89)</option>
+              <option value="Conditional Approval">⚠️ Recommended: Conditional Approval (Minor Fixes Needed)</option>
+              <option value="Rejected">❌ Recommended: Reject Property (Fails Safety Standard)</option>
+            </select>
+          </div>
+
+          <button type="submit" id="submitAuditBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-[#8DB9F0] to-[#F5B69E] hover:from-[#6C9FE0] hover:to-[#E29A7F] text-slate-900 font-black text-sm shadow-xl transition flex items-center justify-center gap-2 mt-4">
+            <i class="ph-bold ph-seal-check text-lg"></i> Transmit Audit Report to Admin
+          </button>
+        </form>
+
+        <!-- RESULT BANNER -->
+        <div id="auditResult" class="hidden mt-6 p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/50">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold mb-1">
+            <i class="ph-bold ph-check-circle text-lg"></i>
+            <span>Inspection Transmitted to Admin Governance</span>
+          </div>
+          <p id="resultDetails" class="text-xs text-slate-300"></p>
+          <span id="resultGps" class="text-[10px] text-slate-400 font-mono block mt-1"></span>
         </div>
       </div>
+
+      <!-- RIGHT: MY AUDIT HISTORY & ASSIGNED LIST -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- ASSIGNED PROPERTIES SUMMARY -->
+        <div class="bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 shadow-2xl">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-700 mb-4">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <i class="ph-bold ph-crosshair text-[#8DB9F0]"></i> My Assigned Queue
+            </h3>
+            <span class="text-[10px] font-bold text-slate-400">Strict IDOR Enforcement</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-3">
+            You can only perform audits on hostels assigned to your Inspector ID by Admin Governance.
+          </p>
+          <div id="assignedQueueList" class="space-y-2 text-xs">
+            <div class="p-4 text-center text-slate-400">Loading queue...</div>
+          </div>
+        </div>
+
+        <!-- AUDIT HISTORY -->
+        <div class="bg-slate-800/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 shadow-2xl">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-700 mb-4">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <i class="ph-bold ph-clock-counter-clockwise text-[#F5B69E]"></i> Audit History &amp; Logs
+            </h3>
+            <button onclick="loadInspectorData()" class="text-xs text-[#8DB9F0] hover:underline flex items-center gap-1">
+              <i class="ph-bold ph-arrows-clockwise"></i> Refresh
+            </button>
+          </div>
+          <div id="auditHistoryList" class="space-y-2.5 text-xs max-h-[380px] overflow-y-auto pr-1">
+            <div class="p-4 text-center text-slate-400">Loading history...</div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </main>
 
   <script>
-    // VANTA.NET INITIALIZATION (vantajs.com)
-    let vantaInspectorEffect = null;
-    function initVantaNet() {
-      if (window.VANTA && window.VANTA.NET) {
-        try {
-          vantaInspectorEffect = VANTA.NET({
-            el: "#vanta-inspector-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x8DB9F0,           // Powder Blue #8DB9F0
-            backgroundColor: 0x0F172A, // Deep Slate / Dark Navy
-            points: 12.00,
-            maxDistance: 22.00,
-            spacing: 16.00
-          });
-        } catch (e) {
-          console.warn("VANTA.NET initialization:", e);
+    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
+    let currentInspector = null;
+    let assignedHostels = [];
+
+    function getAuthHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      const token = localStorage.getItem('thakana_jwt_token') || currentInspector?.token;
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return headers;
+    }
+
+    // STRICT INSPECTOR AUTH GUARD
+    async function checkInspectorAuth() {
+      let token = null;
+      let user = null;
+      try {
+        const uStr = localStorage.getItem('thakana_inspector') || localStorage.getItem('thakana_auth_user');
+        if (uStr) user = JSON.parse(uStr);
+        token = localStorage.getItem('thakana_jwt_token') || user?.token;
+      } catch (e) {}
+
+      // If user is student or owner, redirect to access-denied
+      if (user && user.role && user.role !== 'inspector' && user.role !== 'admin') {
+        window.location.href = 'access-denied.html?role=' + encodeURIComponent(user.role) + '&required=inspector';
+        return;
+      }
+
+      // Verify with server
+      try {
+        const headers = {};
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+        const res = await fetch(API_BASE + '/api/auth/me', { credentials: 'include', headers });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.user) {
+            if (data.user.role !== 'inspector' && data.user.role !== 'admin') {
+              window.location.href = 'access-denied.html?role=' + encodeURIComponent(data.user.role) + '&required=inspector';
+              return;
+            }
+            currentInspector = data.user;
+            initInspectorUI();
+            return;
+          }
         }
+      } catch (e) {
+        console.warn('Inspector auth verify:', e);
+      }
+
+      if (user && (user.role === 'inspector' || user.role === 'admin')) {
+        currentInspector = user;
+        initInspectorUI();
+      } else {
+        window.location.href = 'login-inspector.html';
       }
     }
 
-    let loadedHostels = [];
+    function initInspectorUI() {
+      document.getElementById('inspectorSessionBadge').classList.remove('hidden');
+      document.getElementById('inspectorBadgeName').innerText = currentInspector.name || 'Inspector';
+      document.getElementById('inspectorName').value = currentInspector.name || 'Field Inspector';
+      document.getElementById('kpiInspectorId').innerText = currentInspector.id || 'usr-inspector-1';
+      loadInspectorData();
+    }
 
-    async function loadProperties() {
+    function logoutInspector() {
+      localStorage.removeItem('thakana_inspector');
+      localStorage.removeItem('thakana_auth_user');
+      localStorage.removeItem('thakana_jwt_token');
+      window.location.href = 'login.html?role=inspector';
+    }
+
+    async function loadInspectorData() {
+      await Promise.all([loadAssignedHostels(), loadAuditHistory()]);
+    }
+
+    // 1. LOAD ASSIGNED HOSTELS (CALLS /api/inspector/assigned-hostels)
+    async function loadAssignedHostels() {
+      const select = document.getElementById('auditHostelSelect');
+      const queueList = document.getElementById('assignedQueueList');
+
       try {
-        const res = await fetch('/api/admin/hostels');
+        const res = await fetch(API_BASE + '/api/inspector/assigned-hostels', {
+          credentials: 'include',
+          headers: getAuthHeaders()
+        });
+
+        if (!res.ok) {
+          if (res.status === 403) {
+            window.location.href = 'access-denied.html?role=unauthorized&required=inspector';
+            return;
+          }
+          throw new Error('Failed to load assigned hostels');
+        }
+
         const json = await res.json();
-        if (!res.ok || !json.success) return;
+        assignedHostels = json.data || [];
 
-        loadedHostels = json.data;
-        const select = document.getElementById('auditHostelSelect');
-        select.innerHTML = '';
+        // Update KPIs
+        document.getElementById('kpiAssignedCount').innerText = assignedHostels.length;
+        const pendingCount = assignedHostels.filter(h => h.status === 'pending_inspection').length;
+        document.getElementById('kpiPendingCount').innerText = pendingCount;
+        document.getElementById('kpiCompletedCount').innerText = assignedHostels.length - pendingCount;
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetId = urlParams.get('hostelId');
+        select.innerHTML = '<option value="">Select an assigned hostel...</option>';
 
-        loadedHostels.forEach(h => {
-          const opt = document.createElement('option');
-          opt.value = h.id;
+        if (assignedHostels.length === 0) {
+          queueList.innerHTML = '<div class="p-3 text-center text-slate-400 bg-slate-900/50 rounded-xl">No hostels currently assigned to your ID. Contact Admin.</div>';
+          return;
+        }
+
+        // Render options & queue cards
+        let queueHtml = '';
+        assignedHostels.forEach(h => {
           const status = h.status || 'approved';
           let tag = '';
           if (status === 'pending_inspection') tag = ' [🟡 PENDING AUDIT]';
           else if (status === 'inspected') tag = ' [🔵 INSPECTED]';
           else tag = ' [🟢 APPROVED]';
 
+          const opt = document.createElement('option');
+          opt.value = h.id;
           opt.text = `${h.name} (${h.area}) ${tag}`;
-          if (targetId && h.id === targetId) {
-            opt.selected = true;
-          }
           select.appendChild(opt);
+
+          queueHtml += `
+            <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-700 flex items-center justify-between">
+              <div>
+                <strong class="text-white block">${h.name}</strong>
+                <span class="text-[10px] text-slate-400">${h.area}, ${h.city}</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${status === 'pending_inspection' ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                ${status === 'pending_inspection' ? 'Pending' : 'Done'}
+              </span>
+            </div>
+          `;
         });
 
-        onHostelSelectChange();
+        queueList.innerHTML = queueHtml;
+        if (assignedHostels.length > 0) {
+          select.selectedIndex = 1;
+          onHostelSelectChange();
+        }
 
-      } catch (err) {
-        console.warn('Could not load dynamic hostels:', err);
+      } catch (e) {
+        select.innerHTML = '<option value="">Failed to load assigned properties</option>';
+        queueList.innerHTML = '<div class="p-3 text-rose-400 text-center">Unable to load queue</div>';
       }
     }
 
     function onHostelSelectChange() {
       const select = document.getElementById('auditHostelSelect');
       const hostelId = select.value;
-      const h = loadedHostels.find(x => x.id === hostelId);
+      const h = assignedHostels.find(x => x.id === hostelId);
       const statusSpan = document.getElementById('selectedHostelStatus');
 
       if (h) {
         const status = h.status || 'approved';
         if (status === 'pending_inspection') {
-          statusSpan.innerHTML = `🟡 Status: <strong>Pending Inspection</strong> (Owner: ${h.owner?.name || 'Partner Host'}, Contact: ${h.owner?.phone || '0300...'})`;
+          statusSpan.innerHTML = `🟡 Status: <strong>Pending Inspection</strong> (Contact: ${h.ownerPhone || '0300...'})`;
           statusSpan.className = 'text-[11px] text-[#F5B69E] font-semibold mt-1 block';
         } else if (status === 'inspected') {
-          statusSpan.innerHTML = `🔵 Status: <strong>Already Inspected (${h.verificationScore || 90}/100)</strong> — Awaiting Admin Sign-off`;
+          statusSpan.innerHTML = `🔵 Status: <strong>Already Inspected</strong> — Score: ${h.verificationScore || 90}/100`;
           statusSpan.className = 'text-[11px] text-[#8DB9F0] font-semibold mt-1 block';
         } else {
-          statusSpan.innerHTML = `🟢 Status: <strong>Approved &amp; Live on Marketplace (${h.verificationScore || 95}/100)</strong>`;
+          statusSpan.innerHTML = `🟢 Status: <strong>Approved &amp; Live on Thakana</strong>`;
           statusSpan.className = 'text-[11px] text-emerald-400 font-semibold mt-1 block';
         }
       }
     }
 
-    // REAL BROWSER GEOLOCATION API
-    function initGeolocation() {
-      const statusBadge = document.getElementById('gpsStatusBadge');
-      const coordsText = document.getElementById('gpsCoordsText');
-      const latInput = document.getElementById('gpsLat');
-      const lonInput = document.getElementById('gpsLon');
+    // 2. LOAD AUDIT HISTORY (CALLS /api/inspector/history)
+    async function loadAuditHistory() {
+      const container = document.getElementById('auditHistoryList');
 
-      if (!navigator.geolocation) {
-        statusBadge.innerHTML = `<span class="text-[#F5B69E]">⚠️ GPS Not Supported</span>`;
-        coordsText.innerText = 'Using Johar Town default coords';
+      try {
+        const res = await fetch(API_BASE + '/api/inspector/history', {
+          credentials: 'include',
+          headers: getAuthHeaders()
+        });
+
+        if (!res.ok) throw new Error('Failed to load history');
+
+        const json = await res.json();
+        const list = json.data || [];
+
+        if (list.length === 0) {
+          container.innerHTML = '<div class="p-4 text-center text-slate-400">No completed audit reports recorded yet.</div>';
+          return;
+        }
+
+        container.innerHTML = list.map(a => `
+          <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-white">${a.hostelName || a.hostelId}</strong>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
+                Score: ${a.score || 95}/100
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-slate-400">
+              <span>Badge: ${a.badgeAwarded || 'Gold Verified'}</span>
+              <span>${a.date ? new Date(a.date).toLocaleDateString() : 'Recent'}</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Inspector: ${a.inspector || 'Verified'}</p>
+          </div>
+        `).join('');
+
+      } catch (e) {
+        container.innerHTML = '<div class="p-3 text-slate-400 text-center">Unable to load history.</div>';
+      }
+    }
+
+    // 3. SUBMIT AUDIT REPORT (CALLS /api/audit-submit)
+    async function submitAudit(e) {
+      e.preventDefault();
+      const select = document.getElementById('auditHostelSelect');
+      const hostelId = select.value;
+      if (!hostelId) {
+        alert('Please select an assigned hostel to inspect.');
         return;
       }
 
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude.toFixed(4);
-          const lon = position.coords.longitude.toFixed(4);
-          const acc = Math.round(position.coords.accuracy);
-
-          latInput.value = lat;
-          lonInput.value = lon;
-          statusBadge.innerHTML = `<span class="text-emerald-400 flex items-center gap-1 justify-end"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Hardware GPS Locked</span>`;
-          coordsText.innerText = `Lat: ${lat}, Lon: ${lon} (±${acc}m accuracy)`;
-        },
-        (error) => {
-          console.warn('Geolocation error or permission denied:', error.message);
-          statusBadge.innerHTML = `<span class="text-emerald-400 flex items-center gap-1 justify-end"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> On-Site Verified</span>`;
-          coordsText.innerText = 'Johar Town Sector R Hub (31.4697, 74.2728)';
-        },
-        { enableHighAccuracy: true, timeout: 6000 }
-      );
-    }
-
-    async function submitAudit(e) {
-      e.preventDefault();
       const btn = document.getElementById('submitAuditBtn');
       btn.disabled = true;
-      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Submitting Audit to Admin...`;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Transmitting Report to Admin...';
 
       const payload = {
-        hostelId: document.getElementById('auditHostelSelect').value,
-        hostelName: document.getElementById('auditHostelSelect').options[document.getElementById('auditHostelSelect').selectedIndex].text,
+        hostelId: hostelId,
+        hostelName: select.options[select.selectedIndex].text,
         inspectorName: document.getElementById('inspectorName').value,
         gpsLatitude: parseFloat(document.getElementById('gpsLat').value) || 31.4697,
         gpsLongitude: parseFloat(document.getElementById('gpsLon').value) || 74.2728,
@@ -338,41 +499,91 @@
         cctvCount: document.getElementById('cctvInput').value,
         wardenCnicVerified: document.getElementById('checkWarden').checked,
         generatorLoadVerified: document.getElementById('checkGen').checked,
-        escrowAgreementSigned: document.getElementById('checkEscrow').checked
+        escrowAgreementSigned: document.getElementById('checkEscrow').checked,
+        recommendation: document.getElementById('auditRecommendation').value
       };
 
       try {
-        const res = await fetch('/api/audit-submit', {
+        const res = await fetch(API_BASE + '/api/audit-submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          headers: getAuthHeaders(),
           body: JSON.stringify(payload)
         });
 
         const json = await res.json();
         if (json.success) {
-          document.getElementById('resultBadge').innerText = json.auditReport.badgeAwarded;
-          document.getElementById('resultDetails').innerText = `Score: ${json.auditReport.score} / 100 • Status updated to "Inspected" (Ready for Admin Approval)`;
-          document.getElementById('resultGps').innerText = `Inspector: ${json.auditReport.inspector} • GPS: ${json.auditReport.gpsLocation.latitude}, ${json.auditReport.gpsLocation.longitude}`;
+          document.getElementById('resultDetails').innerText = `Report Transmitted. Badge Awarded: ${json.auditReport.badgeAwarded} (Score: ${json.auditReport.score}/100). Status updated to "inspected" awaiting final Admin sign-off.`;
+          document.getElementById('resultGps').innerText = `Inspector: ${json.auditReport.inspector} | GPS: ${json.auditReport.gpsLocation.latitude}, ${json.auditReport.gpsLocation.longitude}`;
           document.getElementById('auditResult').classList.remove('hidden');
 
-          // Reload properties list to reflect updated status
-          loadProperties();
-
+          loadInspectorData();
         } else {
-          alert('Audit Submission Error: ' + (json.message || 'Validation failed.'));
+          alert('Audit Submission Error: ' + (json.message || 'Verification failed'));
         }
       } catch (err) {
-        alert('Network Error: Unable to submit audit to server.');
+        alert('Network error submitting audit');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="ph-bold ph-seal-check"></i> Submit Audit & Transmit to Admin`;
+        btn.innerHTML = '<i class="ph-bold ph-seal-check text-lg"></i> Transmit Audit Report to Admin';
+      }
+    }
+
+    // BROWSER GEOLOCATION
+    function initGeolocation() {
+      const statusBadge = document.getElementById('gpsStatusBadge');
+      const coordsText = document.getElementById('gpsCoordsText');
+      const latInput = document.getElementById('gpsLat');
+      const lonInput = document.getElementById('gpsLon');
+
+      if (!navigator.geolocation) {
+        statusBadge.innerHTML = '<span class="text-[#F5B69E]">⚠️ GPS Default</span>';
+        coordsText.innerText = 'Johar Town Sector R';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude.toFixed(4);
+          const lon = pos.coords.longitude.toFixed(4);
+          latInput.value = lat;
+          lonInput.value = lon;
+          statusBadge.innerHTML = '<span class="text-emerald-400 flex items-center gap-1 justify-end"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> GPS Locked</span>';
+          coordsText.innerText = `Lat: ${lat}, Lon: ${lon}`;
+        },
+        () => {
+          statusBadge.innerHTML = '<span class="text-emerald-400 flex items-center gap-1 justify-end"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Verified Hub</span>';
+          coordsText.innerText = 'Johar Town Hub (31.4697, 74.2728)';
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    }
+
+    // 3D VANTA NET BACKGROUND
+    function initVantaNet() {
+      if (window.VANTA && window.VANTA.NET) {
+        window.VANTA.NET({
+          el: "#vanta-inspector-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x8db9f0,
+          backgroundColor: 0x0f172a,
+          points: 9.00,
+          maxDistance: 22.00,
+          spacing: 18.00
+        });
       }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       initVantaNet();
       initGeolocation();
-      loadProperties();
+      checkInspectorAuth();
     });
   </script>
 </body>

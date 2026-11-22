@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Roommates AI — Thakana 50/50 Split</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            staezy: {
+              purple: '#5f4a9a',
+              purpleHover: '#4d3b7e',
+              purpleLight: '#f0edfb',
+              purpleDark: '#322d3a',
+              textDark: '#342f3d',
+              borderLight: '#e8e4f0'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, system-ui, -apple-system, sans-serif;
+      background-color: #f8f7fc;
+      color: #342f3d;
+    }
+    .staezy-hero-bg {
+      background: linear-gradient(180deg, #322d3a 0%, #26222c 100%);
+      border-radius: 0 0 32px 32px;
+    }
+    @media (min-width: 768px) {
+      .staezy-hero-bg { border-radius: 0 0 44px 44px; }
+    }
+  </style>
+</head>
+<body class="pb-24 antialiased">
+
+  <!-- HEADER -->
+  <header class="staezy-hero-bg text-white pt-6 pb-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-8">
+        <a href="index.html" class="text-2xl font-black tracking-tight text-white flex items-center gap-1">
+          thakana<span class="w-2 h-2 rounded-full bg-[#826bbd] inline-block -mb-1"></span>
+          <span class="text-xs font-semibold text-white/60 uppercase ml-2 pl-2 border-l border-white/20">Roommates</span>
+        </a>
+        <a href="index.html" class="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition">
+          <i class="ph-bold ph-arrow-left"></i> Explore Hostels
+        </a>
+      </div>
+
+      <div class="text-center max-w-xl mx-auto">
+        <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-white text-xs font-bold mb-3">
+          AI Compatibility Match &bull; Split 50% Rent
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+          Find Your Ideal Roommate
+        </h1>
+        <p class="mt-2 text-sm text-white/80">
+          Answer 3 quick habit questions, get matched with verified students from your campus, and cut your monthly rent in half.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-STEP EXPLAINER BANNER -->
+  <section class="max-w-4xl mx-auto px-4 -mt-6 relative z-30 mb-8">
+    <div class="bg-white rounded-3xl p-4 sm:p-5 border border-[#e8e4f0] shadow-md grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+      <div class="p-2">
+        <div class="w-10 h-10 rounded-full bg-[#f0edfb] text-[#5f4a9a] flex items-center justify-center font-black mx-auto mb-2 text-sm">1</div>
+        <h4 class="font-bold text-xs text-slate-800">Select Habits</h4>
+        <p class="text-[11px] text-slate-400 mt-0.5">Sleep schedule, study noise, hygiene</p>
+      </div>
+      <div class="p-2 border-y sm:border-y-0 sm:border-x border-slate-100">
+        <div class="w-10 h-10 rounded-full bg-[#f0edfb] text-[#5f4a9a] flex items-center justify-center font-black mx-auto mb-2 text-sm">2</div>
+        <h4 class="font-bold text-xs text-slate-800">AI Synergy Score</h4>
+        <p class="text-[11px] text-slate-400 mt-0.5">Calculates 90%+ compatibility match</p>
+      </div>
+      <div class="p-2">
+        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black mx-auto mb-2 text-sm">3</div>
+        <h4 class="font-bold text-xs text-slate-800">Split 50/50 &amp; Swap</h4>
+        <p class="text-[11px] text-slate-400 mt-0.5">7-day free room swap guarantee</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATCHING INTERACTION -->
+  <main class="max-w-4xl mx-auto px-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#e8e4f0] shadow-sm mb-6">
+      <h3 class="text-base font-bold text-[#342f3d] mb-4 flex items-center gap-2">
+        <i class="ph-bold ph-sliders text-[#5f4a9a]"></i> Set Your Living Preferences
+      </h3>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 text-xs font-bold text-slate-700">
+        <div>
+          <label class="block text-slate-400 uppercase text-[10px] mb-1">Sleep Habit</label>
+          <select id="habitSleep" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl p-2.5">
+            <option value="early">Early Bird (10 PM - 6 AM)</option>
+            <option value="night" selected>Night Owl (Code / Study Late)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-400 uppercase text-[10px] mb-1">Noise Preference</label>
+          <select id="habitNoise" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl p-2.5">
+            <option value="silent" selected>Pin-drop Silent Library</option>
+            <option value="moderate">Moderate Background Beats</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-400 uppercase text-[10px] mb-1">Campus</label>
+          <select id="habitCampus" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl p-2.5">
+            <option value="all">All Lahore Campuses</option>
+            <option value="UMT">UMT Lahore</option>
+            <option value="FAST">FAST-NUCES</option>
+            <option value="NUST">NUST Islamabad</option>
+          </select>
+        </div>
+      </div>
+
+      <button onclick="runMatching()" class="w-full py-3 rounded-full bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-sparkle text-amber-300"></i> Calculate Compatible Roommates
+      </button>
+    </div>
+
+    <!-- MATCH RESULTS -->
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-base text-[#342f3d]">Top Matched Roommate Profiles</h3>
+      <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">3 Verified Matches</span>
+    </div>
+
+    <div id="roommateGrid" class="space-y-3">
+      <!-- Profile 1 -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-[#e8e4f0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-purple-100 text-[#5f4a9a] font-black text-lg flex items-center justify-center">
+            ZN
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-bold text-sm text-slate-900">Zainab Noor</h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">97% Synergy</span>
+            </div>
+            <p class="text-xs text-slate-400">UMT CS Dept &bull; Night Owl &bull; Clean Desk &bull; Budget: Rs 15,000</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/923350977787?text=Hi%2C%20I%20saw%20your%20roommate%20profile%20on%20Thakana" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-1 shadow-sm">
+            <i class="ph-bold ph-whatsapp-logo text-base"></i> Chat &amp; Split Rent
+          </a>
+        </div>
+      </div>
+
+      <!-- Profile 2 -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-[#e8e4f0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 font-black text-lg flex items-center justify-center">
+            AK
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-bold text-sm text-slate-900">Ali Khan</h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">94% Synergy</span>
+            </div>
+            <p class="text-xs text-slate-400">FAST Software Eng &bull; Silent Study &bull; Non-Smoker &bull; Budget: Rs 14,000</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/923350977787?text=Hi%2C%20I%20saw%20your%20roommate%20profile%20on%20Thakana" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-1 shadow-sm">
+            <i class="ph-bold ph-whatsapp-logo text-base"></i> Chat &amp; Split Rent
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FROZEN BOTTOM NAVIGATION DOCK -->
+  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#e8e4f0] px-4 py-2 flex justify-around items-center text-[11px] font-bold text-slate-500 shadow-2xl">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
+      <i class="ph-bold ph-compass text-xl"></i>
+      <span>Explore</span>
+    </a>
+    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 text-[#5f4a9a] font-black">
+      <i class="ph-fill ph-users text-xl"></i>
+      <span>Roommates</span>
+    </a>
+    <a href="owner-portal.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
+      <i class="ph-bold ph-buildings text-xl"></i>
+      <span>Host with us</span>
+    </a>
+    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
+      <i class="ph-bold ph-shield-check text-xl"></i>
+      <span>Admin</span>
+    </a>
+  </div>
+
+  <script>
+    function runMatching() {
+      alert('AI Synergy calculated! Top profiles matched with your lifestyle habits.');
+    }
+  </script>
+</body>
+</html>
