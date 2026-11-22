@@ -159,7 +159,7 @@
         </a>
 
         <!-- MOBILE HAMBURGER BUTTON -->
-        <button id="mobileNavToggleBtn" onclick="closeMobileNav()" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center shrink-0">
+        <button id="mobileNavToggleBtn" onclick="toggleMobileNav(event)" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition flex items-center justify-center shrink-0">
           <i id="mobileNavIcon" class="ph-bold ph-list text-xl"></i>
         </button>
       </div>
@@ -172,19 +172,19 @@
         <a href="index.html#hostels" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-buildings text-[#4A7AC4] text-base"></i> Verified Hostels
         </a>
-        <a href="roommate-match.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="roommate-match.html" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-users text-indigo-500 text-base"></i> Roommates AI
         </a>
-        <a href="parent-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="parent-portal.html" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-shield-star text-teal-600 text-base"></i> Parent Portal
         </a>
-        <a href="student-pass.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="student-pass.html" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-identification-card text-amber-500 text-base"></i> Student Pass
         </a>
-        <a href="inspector-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="inspector-portal.html" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-clipboard-text text-indigo-500 text-base"></i> Field Inspector
         </a>
-        <a href="admin-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
+        <a href="admin-portal.html" onclick="closeMobileNav()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] hover:bg-[#E9E8F8] text-slate-800 font-bold text-xs transition">
           <i class="ph-bold ph-lock-key text-amber-600 text-base"></i> Admin Portal
         </a>
       </div>
@@ -918,7 +918,8 @@
     }
 
     // RESPONSIVE MOBILE NAVIGATION DRAWER TOGGLE & TOUCH-OUTSIDE DISMISS
-    function toggleMobileNav() {
+    function toggleMobileNav(e) {
+      if (e && e.stopPropagation) e.stopPropagation();
       const drawer = document.getElementById('mobileNavDrawer');
       const backdrop = document.getElementById('mobileNavBackdrop');
       const icon = document.getElementById('mobileNavIcon');
@@ -946,7 +947,7 @@
       const drawer = document.getElementById('mobileNavDrawer');
       const toggleBtn = document.getElementById('mobileNavToggleBtn');
       if (drawer && !drawer.classList.contains('hidden')) {
-        if (!drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+        if (!drawer.contains(e.target) && !toggleBtn?.contains(e.target)) {
           closeMobileNav();
         }
       }

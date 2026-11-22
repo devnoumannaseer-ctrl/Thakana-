@@ -124,5 +124,19 @@
     "details": "Purged 0 removed hostels permanently.",
     "performedBy": "Super Admin",
     "timestamp": "2026-11-22T08:26:23.165Z"
+  },
+  {
+    "logId": "LOG-1795340953728-927",
+    "action": "ADMIN_DIRECT_REMOVAL",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" (thk-h-001) was directly removed from Home / public marketplace.",
+    "performedBy": "Test Suite",
+    "timestamp": "2026-11-22T09:49:13.728Z"
+  },
+  {
+    "logId": "LOG-1795340953753-558",
+    "action": "ADMIN_DIRECT_RESTORE",
+    "details": "Hostel \"Al-Rehman Executive Female Residency\" restored to public marketplace.",
+    "performedBy": "Test Suite",
+    "timestamp": "2026-11-22T09:49:13.753Z"
   }
 ]

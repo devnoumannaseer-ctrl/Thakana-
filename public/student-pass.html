@@ -111,8 +111,8 @@
         <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-bold text-slate-900 bg-[#F5B69E] hover:bg-[#E29A7F] rounded-xl shadow-md shadow-[#F5B69E]/30 transition">
           <i class="ph-bold ph-plus-circle text-sm"></i> <span class="hidden sm:inline">List</span> Hostel
         </a>
-        <button onclick="document.getElementById('passMobileDrawer').classList.toggle('hidden')" aria-label="Toggle Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition">
-          <i class="ph-bold ph-list text-xl"></i>
+        <button id="passNavToggleBtn" onclick="togglePassDrawer(event)" aria-label="Toggle Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-[#E9E8F8] text-slate-800 hover:bg-[#DCDAF4] transition">
+          <i id="passNavIcon" class="ph-bold ph-list text-xl"></i>
         </button>
       </div>
     </div>
@@ -120,22 +120,29 @@
     <!-- RESPONSIVE MOBILE DRAWER -->
     <div id="passMobileDrawer" class="hidden lg:hidden border-t border-[#E9E8F8] bg-white/98 backdrop-blur-md px-4 py-3 shadow-xl">
       <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-        <a href="index.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+        <a href="index.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
           <i class="ph-bold ph-buildings text-[#4A7AC4]"></i> Verified Hostels
         </a>
-        <a href="roommate-match.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+        <a href="roommate-match.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
           <i class="ph-bold ph-users text-indigo-500"></i> Roommates AI
         </a>
-        <a href="parent-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+        <a href="parent-portal.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
           <i class="ph-bold ph-shield-star text-teal-600"></i> Parent Portal
         </a>
-        <a href="student-pass.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-[#4A7AC4]">
+        <a href="student-pass.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-[#4A7AC4]">
           <i class="ph-bold ph-identification-card text-amber-500"></i> Student Pass
         </a>
-        <a href="inspector-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+        <a href="inspector-portal.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
           <i class="ph-bold ph-clipboard-text text-indigo-500"></i> Field Inspector
         </a>
-        <a href="admin-portal.html" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+        <a href="admin-portal.html" onclick="closePassDrawer()" class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8F8FD] text-slate-800">
+          <i class="ph-bold ph-lock-key text-amber-600"></i> Admin Portal
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- MOBILE NAV BACKDROP OVERLAY -->
+  <div id="passNavBackdrop" onclick="closePassDrawer()" class="hidden fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-[2px] transition-opacity"></div>
           <i class="ph-bold ph-lock-key text-amber-600"></i> Admin Portal
         </a>
       </div>
@@ -290,6 +297,41 @@
         console.error('Error fetching pass:', err);
       }
     }
+
+    // MOBILE DRAWER TOGGLE & CLOSE
+    function togglePassDrawer(e) {
+      if (e && e.stopPropagation) e.stopPropagation();
+      const drawer = document.getElementById('passMobileDrawer');
+      const backdrop = document.getElementById('passNavBackdrop');
+      const icon = document.getElementById('passNavIcon');
+      if (!drawer) return;
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        if (backdrop) backdrop.classList.remove('hidden');
+        if (icon) icon.className = 'ph-bold ph-x text-xl text-rose-600';
+      } else {
+        closePassDrawer();
+      }
+    }
+
+    function closePassDrawer() {
+      const drawer = document.getElementById('passMobileDrawer');
+      const backdrop = document.getElementById('passNavBackdrop');
+      const icon = document.getElementById('passNavIcon');
+      if (drawer) drawer.classList.add('hidden');
+      if (backdrop) backdrop.classList.add('hidden');
+      if (icon) icon.className = 'ph-bold ph-list text-xl text-slate-800';
+    }
+
+    document.addEventListener('click', function(e) {
+      const drawer = document.getElementById('passMobileDrawer');
+      const toggleBtn = document.getElementById('passNavToggleBtn');
+      if (drawer && !drawer.classList.contains('hidden')) {
+        if (!drawer.contains(e.target) && !toggleBtn?.contains(e.target)) {
+          closePassDrawer();
+        }
+      }
+    });
 
     window.addEventListener('DOMContentLoaded', () => {
       initVantaNet();

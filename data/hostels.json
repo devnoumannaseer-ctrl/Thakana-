@@ -57,7 +57,12 @@
     "isFull": false,
     "autoRemovedAt": "2026-11-22T07:16:32.910Z",
     "isArchived": false,
-    "isRemoved": false
+    "isRemoved": false,
+    "archivedAt": "2026-11-22T09:49:13.726Z",
+    "removalReason": "Test admin remove",
+    "removedBy": "Test Suite",
+    "restoredAt": "2026-11-22T09:49:13.752Z",
+    "restoredBy": "Test Suite"
   },
   {
     "id": "thk-h-002",
