@@ -691,5 +691,124 @@
     "details": "User Muhammad Ahmed (student) logged in successfully",
     "performedBy": "Muhammad Ahmed",
     "timestamp": "2026-11-24T06:02:40.816Z"
+  },
+  {
+    "logId": "LOG-1795501625516-928",
+    "action": "USER_LOGIN",
+    "details": "User Super Admin Governance (admin) logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-24T06:27:05.516Z"
+  },
+  {
+    "logId": "LOG-1795501625650-738",
+    "action": "USER_LOGIN",
+    "details": "User Malik Tariq Mehmood (owner) logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-24T06:27:05.650Z"
+  },
+  {
+    "logId": "LOG-1795501931358-4",
+    "action": "USER_REGISTERED",
+    "details": "New student registered: Nouman Naseer",
+    "performedBy": "Nouman Naseer",
+    "timestamp": "2026-11-24T06:32:11.358Z"
+  },
+  {
+    "logId": "LOG-1795501960072-92",
+    "action": "AUTO_REMOVED_FULL_INVENTORY",
+    "details": "Hostel \"AL-ALI Boys Hostel\" (staezy-1) reached 0 available beds. Automatically removed from Home / public search.",
+    "performedBy": "Inventory Engine",
+    "timestamp": "2026-11-24T06:32:40.072Z"
+  },
+  {
+    "logId": "LOG-1795502292676-104",
+    "action": "ROLE_LOGIN_MISMATCH",
+    "details": "User dev.nouman.naseer@gmail.com (student) attempted login via admin portal",
+    "performedBy": "dev.nouman.naseer@gmail.com",
+    "timestamp": "2026-11-24T06:38:12.676Z"
+  },
+  {
+    "logId": "LOG-1795502624167-536",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.167Z"
+  },
+  {
+    "logId": "LOG-1795502624286-751",
+    "action": "FAILED_LOGIN_ATTEMPT",
+    "details": "Invalid password for student@thakana.pk",
+    "performedBy": "student@thakana.pk",
+    "timestamp": "2026-11-24T06:43:44.286Z"
+  },
+  {
+    "logId": "LOG-1795502624290-6",
+    "action": "FAILED_LOGIN_ATTEMPT",
+    "details": "Account not found for: random_nonexistent_user@thakana.pk",
+    "performedBy": "random_nonexistent_user@thakana.pk",
+    "timestamp": "2026-11-24T06:43:44.290Z"
+  },
+  {
+    "logId": "LOG-1795502624293-581",
+    "action": "ROLE_LOGIN_MISMATCH",
+    "details": "User owner@thakana.pk (owner) attempted login via student portal",
+    "performedBy": "owner@thakana.pk",
+    "timestamp": "2026-11-24T06:43:44.293Z"
+  },
+  {
+    "logId": "LOG-1795502624296-651",
+    "action": "ROLE_LOGIN_MISMATCH",
+    "details": "User admin@thakana.pk (admin) attempted login via student portal",
+    "performedBy": "admin@thakana.pk",
+    "timestamp": "2026-11-24T06:43:44.296Z"
+  },
+  {
+    "logId": "LOG-1795502624325-292",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/owner/my-hostels. Required roles: [owner, admin]",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.325Z"
+  },
+  {
+    "logId": "LOG-1795502624328-914",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.328Z"
+  },
+  {
+    "logId": "LOG-1795502624331-365",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/inspector/assigned-hostels. Required roles: [inspector, admin]",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.331Z"
+  },
+  {
+    "logId": "LOG-1795502624343-910",
+    "action": "IDOR_VIOLATION_ATTEMPT",
+    "details": "Student usr-student-other-999 tried to view booking THK-BKG-1001 belonging to usr-student-1",
+    "performedBy": "Other Student",
+    "timestamp": "2026-11-24T06:43:44.343Z"
+  },
+  {
+    "logId": "LOG-1795502624346-707",
+    "action": "IDOR_VIOLATION_ATTEMPT",
+    "details": "User usr-student-other-999 tried to cancel booking THK-BKG-1001 belonging to Ayesha Tariq",
+    "performedBy": "Other Student",
+    "timestamp": "2026-11-24T06:43:44.346Z"
+  },
+  {
+    "logId": "LOG-1795502624756-419",
+    "action": "PASSWORD_CHANGED",
+    "details": "Student usr-student-1 (student@thakana.pk) changed password",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.756Z"
+  },
+  {
+    "logId": "LOG-1795502624805-415",
+    "action": "PROFILE_UPDATED",
+    "details": "Profile updated for usr-student-1 (student)",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:43:44.805Z"
   }
 ]

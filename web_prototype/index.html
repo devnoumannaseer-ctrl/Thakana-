@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Thakana — Student Hostels Near Universities in Pakistan</title>
+  <title>Thikana — Find Your Perfect Stay Near Your University</title>
   
   <!-- PWA MANIFEST & APP META -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#322d3a">
+  <meta name="theme-color" content="#4f39f6">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Thakana">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Thikana">
   
-  <!-- INTER TIGHT & INTER FONTS (EXACT THAKANA FONTS) -->
+  <!-- INTER TIGHT & INTER FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- PHOSPHOR ICONS -->
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
@@ -27,16 +27,13 @@
       theme: {
         extend: {
           colors: {
-            staezy: {
-              purple: '#5f4a9a',
-              purpleHover: '#4d3b7e',
-              purpleLight: '#f0edfb',
-              purpleDark: '#322d3a',
-              cardBg: '#ffffff',
-              pageBg: '#f8f7fc',
-              textDark: '#342f3d',
-              textMuted: '#9ca3af',
-              borderLight: '#e8e4f0'
+            thikana: {
+              purple: '#4f39f6',
+              purpleHover: '#4338ca',
+              purpleLight: '#f3f0ff',
+              purpleDark: '#1e1b4b',
+              lavenderBg: '#f6f4fe',
+              borderLight: '#e2e8f0'
             }
           },
           fontFamily: {
@@ -54,8 +51,8 @@
     }
     body {
       font-family: "Inter Tight", Inter, system-ui, -apple-system, sans-serif;
-      background-color: #f8f7fc;
-      color: #342f3d;
+      background-color: #faf9ff;
+      color: #0f172a;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
@@ -63,33 +60,45 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Hide PWA install triggers when running inside installed standalone PWA app */
-    @media all and (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui) {
-      .pwa-install-trigger, #pwaInstallBtn, [data-pwa-install] {
-        display: none !important;
+    /* Hero Background with University Campus */
+    .hero-banner-container {
+      background: linear-gradient(135deg, #f1edfd 0%, #f7f5ff 55%, #ffffff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .campus-bg-image {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 58%;
+      background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center right;
+      opacity: 0.92;
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 25%, rgba(0,0,0,1) 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 25%, rgba(0,0,0,1) 100%);
+      pointer-events: none;
+    }
+    @media (max-width: 1024px) {
+      .campus-bg-image {
+        display: none;
       }
     }
 
-    /* Thakana Hero Curved Header */
-    .staezy-hero-bg {
-      background: linear-gradient(180deg, #322d3a 0%, #26222c 100%);
-      border-radius: 0 0 32px 32px;
-    }
-    @media (min-width: 768px) {
-      .staezy-hero-bg {
-        border-radius: 0 0 44px 44px;
-      }
-    }
-
-    /* Thakana Capsule Search Bar */
-    .search-capsule {
-      background: #ffffff;
-      border: 2px solid #e8e4f0;
-      border-radius: 100px;
-      box-shadow: 0 6px 24px rgba(95, 74, 154, 0.12);
+    /* Wave curve at top-left */
+    .organic-wave {
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(224, 215, 254, 0.6) 0%, rgba(243, 240, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
     }
 
-    /* Thakana Hostel Card */
     .staezy-card {
       background: #ffffff;
       border-radius: 20px;
@@ -99,10 +108,21 @@
     }
     .staezy-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(95, 74, 154, 0.12);
+      box-shadow: 0 10px 28px rgba(79, 57, 246, 0.12);
     }
 
-    /* City Card */
+    .uni-feature-card {
+      background: #ffffff;
+      border: 1px solid #eef0f4;
+      border-radius: 18px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .uni-feature-card:hover {
+      transform: translateY(-2px);
+      border-color: #c7d2fe;
+      box-shadow: 0 8px 20px rgba(79, 57, 246, 0.08);
+    }
+
     .city-scroll-card {
       flex-shrink: 0;
       width: 120px;
@@ -114,103 +134,122 @@
     }
     .city-scroll-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(95, 74, 154, 0.12);
+      box-shadow: 0 6px 16px rgba(79, 57, 246, 0.12);
     }
   </style>
 </head>
-<body class="pb-24 antialiased">
+<body class="pb-24 antialiased selection:bg-[#4f39f6] selection:text-white">
 
-  <!-- HERO SECTION (THAKANA CURVED DEEP PURPLE HEADER) -->
-  <header class="staezy-hero-bg text-white pt-5 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto">
-      
-      <!-- TOP NAVBAR -->
-      <div class="flex items-center justify-between h-14 mb-8 sm:mb-12">
-        <!-- THAKANA LOGO -->
-        <a href="index.html" class="flex items-center gap-2 group">
-          <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-1">
-            thakana<span class="w-2 h-2 rounded-full bg-[#826bbd] inline-block -mb-1"></span>
-          </span>
-          <span class="text-[10px] font-semibold text-white/60 uppercase tracking-widest pl-1 border-l border-white/20 hidden sm:inline">
-            Student Living
-          </span>
+  <!-- ============================================================ -->
+  <!-- 1. TOP NAVBAR (MATCHING SPECIFICATION IMAGE)                -->
+  <!-- ============================================================ -->
+  <header class="bg-white border-b border-slate-100 sticky top-0 z-40 backdrop-blur-md bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-18 py-3">
+        
+        <!-- LOGO & SUBTITLE -->
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="w-10 h-10 rounded-xl bg-[#ede9fe] text-[#4f39f6] flex items-center justify-center text-2xl font-black shrink-0 transition group-hover:scale-105">
+            <i class="ph-bold ph-house-line"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-black tracking-tight text-slate-900 leading-none">
+              Thikana
+            </span>
+            <span class="text-[10px] font-semibold text-slate-500 tracking-normal mt-0.5">
+              Find Your Perfect Stay
+            </span>
+          </div>
         </a>
 
-        <!-- DESKTOP NAV ACTIONS -->
-        <div class="flex items-center gap-2 sm:gap-3">
-          <!-- SUPER ADMIN TOGGLE -->
-          <button id="adminModeBtn" onclick="toggleAdminMode()" style="display:none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition" title="Toggle Super Admin Controls on Home">
-            <i class="ph-bold ph-shield-check text-amber-300"></i>
-            <span>Admin: <strong id="adminStatusText" class="text-white">OFF</strong></span>
+        <!-- CENTER NAVIGATION LINKS -->
+        <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
+          <a href="index.html" class="text-[#4f39f6] font-bold border-b-2 border-[#4f39f6] pb-1">
+            Home
+          </a>
+          <a href="#hostelsSection" class="hover:text-[#4f39f6] transition">
+            Explore Hostels
+          </a>
+          <a href="#universitiesSection" class="hover:text-[#4f39f6] transition">
+            Universities
+          </a>
+          <a href="#aboutSection" class="hover:text-[#4f39f6] transition">
+            About
+          </a>
+          <a href="#contactSection" class="hover:text-[#4f39f6] transition">
+            Contact
+          </a>
+        </nav>
+
+        <!-- RIGHT ACTIONS: STUDENT LOGIN (PRIMARY) + OWNER & ADMIN OPTIONS -->
+        <div class="flex items-center gap-2.5">
+          <!-- SUPER ADMIN TOGGLE (IF LOGGED AS ADMIN) -->
+          <button id="adminModeBtn" onclick="toggleAdminMode()" style="display:none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 transition" title="Toggle Super Admin Controls on Home">
+            <i class="ph-bold ph-shield-check text-rose-600"></i>
+            <span>Admin: <strong id="adminStatusText" class="text-rose-900">OFF</strong></span>
           </button>
 
-          <!-- PWA INSTALL APP BUTTON (WEB-ONLY) -->
-          <button id="pwaInstallBtn" onclick="promptPwaInstall()" class="pwa-install-trigger hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-white/25 text-white transition">
-            <i class="ph-bold ph-download-simple"></i> <span>Install App</span>
-          </button>
-
-          <div id="userAuthSlot" class="hidden sm:inline-flex"></div>
-          <!-- HOST WITH US BUTTON (THAKANA SIGNATURE) -->
-          <a href="owner-portal.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white text-[#322d3a] hover:bg-white/90 shadow-md transition">
-            <i class="ph-bold ph-plus-circle text-[#5f4a9a]"></i>
-            <span>Host with us</span>
+          <!-- OWNER LOGIN LINK -->
+          <a href="login-owner.html" class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition" title="Hostel Owner Portal">
+            <i class="ph-bold ph-buildings text-amber-600"></i>
+            <span>Owner</span>
           </a>
 
+          <!-- ADMIN LOGIN LINK -->
+          <a href="login-admin.html" class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition" title="Platform Governance & Super Admin">
+            <i class="ph-bold ph-shield-check text-rose-600"></i>
+            <span>Admin</span>
+          </a>
+
+          <!-- PRIMARY STUDENT LOGIN BUTTON -->
+          <div id="userAuthSlot" class="inline-flex">
+            <a href="login-student.html" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs font-bold bg-[#4f39f6] hover:bg-[#4338ca] text-white shadow-sm transition">
+              <i class="ph-bold ph-user text-sm"></i>
+              <span>Student Login</span>
+            </a>
+          </div>
+
           <!-- MOBILE MENU BUTTON -->
-          <button onclick="toggleMobileMenu(event)" id="mobileMenuBtn" class="sm:hidden p-2.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition flex items-center justify-center" aria-label="Toggle Navigation">
+          <button onclick="toggleMobileMenu(event)" id="mobileMenuBtn" class="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition" aria-label="Toggle Menu">
             <i id="menuIcon" class="ph-bold ph-list text-xl"></i>
           </button>
         </div>
-      </div>
 
-      <!-- HERO HEADLINE -->
-      <div class="text-center max-w-2xl mx-auto mb-4">
-        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          Hostel Hunting, Simplified
-        </h1>
-        <p class="mt-2 text-sm sm:text-base text-white/80 font-normal">
-          Search verified student hostels in Lahore, Islamabad, Karachi, Rawalpindi &amp; more. Compare rooms, prices, amenities.
-        </p>
       </div>
-
     </div>
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER -->
-  <div id="mobileDrawer" class="hidden fixed inset-x-0 top-0 z-50 bg-[#322d3a] text-white p-5 border-b border-white/15 shadow-2xl transition-all">
-    <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
-      <span class="text-xl font-black">thakana<span class="text-[#826bbd]">.</span></span>
-      <button onclick="closeMobileMenu()" class="p-2 rounded-full bg-white/10 text-white"><i class="ph-bold ph-x text-lg"></i></button>
+  <div id="mobileDrawer" class="hidden fixed inset-x-0 top-0 z-50 bg-[#0F172A] text-white p-5 border-b border-slate-800 shadow-2xl transition-all">
+    <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+      <div class="flex items-center gap-2">
+        <i class="ph-bold ph-house-line text-[#4f39f6] text-xl"></i>
+        <span class="text-xl font-black">Thikana</span>
+      </div>
+      <button onclick="closeMobileMenu()" class="p-2 rounded-full bg-slate-800 text-white"><i class="ph-bold ph-x text-lg"></i></button>
     </div>
     <div class="space-y-2 text-sm font-semibold">
       <a href="index.html" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/10 text-white">
-        <i class="ph-bold ph-storefront text-[#826bbd]"></i> Student Marketplace
+        <i class="ph-bold ph-house"></i> Home
       </a>
-      <a href="owner-portal.html" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
-        <i class="ph-bold ph-buildings text-amber-300"></i> Host with Us (Owner Side)
+      <a href="#hostelsSection" onclick="closeMobileMenu()" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
+        <i class="ph-bold ph-magnifying-glass text-[#a5b4fc]"></i> Explore Hostels
       </a>
-      <a href="admin-portal.html" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
-        <i class="ph-bold ph-shield-check text-rose-300"></i> Admin Governance Portal
+      <a href="#universitiesSection" onclick="closeMobileMenu()" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
+        <i class="ph-bold ph-graduation-cap text-cyan-300"></i> Universities
       </a>
-      <a href="roommate-match.html" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
-        <i class="ph-bold ph-users text-cyan-300"></i> Roommates AI Match
-      </a>
-      <button id="mobileAdminToggleBtn" onclick="toggleAdminMode(); closeMobileMenu();" style="display:none;" class="w-full text-left flex items-center justify-between p-2.5 rounded-xl bg-amber-500/20 text-amber-200">
-        <span class="flex items-center gap-2"><i class="ph-bold ph-gear"></i> Toggle Admin Mode</span>
-        <span id="mobileAdminStatus" class="font-bold">OFF</span>
-      </button>
-          <div id="mobileAuthSlot" class="pt-2 border-t border-white/10"></div>
-      <div class="pt-2 border-t border-white/10 text-xs space-y-1.5">
-        <span class="text-white/50 text-[10px] font-extrabold uppercase tracking-wider block">Portals Login Mode:</span>
-        <div class="grid grid-cols-3 gap-1.5 text-center font-bold text-xs">
-          <a href="login-student.html" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white flex flex-col items-center">
-            <i class="ph-bold ph-graduation-cap text-base text-[#826bbd] mb-0.5"></i> Student
+      <div id="mobileAuthSlot" class="pt-2 border-t border-slate-800"></div>
+      <div class="pt-2 border-t border-slate-800 text-xs space-y-2">
+        <span class="text-slate-400 text-[10px] font-extrabold uppercase tracking-wider block">Portals Login:</span>
+        <div class="grid grid-cols-3 gap-2 text-center font-bold text-xs">
+          <a href="login-student.html" class="p-2 rounded-xl bg-blue-600/20 text-blue-300 border border-blue-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-graduation-cap text-base mb-0.5"></i> Student
           </a>
-          <a href="login-owner.html" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white flex flex-col items-center">
-            <i class="ph-bold ph-buildings text-base text-amber-300 mb-0.5"></i> Owner
+          <a href="login-owner.html" class="p-2 rounded-xl bg-amber-600/20 text-amber-300 border border-amber-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-buildings text-base mb-0.5"></i> Owner
           </a>
-          <a href="login-admin.html" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white flex flex-col items-center">
-            <i class="ph-bold ph-shield-check text-base text-rose-300 mb-0.5"></i> Admin
+          <a href="login-admin.html" class="p-2 rounded-xl bg-rose-600/20 text-rose-300 border border-rose-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-shield-check text-base mb-0.5"></i> Admin
           </a>
         </div>
       </div>
@@ -218,502 +257,463 @@
   </div>
   <div id="mobileBackdrop" onclick="closeMobileMenu()" class="hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"></div>
 
-  <!-- THAKANA SEARCH CAPSULE (OVERLAPPING HERO) -->
-  <div class="max-w-4xl mx-auto px-4 -mt-10 sm:-mt-12 relative z-30">
-    <!-- DESKTOP CAPSULE BAR -->
-    <div class="hidden sm:flex items-center justify-between search-capsule p-2 pl-6 gap-3">
-      <!-- LOCATION SECTION -->
-      <div class="flex-1 min-w-0">
-        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Location</label>
-        <input type="text" id="desktopSearchInput" oninput="handleSearchInput()" placeholder="City or university (e.g. UMT, FAST, NUST)" class="w-full bg-transparent text-sm font-semibold text-slate-800 placeholder-slate-400 focus:outline-none">
+  <!-- ============================================================ -->
+  <!-- 2. HERO SECTION (MATCHING SPECIFICATION IMAGE)               -->
+  <!-- ============================================================ -->
+  <section class="hero-banner-container border-b border-slate-100">
+    <div class="organic-wave"></div>
+    <div class="campus-bg-image"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+        <!-- LEFT HERO COLUMN: HEADLINE, BADGE & TRUST -->
+        <div class="lg:col-span-7 pr-0 lg:pr-4">
+          
+          <!-- PILL BADGE -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#ede9fe] text-[#4f39f6] mb-5 shadow-sm">
+            <i class="ph-fill ph-graduation-cap text-sm"></i>
+            <span>Student Housing Platform</span>
+          </div>
+
+          <!-- HEADLINE -->
+          <h1 class="text-3xl sm:text-5xl lg:text-[52px] font-black text-slate-900 tracking-tight leading-[1.12] mb-5">
+            Find Your Perfect<br>
+            Hostel Near <span class="text-[#4f39f6]">Your University</span>
+          </h1>
+
+          <!-- DESCRIPTION -->
+          <p class="text-sm sm:text-base text-slate-600 font-medium max-w-xl mb-7 leading-relaxed">
+            Explore universities, discover hostels, and book your ideal stay with complete confidence.
+          </p>
+
+          <!-- TRUST BADGES -->
+          <div class="flex flex-wrap items-center gap-3 sm:gap-5 text-xs font-bold text-slate-700">
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-check-circle text-[#4f39f6] text-base"></i>
+              <span>Verified Hostels</span>
+            </div>
+            <span class="text-slate-300 hidden sm:inline">|</span>
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-lock-key text-[#4f39f6] text-base"></i>
+              <span>Secure Booking</span>
+            </div>
+            <span class="text-slate-300 hidden sm:inline">|</span>
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-headset text-[#4f39f6] text-base"></i>
+              <span>24/7 Support</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT HERO COLUMN: FLOATING STUDENT LOGIN CARD -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+          <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-100 max-w-[360px] w-full relative z-20">
+            
+            <!-- AVATAR CIRCLE -->
+            <div class="w-12 h-12 rounded-full bg-[#4f39f6] text-white flex items-center justify-center text-xl mx-auto mb-2.5 shadow-md shadow-[#4f39f6]/25">
+              <i class="ph-bold ph-user"></i>
+            </div>
+            
+            <h3 class="font-black text-xl text-slate-900 text-center tracking-tight">Student Login</h3>
+            <p class="text-xs text-slate-400 text-center mb-4">Access your dashboard</p>
+
+            <div id="homeAuthAlert" class="hidden mb-3 p-2.5 rounded-xl text-xs font-semibold"></div>
+
+            <!-- LOGGED-IN STATE (IF STUDENT IS ALREADY LOGGED IN) -->
+            <div id="homeLoggedInBox" class="hidden text-center py-2 space-y-3">
+              <div class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-100 text-left">
+                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Signed In Student:</span>
+                <strong id="homeLoggedInName" class="text-sm font-extrabold text-blue-950 block mt-0.5">Ahmed Ali</strong>
+                <span id="homeLoggedInEmail" class="text-xs text-slate-600 block">student@thakana.pk</span>
+              </div>
+              <a id="homeDashboardLink" href="user-dashboard.html" class="w-full py-3 rounded-xl bg-[#4f39f6] hover:bg-[#4338ca] text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2">
+                <span>Go to Student Dashboard</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
+              <button onclick="logoutAuthUser()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition">
+                Sign Out
+              </button>
+            </div>
+
+            <!-- LOGIN FORM (IF NOT LOGGED IN) -->
+            <form id="homeLoginForm" onsubmit="handleHomeStudentLogin(event)" class="space-y-3.5 text-xs">
+              <div>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <i class="ph-bold ph-envelope-simple text-base"></i>
+                  </span>
+                  <input type="text" id="homeLoginEmail" required placeholder="Email or Phone Number" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-xs focus:outline-none focus:border-[#4f39f6] focus:bg-white transition">
+                </div>
+              </div>
+
+              <div>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <i class="ph-bold ph-lock-key text-base"></i>
+                  </span>
+                  <input type="password" id="homeLoginPass" required placeholder="Password" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-xs focus:outline-none focus:border-[#4f39f6] focus:bg-white transition">
+                  <button type="button" onclick="togglePassVisibility('homeLoginPass', 'homePassEye')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                    <i id="homePassEye" class="ph-bold ph-eye text-base"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" checked class="rounded border-slate-300 text-[#4f39f6] focus:ring-0">
+                  <span>Remember Me</span>
+                </label>
+                <a href="login-student.html" class="text-[#4f39f6] font-semibold hover:underline">Forgot Password?</a>
+              </div>
+
+              <button type="submit" id="homeLoginBtn" class="w-full py-3 rounded-xl bg-[#4f39f6] hover:bg-[#4338ca] text-white font-extrabold text-xs shadow-lg shadow-[#4f39f6]/25 transition flex items-center justify-center gap-2 mt-2">
+                <span>Login</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </button>
+
+              <div class="text-center text-[11px] text-slate-500 pt-1">
+                <span>Don't have an account? </span>
+                <a href="login-student.html" class="text-[#4f39f6] font-extrabold hover:underline">Register Here</a>
+              </div>
+
+              <!-- OWNER & ADMIN LOGIN OPTIONS -->
+              <div class="pt-3 border-t border-slate-100 text-center text-[11px] text-slate-500 space-y-1">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Other Portal Access:</div>
+                <div class="flex items-center justify-center gap-3 font-bold">
+                  <a href="login-owner.html" class="text-amber-600 hover:text-amber-700 hover:underline flex items-center gap-1"><i class="ph-bold ph-buildings"></i> Owner Login</a>
+                  <span class="text-slate-300">•</span>
+                  <a href="login-admin.html" class="text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1"><i class="ph-bold ph-shield-check"></i> Admin Login</a>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
       </div>
-      <div class="w-px h-8 bg-slate-200"></div>
-
-      <!-- GENDER SECTION -->
-      <div class="w-36 shrink-0">
-        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Gender</label>
-        <select id="desktopGenderSelect" onchange="fetchHostels()" class="w-full bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
-          <option value="all">Any gender</option>
-          <option value="Boys">Boys Hostel</option>
-          <option value="Girls">Girls Hostel</option>
-        </select>
-      </div>
-      <div class="w-px h-8 bg-slate-200"></div>
-
-      <!-- BUDGET SECTION -->
-      <div class="w-36 shrink-0">
-        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Budget</label>
-        <select id="desktopBudgetSelect" onchange="fetchHostels()" class="w-full bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
-          <option value="all">Any budget</option>
-          <option value="under20">Under Rs 20,000</option>
-          <option value="20to30">Rs 20k - 30k</option>
-          <option value="above30">Rs 30k+</option>
-        </select>
-      </div>
-
-      <!-- SEARCH BUTTON -->
-      <button onclick="fetchHostels()" class="w-12 h-12 rounded-full bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white flex items-center justify-center shrink-0 shadow-md transition" aria-label="Search">
-        <i class="ph-bold ph-magnifying-glass text-xl"></i>
-      </button>
-    </div>
-
-    <!-- MOBILE SEARCH BAR (THAKANA MOBILE DESIGN) -->
-    <div class="sm:hidden">
-      <div class="flex items-center gap-2.5 bg-white border-2 border-[#e8e4f0] rounded-full px-4 py-3 shadow-lg shadow-purple-900/5">
-        <i class="ph-bold ph-magnifying-glass text-[#5f4a9a] text-lg shrink-0"></i>
-        <input type="text" id="mobileSearchInput" oninput="syncMobileSearch()" placeholder="Search by city, area, or university" class="flex-1 bg-transparent text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none min-w-0">
-        <button onclick="toggleMobileFilterRow()" class="text-xs font-bold text-[#5f4a9a] px-2 py-1 rounded-lg bg-[#f0edfb]">
-          <i class="ph-bold ph-faders"></i>
-        </button>
-      </div>
-
-      <!-- MOBILE COLLAPSIBLE FILTER ROW -->
-      <div id="mobileFilterRow" class="hidden mt-2 bg-white rounded-2xl p-3 border border-[#e8e4f0] shadow-md grid grid-cols-2 gap-2 text-xs">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Gender</label>
-          <select id="mobileGenderSelect" onchange="fetchHostels()" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl p-2 font-bold text-slate-700">
-            <option value="all">Any gender</option>
-            <option value="Boys">Boys Hostel</option>
-            <option value="Girls">Girls Hostel</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Budget</label>
-          <select id="mobileBudgetSelect" onchange="fetchHostels()" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl p-2 font-bold text-slate-700">
-            <option value="all">Any budget</option>
-            <option value="under20">Under Rs 20,000</option>
-            <option value="20to30">Rs 20k - 30k</option>
-            <option value="above30">Rs 30k+</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUPER ADMIN BULK TOOLBAR (VISIBLE WHEN ADMIN IS ON) -->
-  <div id="superAdminToolbar" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
-        <strong class="text-rose-900 font-extrabold uppercase">Super Admin Mode Active:</strong>
-        <span class="text-rose-700">1-click direct removal and deletion enabled on all cards</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="adminBulkRemoveAll()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition flex items-center gap-1 shadow-sm">
-          <i class="ph-bold ph-trash"></i> Remove All from Home
-        </button>
-        <button onclick="adminBulkRestoreAll()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition flex items-center gap-1 shadow-sm">
-          <i class="ph-bold ph-arrow-counter-clockwise"></i> Restore All
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- OFFLINE BANNER (auto-hidden when server is online) -->
-  <div id="offlineBanner" style="display:none" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-    <div class="flex items-center justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-sm">
-      <div class="flex items-center gap-2 text-amber-800">
-        <i class="ph-bold ph-wifi-slash text-amber-600 text-base shrink-0"></i>
-        <span><strong>Offline Mode:</strong> Server unreachable. Please start the backend server and retry.</span>
-      </div>
-      <button onclick="fetchHostels()" class="shrink-0 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition">
-        Retry Live Sync
-      </button>
-    </div>
-  </div>
-
-  <!-- POPULAR UNIVERSITIES (THAKANA FILTER SECTION) -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-4">
-    <div class="flex items-center justify-between mb-4 sm:mb-5">
-      <h2 class="text-xl sm:text-2xl font-bold text-[#342f3d]">Popular Universities</h2>
-      <button onclick="setUniFilter('all')" class="text-xs sm:text-sm font-semibold text-[#5f4a9a] hover:text-[#4d3b7e] flex items-center gap-1 transition">
-        <span>See all</span>
-        <i class="ph-bold ph-caret-right text-xs"></i>
-      </button>
-    </div>
-
-    <!-- UNIVERSITIES HORIZONTAL SCROLL -->
-    <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-      <!-- ALL UNIVERSITIES -->
-      <button onclick="setUniFilter('all')" id="uniCard-all" class="city-scroll-card border-2 border-[#5f4a9a] ring-2 ring-[#5f4a9a]/20 p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl bg-[#f0edfb] text-[#5f4a9a] flex items-center justify-center text-2xl font-black mb-1.5">
-          🎓
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">All Unis</div>
-        <div class="text-[10px] text-slate-400">17 Hostels</div>
-      </button>
-
-      <!-- UMT -->
-      <button onclick="setUniFilter('UMT')" id="uniCard-UMT" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#f0edfb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#5f4a9a]">UMT</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">UMT</div>
-        <div class="text-[10px] text-slate-400">7 Hostels</div>
-      </button>
-
-      <!-- FAST -->
-      <button onclick="setUniFilter('FAST')" id="uniCard-FAST" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#edf5fb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#2563eb]">FAST</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">FAST-NUCES</div>
-        <div class="text-[10px] text-slate-400">11 Hostels</div>
-      </button>
-
-      <!-- NUST -->
-      <button onclick="setUniFilter('NUST')" id="uniCard-NUST" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf2ed] flex items-center justify-center">
-          <span class="text-xl font-black text-[#ea580c]">NUST</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">NUST</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- LUMS -->
-      <button onclick="setUniFilter('LUMS')" id="uniCard-LUMS" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fef9ed] flex items-center justify-center">
-          <span class="text-xl font-black text-[#d97706]">LUMS</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">LUMS</div>
-        <div class="text-[10px] text-slate-400">2 Hostels</div>
-      </button>
-
-      <!-- UCP -->
-      <button onclick="setUniFilter('UCP')" id="uniCard-UCP" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#edfaf4] flex items-center justify-center">
-          <span class="text-xl font-black text-[#16a34a]">UCP</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">UCP</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- COMSATS -->
-      <button onclick="setUniFilter('COMSATS')" id="uniCard-COMSATS" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf4f4] flex items-center justify-center">
-          <span class="text-lg font-black text-[#dc2626]">COMSATS</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">COMSATS</div>
-        <div class="text-[10px] text-slate-400">8 Hostels</div>
-      </button>
-
-      <!-- PU -->
-      <button onclick="setUniFilter('PU')" id="uniCard-PU" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#f5f0fb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#7c3aed]">PU</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">Punjab Uni</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- NED -->
-      <button onclick="setUniFilter('NED')" id="uniCard-NED" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf5e0] flex items-center justify-center">
-          <span class="text-xl font-black text-[#b45309]">NED</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">NED Uni</div>
-        <div class="text-[10px] text-slate-400">3 Hostels</div>
-      </button>
     </div>
   </section>
 
-  <!-- MAIN HOSTELS SHOWCASE (THAKANA HOSTEL CARDS) -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex items-center justify-between mb-4">
-      <div>
-        <h2 id="sectionTitle" class="text-xl sm:text-2xl font-bold text-[#342f3d]">Verified Hostels in Pakistan</h2>
-        <p id="sectionSubtitle" class="text-xs text-slate-400">Displaying verified student accommodation with live space check</p>
-      </div>
-      <span id="activeCountBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-[#f0edfb] text-[#5f4a9a]">18 Properties</span>
-    </div>
+  <!-- ============================================================ -->
+  <!-- 3. SELECT YOUR UNIVERSITY + SAFE TRUSTED CARDS              -->
+  <!-- ============================================================ -->
+  <section id="universitiesSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-    <!-- HOSTELS GRID -->
-    <div id="hostelGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-      <!-- Injected via JavaScript -->
-    </div>
-
-    <!-- EMPTY STATE -->
-    <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-[#e8e4f0] shadow-sm my-6">
-      <div class="w-16 h-16 rounded-full bg-[#f0edfb] text-[#5f4a9a] text-3xl flex items-center justify-center mx-auto mb-3">
-        <i class="ph-bold ph-buildings"></i>
-      </div>
-      <h3 class="text-lg font-bold text-slate-800">No properties match your filter</h3>
-      <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Try resetting filters or choose another city to explore verified student living.</p>
-      <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-full bg-[#5f4a9a] text-white text-xs font-bold shadow-md hover:bg-[#4d3b7e] transition">
-        Reset All Filters
-      </button>
-    </div>
-  </main>
-
-  <!-- BOOKING MODAL (100% ESCROW PROTECTED & AUTO-REMOVE ON 0 BEDS) -->
-  <div id="bookingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-        <i class="ph-bold ph-x text-base"></i>
-      </button>
-
-      <div class="mb-4">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-[#5f4a9a] bg-[#f0edfb] px-2.5 py-0.5 rounded-full">Thakana Escrow Reservation</span>
-        <h3 id="modalHostelName" class="text-lg font-bold text-slate-900 mt-1">Hostel Reservation</h3>
-        <p id="modalHostelAddress" class="text-xs text-slate-500">Address detail</p>
-      </div>
-
-      <div class="p-3 bg-[#f8f7fc] rounded-2xl border border-[#e8e4f0] space-y-1.5 text-xs mb-4">
-        <div class="flex justify-between text-slate-600">
-          <span>Monthly Rent:</span>
-          <strong id="modalRentText" class="text-slate-900">Rs 25,000</strong>
+      <!-- LEFT: SELECT YOUR UNIVERSITY (2x3 GRID) -->
+      <div class="lg:col-span-8">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="ph-fill ph-graduation-cap text-[#4f39f6] text-2xl"></i>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Select Your University</h2>
         </div>
-        <div class="flex justify-between text-slate-600">
-          <span>Refundable Deposit (In Escrow):</span>
-          <strong id="modalDepositText" class="text-[#5f4a9a]">Rs 12,500</strong>
-        </div>
-        <div class="flex justify-between text-slate-600">
-          <span>Broker Commission:</span>
-          <span class="font-bold text-emerald-600">FREE (Rs 0)</span>
-        </div>
-        <div class="pt-1.5 border-t border-slate-200 flex justify-between font-bold text-sm text-slate-900">
-          <span>Total to Reserve:</span>
-          <span id="modalTotalText" class="text-[#5f4a9a]">Rs 37,500</span>
+        <p class="text-xs text-slate-500 font-medium mb-5">Find hostels at your university</p>
+
+        <!-- 2x3 UNIVERSITY CARDS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+
+          <!-- 1. UMT -->
+          <div onclick="selectUniversityCard('UMT')" id="uniCard-UMT" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 font-black text-xs shrink-0 shadow-sm">
+                UMT
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">UMT</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 2. FAST-NUCES -->
+          <div onclick="selectUniversityCard('FAST')" id="uniCard-FAST" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 font-black text-xs shrink-0 shadow-sm">
+                FAST
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">FAST-NUCES</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 3. UCP -->
+          <div onclick="selectUniversityCard('UCP')" id="uniCard-UCP" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 font-black text-xs shrink-0 shadow-sm">
+                UCP
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">UCP</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 4. PU -->
+          <div onclick="selectUniversityCard('PU')" id="uniCard-PU" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 font-black text-xs shrink-0 shadow-sm">
+                PU
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">PU</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 5. LUMS -->
+          <div onclick="selectUniversityCard('LUMS')" id="uniCard-LUMS" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 font-black text-xs shrink-0 shadow-sm">
+                LUMS
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">LUMS</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 6. COMSATS -->
+          <div onclick="selectUniversityCard('COMSATS')" id="uniCard-COMSATS" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 font-black text-xs shrink-0 shadow-sm">
+                COMSATS
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">COMSATS</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- BOOKING FORM -->
-      <form id="bookingForm" onsubmit="submitBooking(event)" class="space-y-3 text-xs">
-        <input type="hidden" id="bookingHostelId">
-
-        <!-- ROOM & DATE SELECTION -->
-        <div class="p-3 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-2.5">
-          <span class="text-[10px] font-bold text-[#5f4a9a] uppercase tracking-wider block">1. Select Room &amp; Dates</span>
+      <!-- RIGHT: SAFE • VERIFIED • TRUSTED CARD -->
+      <div class="lg:col-span-4 flex flex-col justify-center">
+        <div class="bg-[#ede9fe] rounded-3xl p-6 sm:p-7 relative overflow-hidden flex flex-col items-center justify-center text-center border border-[#ddd6fe] shadow-sm">
           
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Room Sharing Type *</label>
-              <select id="bookingRoomType" onchange="updateRoomPricing()" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-2 font-semibold text-slate-800 focus:outline-none focus:border-[#5f4a9a]">
-                <option value="2-Person Sharing (Standard)" selected>2-Person Sharing (Standard)</option>
-                <option value="1-Seater Private Room">1-Seater Private Room (+25%)</option>
-                <option value="3-Person Sharing (Budget)">3-Person Sharing (Budget -15%)</option>
-                <option value="4-Person Dormitory">4-Person Dormitory (-25%)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Allocated Room No.</label>
-              <input type="text" id="bookingRoomNumber" readonly value="Room 102" class="w-full bg-slate-100 border border-slate-200 rounded-xl px-2.5 py-2 font-bold text-[#5f4a9a] focus:outline-none">
-            </div>
+          <!-- DOTS PATTERN -->
+          <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#4f39f6 1.5px, transparent 1.5px); background-size: 16px 16px;"></div>
+
+          <!-- HOUSE + GRADUATION CAP ICON -->
+          <div class="w-14 h-14 rounded-2xl bg-white text-[#4f39f6] flex items-center justify-center text-3xl mb-3 shadow-md shadow-purple-900/10 relative z-10">
+            <i class="ph-bold ph-house-line"></i>
           </div>
 
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Expected Check-in Date *</label>
-            <input type="date" id="bookingCheckInDate" required class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-2 font-semibold text-slate-800 focus:outline-none focus:border-[#5f4a9a]">
-          </div>
-        </div>
-
-        <!-- RESIDENT DETAILS -->
-        <div class="space-y-2">
-          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">2. Student Resident Details</span>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-0.5">Student Full Name *</label>
-            <input type="text" id="custName" required placeholder="e.g. Nauman Naseer" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-[#5f4a9a]">
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label class="block font-bold text-slate-700 mb-0.5">Student Mobile *</label>
-              <input type="tel" id="custPhone" required placeholder="03001234567" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-[#5f4a9a]">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-0.5">University / Campus *</label>
-              <input type="text" id="custUni" required placeholder="e.g. UMT Lahore / NUST" class="w-full bg-[#f8f7fc] border border-slate-200 rounded-xl px-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-[#5f4a9a]">
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-2">
-          <button type="submit" id="submitBookingBtn" class="w-full py-3 rounded-full bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-1.5">
-            <i class="ph-bold ph-lock-key"></i> Confirm Escrow Reservation
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- BOOKING SUCCESS MODAL -->
-  <div id="bookingSuccessModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
-      <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3">
-        <i class="ph-bold ph-check"></i>
-      </div>
-      <h3 class="text-lg font-bold text-slate-900">Booking Confirmed!</h3>
-      <p class="text-xs text-slate-500 mt-1">Your bed has been safely reserved under 48-Hour Escrow Protection.</p>
-
-      <div class="my-4 p-3.5 bg-[#f8f7fc] rounded-2xl text-left text-xs space-y-2 border border-slate-200">
-        <div><span class="text-slate-400 block text-[10px] uppercase font-bold">Booking ID</span> <strong id="successBookingId" class="text-base font-black font-mono text-[#5f4a9a]">THK-BKG-1015</strong></div>
-        <div><span class="text-slate-400 block text-[10px] uppercase font-bold">Property</span> <strong id="successHostelName" class="text-slate-900 block text-xs">Hostel Name</strong></div>
-        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-200">
-          <div><span class="text-slate-400 block text-[10px]">Room Allocated:</span> <strong id="successRoom" class="text-slate-800">Room 102</strong></div>
-          <div><span class="text-slate-400 block text-[10px]">Check-in Date:</span> <strong id="successCheckIn" class="text-emerald-700">25 Nov 2026</strong></div>
-        </div>
-        <div class="text-[10px] text-slate-500 pt-1 border-t border-slate-200"><span class="text-slate-400">Available Beds Left:</span> <strong id="successBedsLeft" class="text-emerald-600">3 Beds</strong></div>
-      </div>
-
-      <div class="space-y-2">
-        <a href="user-dashboard.html" class="w-full py-2.5 rounded-full bg-[#5f4a9a] text-white text-xs font-bold shadow-md hover:bg-[#4d3b7e] transition flex items-center justify-center gap-1.5">
-          <i class="ph-bold ph-bookmark-simple"></i> View in My Bookings
-        </a>
-        <button onclick="closeSuccessModal()" class="w-full py-2 rounded-full border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition">
-          Done
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FROZEN BOTTOM NAVIGATION DOCK (THAKANA MOBILE DOCK) -->
-  <div id="frozenBottomDock" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#e8e4f0] px-4 py-2 flex justify-around items-center text-[11px] font-bold text-slate-500 shadow-2xl">
-    <a href="index.html" class="flex flex-col items-center gap-0.5 text-[#5f4a9a] font-black">
-      <i class="ph-fill ph-compass text-xl"></i>
-      <span>Explore</span>
-    </a>
-    <a href="roommate-match.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
-      <i class="ph-bold ph-users text-xl"></i>
-      <span>Roommates</span>
-    </a>
-    <a href="owner-portal.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
-      <i class="ph-bold ph-buildings text-xl"></i>
-      <span>Host with us</span>
-    </a>
-    <a href="admin-portal.html" class="flex flex-col items-center gap-0.5 hover:text-[#5f4a9a] transition">
-      <i class="ph-bold ph-shield-check text-xl"></i>
-      <span>Admin</span>
-    </a>
-  </div>
-
-  <!-- FOOTER (EXACT THAKANA FOOTER) -->
-  <footer class="bg-[#231f29] text-white/80 pt-12 pb-16 border-t border-white/10 mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-        <!-- BRAND COL -->
-        <div class="md:col-span-2">
-          <span class="text-2xl font-extrabold text-white tracking-tight">thakana<span class="text-[#826bbd]">.</span></span>
-          <p class="text-xs text-white/60 leading-relaxed mt-3 max-w-md">
-            Pakistan's platform for student hostels &amp; verified stays. Find boys', girls' and co-ed hostels near your university across 88 cities. Compare prices, rooms and amenities, then book with confidence.
+          <h3 class="text-lg font-black text-slate-900 tracking-tight relative z-10">
+            Safe &bull; Verified &bull; Trusted
+          </h3>
+          <p class="text-xs text-slate-600 mt-1 mb-5 font-medium relative z-10">
+            Your comfort is our priority
           </p>
-          <div class="mt-4 flex items-center gap-3">
-            <a href="https://wa.me/923350977787" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition">
-              <i class="ph-bold ph-whatsapp-logo text-base"></i> +92 335 0977787
-            </a>
+
+          <button onclick="document.getElementById('hostelsSection').scrollIntoView({behavior:'smooth'})" class="px-5 py-2.5 rounded-full bg-white text-[#4f39f6] hover:bg-slate-50 font-extrabold text-xs shadow-sm hover:shadow transition flex items-center gap-1.5 relative z-10">
+            <span>Learn More</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </button>
+
+          <!-- SKYLINE SILHOUETTE AT BOTTOM -->
+          <div class="w-full mt-4 flex items-end justify-center opacity-30 relative z-0">
+            <svg viewBox="0 0 300 45" class="w-full h-8 text-[#4f39f6] fill-current" preserveAspectRatio="none">
+              <path d="M0,45 L0,35 L15,35 L15,30 L25,30 L25,35 L40,35 L40,25 L50,20 L60,25 L60,35 L80,35 L80,15 L85,10 L90,15 L90,35 L115,35 L115,28 L130,28 L130,35 L145,35 L148,0 L152,0 L155,35 L170,35 L170,22 L185,22 L185,35 L205,35 L205,18 L215,12 L225,18 L225,35 L245,35 L245,28 L260,28 L260,35 L280,35 L280,30 L290,30 L290,35 L300,35 L300,45 Z"></path>
+            </svg>
           </div>
-        </div>
-
-        <!-- HOSTELS BY UNIVERSITY -->
-        <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Hostels by University</h4>
-          <ul class="space-y-1.5 text-xs text-white/70">
-            <li><button onclick="setUniFilter('UMT')" class="hover:text-white transition">UMT Hostels</button></li>
-            <li><button onclick="setUniFilter('FAST')" class="hover:text-white transition">FAST-NUCES Hostels</button></li>
-            <li><button onclick="setUniFilter('NUST')" class="hover:text-white transition">NUST Hostels</button></li>
-            <li><button onclick="setUniFilter('LUMS')" class="hover:text-white transition">LUMS Hostels</button></li>
-            <li><button onclick="setUniFilter('COMSATS')" class="hover:text-white transition">COMSATS Hostels</button></li>
-          </ul>
-        </div>
-
-        <!-- COMPANY & PORTALS -->
-        <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Portals</h4>
-          <ul class="space-y-1.5 text-xs text-white/70">
-            <li><a href="owner-portal.html" class="hover:text-white transition">Host with us (Owner Portal)</a></li>
-            <li><a href="admin-portal.html" class="hover:text-white transition">Super Admin Governance</a></li>
-            <li><a href="roommate-match.html" class="hover:text-white transition">Roommate AI Split</a></li>
-            <li><button onclick="promptPwaInstall()" class="hover:text-white transition pwa-install-trigger">Install Web App</button></li>
-          </ul>
         </div>
       </div>
 
-      <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-white/50 gap-2">
-        <span>&copy; 2026 Thakana Pakistan. All rights reserved.</span>
-        <span>0% Broker Fee &bull; 48-Hour Deposit Escrow Protection</span>
+    </div>
+  </section>
+
+  
+<footer class="bg-[#0F172A] text-white pt-14 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        
+        <!-- BRAND -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-[#4f39f6] text-white flex items-center justify-center text-xl font-black">
+              <i class="ph-bold ph-house-line"></i>
+            </div>
+            <span class="text-2xl font-black tracking-tight text-white">Thikana</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Pakistan's premier verified student accommodation platform. Zero broker commission, verified university proximity, and 48-Hour Escrow protection.
+          </p>
+        </div>
+
+        <!-- QUICK EXPLORE -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Popular Universities</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><button onclick="selectUniversityCard('UMT')" class="hover:text-white transition">UMT Lahore Hostels</button></li>
+            <li><button onclick="selectUniversityCard('FAST')" class="hover:text-white transition">FAST-NUCES Hostels</button></li>
+            <li><button onclick="selectUniversityCard('UCP')" class="hover:text-white transition">UCP Township Hostels</button></li>
+            <li><button onclick="selectUniversityCard('PU')" class="hover:text-white transition">Punjab University Hostels</button></li>
+            <li><button onclick="selectUniversityCard('LUMS')" class="hover:text-white transition">LUMS DHA Hostels</button></li>
+            <li><button onclick="selectUniversityCard('COMSATS')" class="hover:text-white transition">COMSATS Hostels</button></li>
+          </ul>
+        </div>
+
+        <!-- PORTALS -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Dedicated Portals</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><a href="login-student.html" class="hover:text-white transition flex items-center gap-1.5"><i class="ph-bold ph-graduation-cap text-[#4f39f6]"></i> Student Living Portal</a></li>
+            <li><a href="login-owner.html" class="hover:text-white transition flex items-center gap-1.5"><i class="ph-bold ph-buildings text-amber-400"></i> Hostel Owner Portal</a></li>
+            <li><a href="login-admin.html" class="hover:text-white transition flex items-center gap-1.5"><i class="ph-bold ph-shield-check text-rose-400"></i> Super Admin Governance</a></li>
+            <li><a href="login-inspector.html" class="hover:text-white transition flex items-center gap-1.5"><i class="ph-bold ph-clipboard-text text-cyan-400"></i> Field Inspector Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- SAFETY & ESCROW -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Trust &amp; Safety</h4>
+          <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-400">
+            <div class="flex items-center gap-2 text-white font-bold text-xs">
+              <i class="ph-fill ph-shield-check text-[#4f39f6] text-base"></i>
+              <span>48-Hour Deposit Escrow</span>
+            </div>
+            <p class="text-[11px] leading-relaxed">Your deposit is held safely in escrow until you check in and physically verify the property conditions.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        <span>&copy; 2026 Thikana Pakistan. All rights reserved.</span>
+        <span>Secure Student Accommodations &bull; Verified Supply</span>
       </div>
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC (CORE RULES PRESERVED) -->
   <script>
-    // Embedded verified hostels data (zero delay + offline resilience)
-    const DEFAULT_HOSTELS = [{"id":"staezy-1","name":"AL-ALI Boys Hostel","city":"Lahore","area":"Cantt, Lahore","gender":"Boys","rent":30000,"deposit":15000,"rating":5,"reviewCount":41,"totalBeds":8,"availableBeds":3,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/b4f10d52-9373-484b-860c-e6bb968908c0_3.jpg"],"amenities":["WiFi","beds","mattress","Geyser"],"proximity":{"primary":"UMT","walkMinutes":4,"otherUnis":["FAST","UCP"]},"description":"Verified Boys student hostel located in Cantt, Lahore. Features WiFi, beds, mattress, Geyser with 24/7 security and zero broker commission.","autoRemovedAt":"2026-11-22T12:42:01.914Z"},{"id":"staezy-2","name":"Doctor's Inn Girls Hostel","city":"Lahore","area":"Johar Town, Lahore","gender":"Girls","rent":35000,"deposit":17500,"rating":4.9,"reviewCount":38,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/449c0ea5-ee83-4264-bd56-a427cf929a93_9.jpg"],"amenities":["ac","fridge","WiFi","UPS"],"proximity":{"primary":"UMT","walkMinutes":6,"otherUnis":["FAST","PU"]},"description":"Verified Girls student hostel located in Johar Town, Lahore. Features ac, fridge, WiFi, UPS with 24/7 security and zero broker commission."},{"id":"staezy-3","name":"SethFateh Muhammad Boys Hostel","city":"Lahore","area":"Gulberg, Lahore","gender":"Boys","rent":21500,"deposit":10750,"rating":4.7,"reviewCount":33,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6c6d4f3f-2c9f-4143-ae98-8db5afac3fb3_6.jpg"],"amenities":["beds","Geyser","Iron","Laundry"],"proximity":{"primary":"UCP","walkMinutes":8,"otherUnis":["UMT","PU"]},"description":"Verified Boys student hostel located in Gulberg, Lahore. Features beds, Geyser, Iron, Laundry with 24/7 security and zero broker commission."},{"id":"staezy-4","name":"Gateway residency f6","city":"Islamabad","area":"F-6, Islamabad","gender":"Boys","rent":12500,"deposit":6250,"rating":5,"reviewCount":58,"totalBeds":8,"availableBeds":3,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0ed28af1-7731-4092-9c2f-9e3bc1f2a2c4_2.jpg"],"amenities":["WiFi","beds","mattress","Geyser"],"proximity":{"primary":"NUST","walkMinutes":10,"otherUnis":["FAST","COMSATS"]},"description":"Verified Boys student hostel located in F-6, Islamabad. Features WiFi, beds, mattress, Geyser with 24/7 security and zero broker commission."},{"id":"staezy-6","name":"Alpine lodge (2)","city":"Islamabad","area":"G-10, Islamabad","gender":"Boys","rent":5000,"deposit":2500,"rating":4.9,"reviewCount":38,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/2cac3be4-479c-47ea-b271-80f779febb20_5.jpg"],"amenities":["WiFi","CCTV","Geyser","Parking"],"proximity":{"primary":"FAST","walkMinutes":4,"otherUnis":["NUST","COMSATS"]},"description":"Verified Boys student hostel located in G-10, Islamabad. Features WiFi, CCTV, Geyser, Parking with 24/7 security and zero broker commission."},{"id":"staezy-7","name":"SAHAR Girls Hostel","city":"Rawalpindi","area":"Satellite Town, Rawalpindi","gender":"Girls","rent":23000,"deposit":11500,"rating":5,"reviewCount":33,"totalBeds":8,"availableBeds":3,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/7169a55d-7485-4614-aa5b-209afe80d509.jpeg"],"amenities":["WiFi","beds","mattress","Study area"],"proximity":{"primary":"NUST","walkMinutes":6,"otherUnis":["COMSATS","FAST"]},"description":"Verified Girls student hostel located in Satellite Town, Rawalpindi. Features WiFi, beds, mattress, Study area with 24/7 security and zero broker commission."},{"id":"staezy-8","name":"SA Residencia Boys Hostel","city":"Rawalpindi","area":"Satellite Town, Rawalpindi","gender":"Boys","rent":14000,"deposit":7000,"rating":4.9,"reviewCount":18,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/e3fcb4ed-29d5-457a-9870-5f5120c44baf_10.jpg"],"amenities":["Mess","Laundry","WiFi","attached bathroom"],"proximity":{"primary":"COMSATS","walkMinutes":8,"otherUnis":["NUST","FAST"]},"description":"Verified Boys student hostel located in Satellite Town, Rawalpindi. Features Mess, Laundry, WiFi, attached bathroom with 24/7 security and zero broker commission."},{"id":"staezy-9","name":"OFFICIAL BOYS HOSTEL","city":"Rawalpindi","area":"Satellite Town, Rawalpindi","gender":"Boys","rent":14000,"deposit":7000,"rating":4.7,"reviewCount":42,"totalBeds":8,"availableBeds":2,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/21623151-d0f0-42a9-b65d-4029d4d68ec4.jpg"],"amenities":["WiFi","beds","mattress","UPS"],"proximity":{"primary":"FAST","walkMinutes":10,"otherUnis":["COMSATS","NUST"]},"description":"Verified Boys student hostel located in Satellite Town, Rawalpindi. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission."},{"id":"staezy-10","name":"SHAHEEN HOSTEL","city":"Peshawar","area":"Peshawar","gender":"Boys","rent":13500,"deposit":6750,"rating":4.9,"reviewCount":17,"totalBeds":8,"availableBeds":3,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/a7eaf7cf-74ca-424e-bd9a-6c962e2ecb42_2.jpg"],"amenities":["Cook","Study area","Mess"],"proximity":{"primary":"PU","walkMinutes":12,"otherUnis":["UMT","UCP"]},"description":"Verified Boys student hostel located in Peshawar. Features Cook, Study area, Mess with 24/7 security and zero broker commission."},{"id":"staezy-11","name":"Mahepar Guest House","city":"Peshawar","area":"Hayatabad Phase 2, Peshawar","gender":"Boys","rent":12000,"deposit":6000,"rating":4.6,"reviewCount":25,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/c66d3834-58ad-4e51-b2a3-59bb081d4d81_2.jpg"],"amenities":["WiFi","beds","mattress","attached bathroom"],"proximity":{"primary":"LUMS","walkMinutes":4,"otherUnis":["UCP","UMT"]},"description":"Verified Boys student hostel located in Hayatabad Phase 2, Peshawar. Features WiFi, beds, mattress, attached bathroom with 24/7 security and zero broker commission."},{"id":"staezy-12","name":"Shelton Boys Hostel","city":"Peshawar","area":"University Town, Peshawar","gender":"Boys","rent":8000,"deposit":4000,"rating":4.1,"reviewCount":31,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/eb4656f2-fc5a-4980-bfc7-2b862070de67_6.jpg"],"amenities":["Geyser","Parking","UPS","WiFi"],"proximity":{"primary":"COMSATS","walkMinutes":6,"otherUnis":["UCP","PU"]},"description":"Verified Boys student hostel located in University Town, Peshawar. Features Geyser, Parking, UPS, WiFi with 24/7 security and zero broker commission."},{"id":"staezy-13","name":"Hotel Royal Sunset","city":"Karachi","area":"DHA Phase 2, Karachi","gender":"Boys","rent":7000,"deposit":3500,"rating":4.9,"reviewCount":55,"totalBeds":8,"availableBeds":2,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0d0cb99e-18fc-4b0e-b257-a1e9a0e9f692_8.jpg"],"amenities":["WiFi","beds","mattress","ac"],"proximity":{"primary":"NED","walkMinutes":8,"otherUnis":["FAST","NUST"]},"description":"Verified Boys student hostel located in DHA Phase 2, Karachi. Features WiFi, beds, mattress, ac with 24/7 security and zero broker commission."},{"id":"staezy-14","name":"Bilal Boys Hostel","city":"Karachi","area":"Gulshan-e-Iqbal, Karachi","gender":"Boys","rent":22000,"deposit":11000,"rating":4.8,"reviewCount":19,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/42a32663-3a72-46f4-ad0c-ba1159a483bc_10.jpg"],"amenities":["beds","closet","Geyser","mattress"],"proximity":{"primary":"NED","walkMinutes":10,"otherUnis":["FAST"]},"description":"Verified Boys student hostel located in Gulshan-e-Iqbal, Karachi. Features beds, closet, Geyser, mattress with 24/7 security and zero broker commission."},{"id":"staezy-15","name":"6 Star Girls' Hostel","city":"Karachi","area":"Clifton, Karachi","gender":"Girls","rent":40000,"deposit":20000,"rating":4.5,"reviewCount":33,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/f9c45852-ae85-4101-8aed-b1f549c84ec9_4.jpg"],"amenities":["WiFi","beds","mattress","UPS"],"proximity":{"primary":"NED","walkMinutes":12,"otherUnis":["FAST","COMSATS"]},"description":"Verified Girls student hostel located in Clifton, Karachi. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission."},{"id":"staezy-16","name":"Student hostel for boys","city":"Faisalabad","area":"Madina Town, Faisalabad","gender":"Boys","rent":20000,"deposit":10000,"rating":5,"reviewCount":42,"totalBeds":8,"availableBeds":3,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/af2d14c9-789e-465e-8f60-0d9277e655b1_6.jpg"],"amenities":["WiFi","beds","mattress","UPS"],"proximity":{"primary":"LUMS","walkMinutes":4,"otherUnis":["UMT","UCP"]},"description":"Verified Boys student hostel located in Madina Town, Faisalabad. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission."},{"id":"staezy-17","name":"Horain Girls Hostel","city":"Faisalabad","area":"Madina Town, Faisalabad","gender":"Girls","rent":7000,"deposit":3500,"rating":5,"reviewCount":49,"totalBeds":8,"availableBeds":2,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6683b1c4-c0d4-4fe8-a919-2e923d9b390d_1.jpg"],"amenities":["attached bathroom","beds","closet","mattress"],"proximity":{"primary":"UMT","walkMinutes":6,"otherUnis":["FAST","PU"]},"description":"Verified Girls student hostel located in Madina Town, Faisalabad. Features attached bathroom, beds, closet, mattress with 24/7 security and zero broker commission."},{"id":"staezy-18","name":"Darul Ehsan girls hostel Madina Town Faisalabad","city":"Faisalabad","area":"Gulistan Colony, Faisalabad","gender":"Girls","rent":7000,"deposit":3500,"rating":4.7,"reviewCount":17,"totalBeds":8,"availableBeds":5,"isFull":false,"status":"approved","images":["https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/ebf3284b-4837-4164-86db-d880b92735be_10.jpg"],"amenities":["WiFi","Geyser","Parking","gas connection"],"proximity":{"primary":"COMSATS","walkMinutes":8,"otherUnis":["UCP","PU"]},"description":"Verified Girls student hostel located in Gulistan Colony, Faisalabad. Features WiFi, Geyser, Parking, gas connection with 24/7 security and zero broker commission."}];
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
 
-    // Universal API Origin Resolver
-    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
+    // Handle student clicking university card on front page
+    function selectUniversityCard(uniName) {
+      const userStr = localStorage.getItem('thakana_auth_user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user && (user.role === 'student' || user.role === 'user')) {
+            window.location.href = 'user-dashboard.html?view=explore&uni=' + encodeURIComponent(uniName);
+            return;
+          }
+        } catch(e) {}
+      }
+      // If not logged in, take them to dedicated Student Login with preloaded university
+      window.location.href = 'login-student.html?uni=' + encodeURIComponent(uniName);
+    }
 
-    // State
-    let currentHostels = [...DEFAULT_HOSTELS];
-    let allHostelsData = [...DEFAULT_HOSTELS];
-    let selectedCity = 'all';
-    let selectedUni = 'all';
-    let isAdminMode = localStorage.getItem('thakana_admin_mode') === 'true';
+    async function handleHomeStudentLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('homeLoginBtn');
+      const alertEl = document.getElementById('homeAuthAlert');
+      alertEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin text-sm"></i> Authenticating...';
 
-    // Local removed IDs storage
-    function getLocalRemovedHostelIds() {
+      const identifier = document.getElementById('homeLoginEmail').value.trim();
+      const password = document.getElementById('homeLoginPass').value;
+
       try {
-        const stored = localStorage.getItem('thakana_removed_hostel_ids');
-        return stored ? JSON.parse(stored) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function addLocalRemovedHostelId(id) {
-      if (id === 'ALL') {
-        localStorage.setItem('thakana_removed_all', 'true');
-        return;
-      }
-      const ids = getLocalRemovedHostelIds();
-      if (!ids.includes(id)) {
-        ids.push(id);
-        localStorage.setItem('thakana_removed_hostel_ids', JSON.stringify(ids));
-      }
-    }
-
-    function clearLocalRemovedHostels() {
-      localStorage.removeItem('thakana_removed_hostel_ids');
-      localStorage.removeItem('thakana_removed_all');
-    }
-
-    // PWA Check
-    function isPwaInstalled() {
-      return window.matchMedia('(display-mode: standalone)').matches ||
-             window.navigator.standalone === true ||
-             localStorage.getItem('thakana_pwa_installed') === 'true';
-    }
-
-    function syncPwaInstallButtons() {
-      if (isPwaInstalled()) {
-        document.querySelectorAll('.pwa-install-trigger, #pwaInstallBtn, [data-pwa-install]').forEach(el => {
-          el.style.display = 'none';
-          el.classList.add('hidden');
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password, role: 'student' })
         });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          alertEl.innerHTML = '<i class="ph-bold ph-check-circle"></i> Login successful! Loading dashboard...';
+          if (data.token) localStorage.setItem('thakana_jwt_token', data.token);
+          if (data.user) localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+
+          const targetUni = new URLSearchParams(window.location.search).get('uni');
+          const dest = targetUni ? 'user-dashboard.html?view=explore&uni=' + encodeURIComponent(targetUni) : 'user-dashboard.html';
+          setTimeout(() => {
+            window.location.href = dest;
+          }, 600);
+        } else {
+          alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+          alertEl.innerHTML = '<i class="ph-bold ph-warning-circle"></i> ' + (data.message || 'Student login failed.');
+          btn.disabled = false;
+          btn.innerHTML = '<span>Login</span> <i class="ph-bold ph-arrow-right"></i>';
+        }
+      } catch (err) {
+        alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+        alertEl.innerHTML = '<i class="ph-bold ph-warning-circle"></i> Network error. Please try again.';
+        btn.disabled = false;
+        btn.innerHTML = '<span>Login</span> <i class="ph-bold ph-arrow-right"></i>';
       }
     }
 
-    // Admin Mode Toggle
-    function toggleAdminMode() {
-      isAdminMode = !isAdminMode;
-      localStorage.setItem('thakana_admin_mode', isAdminMode ? 'true' : 'false');
-      updateAdminModeUi();
-      renderHostels(currentHostels);
-    }
+    function syncHeroLoginCard() {
+      const userStr = localStorage.getItem('thakana_auth_user');
+      const form = document.getElementById('homeLoginForm');
+      const box = document.getElementById('homeLoggedInBox');
+      if (!form || !box) return;
 
-    function updateAdminModeUi() {
-      const text = document.getElementById('adminStatusText');
-      const mobileText = document.getElementById('mobileAdminStatus');
-      const toolbar = document.getElementById('superAdminToolbar');
-      if (text) text.innerText = isAdminMode ? 'ON' : 'OFF';
-      if (mobileText) mobileText.innerText = isAdminMode ? 'ON' : 'OFF';
-      if (toolbar) {
-        if (isAdminMode) toolbar.classList.remove('hidden');
-        else toolbar.classList.add('hidden');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user && user.name) {
+            form.classList.add('hidden');
+            box.classList.remove('hidden');
+            document.getElementById('homeLoggedInName').textContent = user.name;
+            document.getElementById('homeLoggedInEmail').textContent = user.email || user.phone || '';
+            const dashLink = document.getElementById('homeDashboardLink');
+            if (user.role === 'owner') {
+              dashLink.href = 'owner-portal.html';
+              dashLink.innerHTML = '<span>Go to Owner Dashboard</span> <i class="ph-bold ph-arrow-right"></i>';
+            } else if (user.role === 'admin') {
+              dashLink.href = 'admin-portal.html';
+              dashLink.innerHTML = '<span>Go to Admin Dashboard</span> <i class="ph-bold ph-arrow-right"></i>';
+            } else {
+              dashLink.href = 'user-dashboard.html';
+              dashLink.innerHTML = '<span>Go to Student Dashboard</span> <i class="ph-bold ph-arrow-right"></i>';
+            }
+          }
+        } catch (e) {}
       }
     }
 
-    // Mobile Menu Toggle
     function toggleMobileMenu(e) {
       if (e && e.stopPropagation) e.stopPropagation();
       const drawer = document.getElementById('mobileDrawer');
@@ -721,646 +721,30 @@
       if (!drawer) return;
       if (drawer.classList.contains('hidden')) {
         drawer.classList.remove('hidden');
-        backdrop.classList.remove('hidden');
+        if (backdrop) backdrop.classList.remove('hidden');
       } else {
-        closeMobileMenu();
+        drawer.classList.add('hidden');
+        if (backdrop) backdrop.classList.add('hidden');
       }
     }
 
     function closeMobileMenu() {
-      document.getElementById('mobileDrawer')?.classList.add('hidden');
-      document.getElementById('mobileBackdrop')?.classList.add('hidden');
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('mobileBackdrop');
+      if (drawer) drawer.classList.add('hidden');
+      if (backdrop) backdrop.classList.add('hidden');
     }
 
-    function toggleMobileFilterRow() {
-      document.getElementById('mobileFilterRow')?.classList.toggle('hidden');
-    }
-
-    function syncMobileSearch() {
-      const val = document.getElementById('mobileSearchInput').value;
-      document.getElementById('desktopSearchInput').value = val;
-      fetchHostels();
-      syncUserAuthHeader();
-    }
-
-    function handleSearchInput() {
-      const val = document.getElementById('desktopSearchInput').value;
-      if (document.getElementById('mobileSearchInput')) {
-        document.getElementById('mobileSearchInput').value = val;
-      }
-      fetchHostels();
-    }
-
-    // University Filter Switcher
-    function setUniFilter(uni) {
-      selectedUni = uni;
-      selectedCity = 'all';
-
-      // Immediate visual tab switch
-      document.querySelectorAll('.city-scroll-card').forEach(btn => {
-        btn.classList.remove('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20', 'shadow-md');
-        btn.classList.add('border-transparent');
-      });
-      const activeCard = document.getElementById('uniCard-' + uni);
-      if (activeCard) {
-        activeCard.classList.remove('border-transparent');
-        activeCard.classList.add('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20', 'shadow-md');
-      }
-
-      // Update Section Title immediately
-      const title = document.getElementById('sectionTitle');
-      if (title) {
-        title.innerText = (uni === 'all') ? 'Verified Hostels near Pakistani Universities' : ('Popular near ' + uni);
-      }
-
-      // Instant 0ms local filter response so click ALWAYS responds immediately
-      applyFiltersAndRender();
-
-      // Background sync with API for live data
-      fetchHostels();
-    }
-
-    // City Filter Switcher (kept for footer links)
-    function setCityFilter(city) {
-      selectedCity = city;
-      selectedUni = 'all';
-
-      document.querySelectorAll('.city-scroll-card').forEach(btn => {
-        btn.classList.remove('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20');
-        btn.classList.add('border-transparent');
-      });
-      const activeCard = document.getElementById('cityCard-' + city);
-      if (activeCard) {
-        activeCard.classList.remove('border-transparent');
-        activeCard.classList.add('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20');
-      }
-
-      const title = document.getElementById('sectionTitle');
-      if (title) {
-        title.innerText = (city === 'all') ? 'Verified Hostels in Pakistan' : ('Popular in ' + city);
-      }
-
-      applyFiltersAndRender();
-      fetchHostels();
-    }
-
-    // Local filter engine (ensures 100% instantaneous click response)
-    function applyFiltersAndRender() {
-      const source = (allHostelsData && allHostelsData.length > 0) ? allHostelsData : DEFAULT_HOSTELS;
-      let list = [...source];
-
-      // Remove admin hidden
-      const removedIds = getLocalRemovedHostelIds();
-      if (localStorage.getItem('thakana_removed_all') === 'true') {
-        list = [];
-      } else if (removedIds.length > 0) {
-        list = list.filter(h => !removedIds.includes(h.id));
-      }
-
-      // Filter by Uni
-      if (selectedUni && selectedUni !== 'all') {
-        const u = selectedUni.toLowerCase();
-        list = list.filter(h => {
-          const prim = (h.proximity?.primary || '').toLowerCase();
-          const others = Array.isArray(h.proximity?.otherUnis)
-            ? h.proximity.otherUnis.map(x => String(x).toLowerCase())
-            : String(h.proximity?.otherUnis || '').toLowerCase().split(' ');
-          return prim.includes(u) || others.some(o => o.includes(u));
-        });
-      }
-
-      // Filter by City
-      if (selectedCity && selectedCity !== 'all') {
-        list = list.filter(h => (h.city || '').toLowerCase() === selectedCity.toLowerCase());
-      }
-
-      // Filter by Gender
-      const gender = document.getElementById('desktopGenderSelect')?.value || document.getElementById('mobileGenderSelect')?.value || 'all';
-      if (gender && gender !== 'all') {
-        list = list.filter(h => (h.gender || '').toLowerCase() === gender.toLowerCase());
-      }
-
-      // Filter by Search
-      const search = (document.getElementById('desktopSearchInput')?.value || document.getElementById('mobileSearchInput')?.value || '').trim().toLowerCase();
-      if (search) {
-        list = list.filter(h =>
-          (h.name || '').toLowerCase().includes(search) ||
-          (h.area || '').toLowerCase().includes(search) ||
-          (h.city || '').toLowerCase().includes(search) ||
-          (h.proximity?.primary || '').toLowerCase().includes(search)
-        );
-      }
-
-      // Filter by Budget
-      const budget = document.getElementById('desktopBudgetSelect')?.value || document.getElementById('mobileBudgetSelect')?.value || 'all';
-      if (budget === 'under20') {
-        list = list.filter(h => (h.rent || 0) <= 20000);
-      } else if (budget === '20to30') {
-        list = list.filter(h => (h.rent || 0) >= 20000 && (h.rent || 0) <= 30000);
-      } else if (budget === 'above30') {
-        list = list.filter(h => (h.rent || 0) >= 30000);
-      }
-
-      currentHostels = list;
-      renderHostels(currentHostels);
-    }
-
-    // FETCH HOSTELS FROM BACKEND (SYNCS LIVE DATA)
-    async function fetchHostels() {
-      const search = (document.getElementById('desktopSearchInput')?.value || '').trim();
-      const gender = document.getElementById('desktopGenderSelect')?.value || document.getElementById('mobileGenderSelect')?.value || 'all';
-      const budget = document.getElementById('desktopBudgetSelect')?.value || document.getElementById('mobileBudgetSelect')?.value || 'all';
-
-      const queryParams = new URLSearchParams();
-      if (selectedUni && selectedUni !== 'all') queryParams.append('uni', selectedUni);
-      if (gender && gender !== 'all') queryParams.append('gender', gender);
-      if (search) queryParams.append('search', search);
-
-      if (budget === 'under20') queryParams.append('maxPrice', 20000);
-      else if (budget === '20to30') {
-        queryParams.append('minPrice', 20000);
-        queryParams.append('maxPrice', 30000);
-      } else if (budget === 'above30') {
-        queryParams.append('minPrice', 30000);
-      }
-
-      const offlineBanner = document.getElementById('offlineBanner');
-
-      try {
-        const res = await fetch(API_BASE + '/api/hostels?' + queryParams.toString());
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data)) {
-            if (offlineBanner) offlineBanner.style.display = 'none';
-            allHostelsData = json.data;
-            let list = json.data;
-            const removedIds = getLocalRemovedHostelIds();
-            if (localStorage.getItem('thakana_removed_all') === 'true') {
-              list = [];
-            } else if (removedIds.length > 0) {
-              list = list.filter(h => !removedIds.includes(h.id));
-            }
-            currentHostels = list;
-            renderHostels(currentHostels);
-            return;
-          }
-        }
-      } catch (err) {
-        console.warn('Backend offline or unreachable, local data active:', err);
-      }
-
-      // If backend was not reached, local filter already rendered results!
-    }
-
-    // RENDER HOSTEL CARDS (EXACT THAKANA CARD DESIGN)
-    function renderHostels(hostels) {
-      const grid = document.getElementById('hostelGrid');
-      const empty = document.getElementById('emptyState');
-      const countBadge = document.getElementById('activeCountBadge');
-      const title = document.getElementById('sectionTitle');
-
-      if (!grid) return;
-
-      if (title) {
-        if (selectedUni === 'all') {
-          title.innerText = 'Verified Hostels near Pakistani Universities';
-        } else {
-          title.innerText = `Popular near ${selectedUni}`;
-        }
-      }
-
-      if (!hostels || hostels.length === 0) {
-        grid.innerHTML = '';
-        if (empty) empty.classList.remove('hidden');
-        if (countBadge) countBadge.innerText = '0 Properties';
-        return;
-      }
-
-      if (empty) empty.classList.add('hidden');
-      if (countBadge) countBadge.innerText = `${hostels.length} Properties`;
-
-      grid.innerHTML = hostels.map(h => {
-        const beds = (h.availableBeds !== undefined) ? h.availableBeds : 3;
-        const img = (h.images && h.images[0]) ? h.images[0] : 'https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/b4f10d52-9373-484b-860c-e6bb968908c0_3.jpg';
-        const rating = h.rating || 5.0;
-        const isBoys = (h.gender === 'Boys');
-
-        return `
-          <div class="staezy-card flex flex-col justify-between border border-[#e8e4f0]">
-            <!-- CARD IMAGE -->
-            <div class="relative w-full h-44 overflow-hidden bg-slate-100">
-              <img src="${img}" alt="${h.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy">
-              <!-- RATING BADGE -->
-              <div class="absolute top-2.5 left-2.5 flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full text-xs font-bold text-[#342f3d] shadow-sm">
-                <i class="ph-fill ph-star text-amber-500 text-xs"></i>
-                <span>${rating}</span>
-              </div>
-              <!-- SPACE CHECK / BEDS LEFT BADGE -->
-              <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#322d3a]/80 backdrop-blur-md text-white shadow-sm flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${beds} Beds Left
-              </div>
-            </div>
-
-            <!-- CARD BODY -->
-            <div class="p-3.5 flex-1 flex flex-col justify-between">
-              <div>
-                <!-- NAME & ADDRESS -->
-                <div class="flex items-start justify-between gap-1 mb-1">
-                  <h3 class="font-bold text-sm text-[#342f3d] leading-snug line-clamp-1 hover:text-[#5f4a9a] cursor-pointer" onclick="openBookingModal('${h.id}')">
-                    ${h.name}
-                  </h3>
-                </div>
-                <p class="text-xs text-[#9ca3af] mb-2.5 line-clamp-1">
-                  ${h.city} &bull; ${h.area}
-                </p>
-
-                <!-- TAGS / AMENITIES -->
-                <div class="flex flex-wrap gap-1 mb-3">
-                  ${(h.amenities || ['WiFi', 'beds', 'Geyser']).slice(0, 4).map(tag => `
-                    <span class="text-[10px] px-2 py-0.5 rounded-md bg-[#f8f7fc] text-slate-600 border border-slate-100">
-                      ${tag}
-                    </span>
-                  `).join('')}
-                </div>
-              </div>
-
-              <div>
-                <!-- PRICE -->
-                <div class="flex items-baseline justify-between mb-3 pt-2 border-t border-slate-100">
-                  <div>
-                    <span class="text-base font-extrabold text-[#342f3d]">Rs ${Number(h.rent).toLocaleString()}</span>
-                    <span class="text-xs text-[#9ca3af]">/ month</span>
-                  </div>
-                  <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
-                    0% Dalal Fee
-                  </span>
-                </div>
-
-                <!-- ACTIONS -->
-                <div class="flex items-center gap-1.5">
-                  <a href="https://wa.me/923350977787?text=Hi%20Thakana%2C%20I%20am%20interested%20in%20${encodeURIComponent(h.name)}%20listed%20on%20Thakana" target="_blank" class="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center transition shrink-0" title="Direct WhatsApp">
-                    <i class="ph-bold ph-whatsapp-logo text-base"></i>
-                  </a>
-                  <button onclick="openBookingModal('${h.id}')" class="flex-1 py-2 rounded-xl bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white font-bold text-xs shadow-sm transition flex items-center justify-center gap-1">
-                    <i class="ph-bold ph-lock-key"></i> Reserve Bed
-                  </button>
-                </div>
-
-                <!-- ADMIN CONTROLS (DIRECT REMOVE & DELETE) -->
-                ${isAdminMode ? `
-                  <div class="grid grid-cols-2 gap-1 mt-2 pt-2 border-t border-rose-200">
-                    <button onclick="adminRemoveHostelHome('${h.id}', '${h.name}')" class="py-1 px-2 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-[10px] font-bold">
-                      <i class="ph-bold ph-eye-slash"></i> Hide
-                    </button>
-                    <button onclick="adminDeleteHostelHome('${h.id}', '${h.name}')" class="py-1 px-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-[10px] font-bold">
-                      <i class="ph-bold ph-trash"></i> Delete
-                    </button>
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // BOOKING MODAL & ESCROW LOGIC
-    let activeBookingHostel = null;
-
-    function openBookingModal(hostelId) {
-      const hostel = currentHostels.find(h => h.id === hostelId);
-      if (!hostel) return;
-      activeBookingHostel = hostel;
-
-      document.getElementById('bookingHostelId').value = hostel.id;
-      document.getElementById('modalHostelName').innerText = hostel.name;
-      document.getElementById('modalHostelAddress').innerText = `${hostel.city} · ${hostel.area}`;
-      document.getElementById('modalRentText').innerText = `Rs ${Number(hostel.rent).toLocaleString()}`;
-      document.getElementById('modalDepositText').innerText = `Rs ${Number(hostel.deposit || 10000).toLocaleString()}`;
-      document.getElementById('modalTotalText').innerText = `Rs ${(Number(hostel.rent) + Number(hostel.deposit || 10000)).toLocaleString()}`;
-
-      // Assign default room number and date
-      const randomRoom = 'Room ' + Math.floor(101 + Math.random() * 20);
-      const roomNumInput = document.getElementById('bookingRoomNumber');
-      if (roomNumInput) roomNumInput.value = randomRoom;
-
-      const checkInInput = document.getElementById('bookingCheckInDate');
-      if (checkInInput && !checkInInput.value) {
-        const d = new Date();
-        d.setDate(d.getDate() + 3);
-        checkInInput.value = d.toISOString().split('T')[0];
-      }
-
-      // Auto-fill logged in student info
-      try {
-        const uStr = localStorage.getItem('thakana_user') || localStorage.getItem('thakana_auth_user');
-        if (uStr) {
-          const user = JSON.parse(uStr);
-          if (user.name) document.getElementById('custName').value = user.name;
-          if (user.phone) document.getElementById('custPhone').value = user.phone;
-          if (user.university) document.getElementById('custUni').value = user.university;
-        }
-      } catch (e) {}
-
-      document.getElementById('bookingModal').classList.remove('hidden');
-    }
-
-    function updateRoomPricing() {
-      if (!activeBookingHostel) return;
-      const type = document.getElementById('bookingRoomType')?.value || '';
-      let baseRent = Number(activeBookingHostel.rent) || 25000;
-      if (type.includes('1-Seater')) baseRent = Math.round(baseRent * 1.25);
-      else if (type.includes('3-Person')) baseRent = Math.round(baseRent * 0.85);
-      else if (type.includes('4-Person')) baseRent = Math.round(baseRent * 0.75);
-
-      const deposit = Number(activeBookingHostel.deposit) || Math.round(baseRent / 2);
-      document.getElementById('modalRentText').innerText = 'Rs ' + baseRent.toLocaleString();
-      document.getElementById('modalDepositText').innerText = 'Rs ' + deposit.toLocaleString();
-      document.getElementById('modalTotalText').innerText = 'Rs ' + (baseRent + deposit).toLocaleString();
-    }
-
-    function closeBookingModal() {
-      document.getElementById('bookingModal').classList.add('hidden');
-    }
-
-    // SUBMIT BOOKING (SPACE CHECK & AUTO-REMOVE WHEN FULL)
-    async function submitBooking(e) {
-      e.preventDefault();
-      const submitBtn = document.getElementById('submitBookingBtn');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Reserving...';
-
-      const sName = document.getElementById('custName').value.trim();
-      const sPhone = document.getElementById('custPhone').value.trim();
-      const sUni = document.getElementById('custUni').value.trim();
-      const hostelId = document.getElementById('bookingHostelId').value;
-      const roomType = document.getElementById('bookingRoomType')?.value || '2-Person Sharing (Standard)';
-      const roomNumber = document.getElementById('bookingRoomNumber')?.value || 'Room 102';
-      const checkInDate = document.getElementById('bookingCheckInDate')?.value || '';
-
-      let bookingId = 'THK-BKG-' + Math.floor(1000 + Math.random() * 9000);
-      let bedsRemaining = 1;
-
-      // Extract auth token if available
-      const token = localStorage.getItem('thakana_jwt_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = 'Bearer ' + token;
-
-      try {
-        const res = await fetch(API_BASE + '/api/bookings', {
-          method: 'POST',
-          credentials: 'include',
-          headers,
-          body: JSON.stringify({
-            hostelId,
-            studentName: sName,
-            studentPhone: sPhone,
-            university: sUni,
-            roomType,
-            roomNumber,
-            checkInDate
-          })
-        });
-
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success) {
-            bookingId = json.booking?.bookingId || bookingId;
-            bedsRemaining = json.bedsRemaining;
-          }
-        }
-      } catch (err) {
-        console.warn('Booking API error, using optimistic local update:', err);
-      }
-
-      // Check space: If beds reach 0, auto-remove hostel from Home search!
-      if (activeBookingHostel) {
-        let b = (activeBookingHostel.availableBeds !== undefined) ? Number(activeBookingHostel.availableBeds) - 1 : 0;
-        activeBookingHostel.availableBeds = Math.max(0, b);
-        bedsRemaining = activeBookingHostel.availableBeds;
-
-        if (activeBookingHostel.availableBeds <= 0) {
-          addLocalRemovedHostelId(activeBookingHostel.id);
-          currentHostels = currentHostels.filter(h => h.id !== activeBookingHostel.id);
-        }
-      }
-
-      closeBookingModal();
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="ph-bold ph-lock-key"></i> Confirm Escrow Reservation';
-      document.getElementById('bookingForm').reset();
-
-      // Show success modal
-      document.getElementById('successBookingId').innerText = bookingId;
-      document.getElementById('successHostelName').innerText = activeBookingHostel?.name || 'Verified Hostel';
-      const successRoomEl = document.getElementById('successRoom');
-      if (successRoomEl) successRoomEl.innerText = roomNumber + ' (' + roomType + ')';
-      const successCheckInEl = document.getElementById('successCheckIn');
-      if (successCheckInEl) successCheckInEl.innerText = checkInDate || 'Within 3 Days';
-      document.getElementById('successBedsLeft').innerText = (bedsRemaining <= 0) ? '0 Available (Auto-Removed From Home)' : `${bedsRemaining} Beds Left`;
-      document.getElementById('bookingSuccessModal').classList.remove('hidden');
-
-      renderHostels(currentHostels);
-    }
-
-    function closeSuccessModal() {
-      document.getElementById('bookingSuccessModal').classList.add('hidden');
-    }
-
-    // ADMIN DIRECT ACTIONS (ON HOME PAGE)
-    async function adminRemoveHostelHome(hostelId, hostelName) {
-      if (!confirm(`[ADMIN] Hide "${hostelName}" from the public Home search?`)) return;
-      addLocalRemovedHostelId(hostelId);
-      currentHostels = currentHostels.filter(h => h.id !== hostelId);
-      renderHostels(currentHostels);
-
-      try {
-        await fetch(API_BASE + '/api/admin/remove-hostel-direct', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ hostelId, adminName: 'Super Admin' })
-        });
-      } catch (e) {
-        console.warn('API notice:', e);
-      }
-    }
-
-    async function adminDeleteHostelHome(hostelId, hostelName) {
-      if (!confirm(`[ADMIN PERMANENT DELETE]\n\nPermanently delete "${hostelName}" from server database? This cannot be undone.`)) return;
-      addLocalRemovedHostelId(hostelId);
-      currentHostels = currentHostels.filter(h => h.id !== hostelId);
-      renderHostels(currentHostels);
-
-      try {
-        await fetch(API_BASE + '/api/admin/delete-hostel-permanent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ hostelId, adminName: 'Super Admin' })
-        });
-      } catch (e) {
-        console.warn('API notice:', e);
-      }
-    }
-
-    async function adminBulkRemoveAll() {
-      if (!confirm('[ADMIN MASTER] Remove ALL hostels from the public Home page?')) return;
-      addLocalRemovedHostelId('ALL');
-      currentHostels = [];
-      renderHostels(currentHostels);
-
-      try {
-        await fetch(API_BASE + '/api/admin/remove-all-hostels', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminUser: 'Super Admin' })
-        });
-      } catch (e) {
-        console.warn('API notice:', e);
-      }
-    }
-
-    async function adminBulkRestoreAll() {
-      if (!confirm('[ADMIN MASTER] Restore all verified hostels back to Home page?')) return;
-      clearLocalRemovedHostels();
-
-      try {
-        await fetch(API_BASE + '/api/admin/restore-all-hostels', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminUser: 'Super Admin' })
-        });
-      } catch (e) {
-        console.warn('API notice:', e);
-      }
-
-      fetchHostels();
-    }
-
-    // PWA Prompt
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-
-    function promptPwaInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          localStorage.setItem('thakana_pwa_installed', 'true');
-          syncPwaInstallButtons();
-          deferredPrompt = null;
-        });
-      } else {
-        alert('📲 Install Thakana Web App:\n\n• Tap browser menu (⋮) -> "Install App" or "Add to Home Screen".');
-      }
-    }
-
-    
-    // User Auth Header Sync with Strict Role Separation
-    function syncUserAuthHeader() {
-      const authSlot = document.getElementById('userAuthSlot');
-      const mobileSlot = document.getElementById('mobileAuthSlot');
-      const adminBtn = document.getElementById('adminModeBtn');
-
-      let user = null;
-      try {
-        const uStr = localStorage.getItem('thakana_user') || localStorage.getItem('thakana_auth_user');
-        if (uStr) user = JSON.parse(uStr);
-      } catch (e) {}
-
-      // RBAC: Hide Admin Toggle for all non-admin users
-      if (adminBtn) {
-        if (user && user.role === 'admin') {
-          adminBtn.style.display = 'inline-flex';
-        } else {
-          adminBtn.style.display = 'none';
-        }
-      }
-
-      if (user && user.name) {
-        const role = user.role || 'student';
-        let dashboardLink = 'user-dashboard.html';
-        let dashboardLabel = 'My Dashboard';
-        let roleIcon = 'ph-bold ph-graduation-cap text-emerald-300';
-
-        if (role === 'owner') {
-          dashboardLink = 'owner-portal.html';
-          dashboardLabel = 'Owner Dashboard';
-          roleIcon = 'ph-bold ph-buildings text-amber-300';
-        } else if (role === 'inspector') {
-          dashboardLink = 'inspector-portal.html';
-          dashboardLabel = 'Inspector Portal';
-          roleIcon = 'ph-bold ph-crosshair text-cyan-300';
-        } else if (role === 'admin') {
-          dashboardLink = 'admin-portal.html';
-          dashboardLabel = 'Admin Portal';
-          roleIcon = 'ph-bold ph-shield-check text-rose-300';
-        }
-
-        if (authSlot) {
-          authSlot.innerHTML = `
-            <div class="inline-flex items-center gap-1.5">
-              <a href="${dashboardLink}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white/20 text-white border border-white/25 shadow-sm hover:bg-white/30 transition">
-                <i class="${roleIcon} text-sm"></i>
-                <span>${user.name.split(' ')[0]} (${dashboardLabel})</span>
-              </a>
-              <button onclick="logoutAuthUser(event)" class="px-2 py-1.5 rounded-full bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-300/30 text-xs font-bold transition" title="Logout">
-                <i class="ph-bold ph-sign-out"></i>
-              </button>
-            </div>
-          `;
-        }
-        if (mobileSlot) {
-          mobileSlot.innerHTML = `
-            <div class="p-2.5 rounded-xl bg-white/10 text-white text-xs font-semibold space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="flex items-center gap-1.5"><i class="${roleIcon} text-base"></i> ${user.name}</span>
-                <span class="text-[10px] uppercase font-bold text-slate-300 bg-white/10 px-2 py-0.5 rounded-full">${role}</span>
-              </div>
-              <div class="flex items-center gap-2 pt-1 border-t border-white/10">
-                <a href="${dashboardLink}" class="flex-1 py-1.5 text-center bg-[#5f4a9a] rounded-lg font-bold text-white text-xs hover:bg-[#4d3b7e]">
-                  Go to ${dashboardLabel}
-                </a>
-                <button onclick="logoutAuthUser(event)" class="px-3 py-1.5 text-rose-300 font-bold hover:underline text-xs">
-                  Logout
-                </button>
-              </div>
-            </div>
-          `;
-        }
-      } else {
-        if (authSlot) {
-          authSlot.innerHTML = `
-            <a href="login.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-white/25 text-white transition">
-              <i class="ph-bold ph-sign-in"></i> <span>Login / Portal</span>
-            </a>
-          `;
-        }
-        if (mobileSlot) {
-          mobileSlot.innerHTML = `
-            <a href="login.html" class="flex items-center justify-between p-2.5 rounded-xl bg-white/10 text-white text-xs font-bold hover:bg-white/15 transition">
-              <span class="flex items-center gap-2"><i class="ph-bold ph-sign-in text-base text-[#826bbd]"></i> Portals Login / Sign Up</span>
-              <i class="ph-bold ph-caret-right text-xs"></i>
-            </a>
-          `;
-        }
-      }
-    }
-
-    function logoutAuthUser(e) {
-      if (e) e.stopPropagation();
-      localStorage.removeItem('thakana_user');
+    function logoutAuthUser() {
       localStorage.removeItem('thakana_auth_user');
-      syncUserAuthHeader();
+      localStorage.removeItem('thakana_jwt_token');
+      localStorage.removeItem('thakana_user');
+      fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+        window.location.reload();
+      });
     }
-  
-    // INITIALIZATION
-    window.addEventListener('DOMContentLoaded', () => {
-      syncPwaInstallButtons();
-      updateAdminModeUi();
-      fetchHostels();
-    });
+
+    window.addEventListener('DOMContentLoaded', syncHeroLoginCard);
   </script>
 </body>
 </html>

@@ -85,12 +85,12 @@ function dashboardAuthGuard(requiredRole) {
       return res.status(403).send('<!DOCTYPE html><html><head><title>403 Account Suspended</title></head><body style="font-family:sans-serif;text-align:center;padding:50px;"><h2>Account Suspended</h2><p>Your account has been suspended by administration.</p><a href="/login.html">Return to Login</a></body></html>');
     }
 
-    // 3. Admin has full governance authority
+    // 3. Strict Role Isolation: Admin accesses only admin portal; cannot view student or owner dashboard
     if (user.role === 'admin') {
-      const portalFile = (requiredRole === 'admin') ? 'admin-portal.html' : 
-                         (requiredRole === 'owner') ? 'owner-portal.html' :
-                         (requiredRole === 'inspector') ? 'inspector-portal.html' : 'user-dashboard.html';
-      return res.sendFile(path.join(__dirname, 'public', portalFile));
+      if (requiredRole === 'admin') {
+        return res.sendFile(path.join(__dirname, 'public', 'admin-portal.html'));
+      }
+      return res.redirect('/admin-portal.html');
     }
 
     // 4. Role Match Verification

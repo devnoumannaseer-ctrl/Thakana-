@@ -1,279 +1,720 @@
 const fs = require('fs');
-let html = fs.readFileSync('public/index.html', 'utf8');
-const hostels = JSON.parse(fs.readFileSync('data/hostels.json', 'utf8'));
 
-// 1. Update university cards section with cursor-pointer and hostel counts
-const oldUniCardsPattern = /<!-- UNIVERSITIES HORIZONTAL SCROLL -->[\s\S]*?<\/div>\s*<\/section>/;
-const newUniCards = `<!-- UNIVERSITIES HORIZONTAL SCROLL -->
-    <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-      <!-- ALL UNIVERSITIES -->
-      <button onclick="setUniFilter('all')" id="uniCard-all" class="city-scroll-card border-2 border-[#5f4a9a] ring-2 ring-[#5f4a9a]/20 p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl bg-[#f0edfb] text-[#5f4a9a] flex items-center justify-center text-2xl font-black mb-1.5">
-          🎓
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">All Unis</div>
-        <div class="text-[10px] text-slate-400">17 Hostels</div>
-      </button>
+// Read the existing file
+const oldHtml = fs.readFileSync('d:/Thakana/public/index.html.before_redesign.bak', 'utf8');
 
-      <!-- UMT -->
-      <button onclick="setUniFilter('UMT')" id="uniCard-UMT" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#f0edfb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#5f4a9a]">UMT</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">UMT</div>
-        <div class="text-[10px] text-slate-400">7 Hostels</div>
-      </button>
+// Find the index of the booking modal or main scripts
+const mainSplitToken = '<!-- MAIN HOSTELS SHOWCASE (THAKANA HOSTEL CARDS) -->';
+const parts = oldHtml.split(mainSplitToken);
+if (parts.length < 2) {
+  console.error('Could not find split token!');
+  process.exit(1);
+}
 
-      <!-- FAST -->
-      <button onclick="setUniFilter('FAST')" id="uniCard-FAST" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#edf5fb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#2563eb]">FAST</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">FAST-NUCES</div>
-        <div class="text-[10px] text-slate-400">11 Hostels</div>
-      </button>
-
-      <!-- NUST -->
-      <button onclick="setUniFilter('NUST')" id="uniCard-NUST" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf2ed] flex items-center justify-center">
-          <span class="text-xl font-black text-[#ea580c]">NUST</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">NUST</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- LUMS -->
-      <button onclick="setUniFilter('LUMS')" id="uniCard-LUMS" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fef9ed] flex items-center justify-center">
-          <span class="text-xl font-black text-[#d97706]">LUMS</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">LUMS</div>
-        <div class="text-[10px] text-slate-400">2 Hostels</div>
-      </button>
-
-      <!-- UCP -->
-      <button onclick="setUniFilter('UCP')" id="uniCard-UCP" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#edfaf4] flex items-center justify-center">
-          <span class="text-xl font-black text-[#16a34a]">UCP</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">UCP</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- COMSATS -->
-      <button onclick="setUniFilter('COMSATS')" id="uniCard-COMSATS" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf4f4] flex items-center justify-center">
-          <span class="text-lg font-black text-[#dc2626]">COMSATS</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">COMSATS</div>
-        <div class="text-[10px] text-slate-400">8 Hostels</div>
-      </button>
-
-      <!-- PU -->
-      <button onclick="setUniFilter('PU')" id="uniCard-PU" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#f5f0fb] flex items-center justify-center">
-          <span class="text-xl font-black text-[#7c3aed]">PU</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">Punjab Uni</div>
-        <div class="text-[10px] text-slate-400">6 Hostels</div>
-      </button>
-
-      <!-- NED -->
-      <button onclick="setUniFilter('NED')" id="uniCard-NED" class="city-scroll-card border border-transparent p-2.5 text-center shrink-0 cursor-pointer transition-all duration-200" style="min-width:110px">
-        <div class="w-full h-16 rounded-xl overflow-hidden mb-1.5 bg-[#fdf5e0] flex items-center justify-center">
-          <span class="text-xl font-black text-[#b45309]">NED</span>
-        </div>
-        <div class="text-xs font-bold text-[#342f3d]">NED Uni</div>
-        <div class="text-[10px] text-slate-400">3 Hostels</div>
-      </button>
-    </div>
-  </section>`;
-
-html = html.replace(oldUniCardsPattern, newUniCards);
-
-// 2. Embed DEFAULT_HOSTELS in script
-const defaultHostelsJson = JSON.stringify(hostels);
-const scriptStartPattern = /\/\/ Universal API Origin Resolver[\s\S]*?let currentHostels = \[\];/;
-
-const newScriptHead = `// Embedded verified hostels data (zero delay + offline resilience)
-    const DEFAULT_HOSTELS = ${defaultHostelsJson};
-
-    // Universal API Origin Resolver
-    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
-
-    // State
-    let currentHostels = [...DEFAULT_HOSTELS];
-    let allHostelsData = [...DEFAULT_HOSTELS];`;
-
-html = html.replace(scriptStartPattern, newScriptHead);
-
-// 3. Update setUniFilter, filterLocally, and fetchHostels
-const filterLogicPattern = /\/\/ University Filter Switcher[\s\S]*?\/\/ RENDER HOSTEL CARDS/;
-
-const newFilterLogic = `// University Filter Switcher
-    function setUniFilter(uni) {
-      selectedUni = uni;
-      selectedCity = 'all';
-
-      // Immediate visual tab switch
-      document.querySelectorAll('.city-scroll-card').forEach(btn => {
-        btn.classList.remove('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20', 'shadow-md');
-        btn.classList.add('border-transparent');
-      });
-      const activeCard = document.getElementById('uniCard-' + uni);
-      if (activeCard) {
-        activeCard.classList.remove('border-transparent');
-        activeCard.classList.add('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20', 'shadow-md');
-      }
-
-      // Update Section Title immediately
-      const title = document.getElementById('sectionTitle');
-      if (title) {
-        title.innerText = (uni === 'all') ? 'Verified Hostels near Pakistani Universities' : ('Popular near ' + uni);
-      }
-
-      // Instant 0ms local filter response so click ALWAYS responds immediately
-      applyFiltersAndRender();
-
-      // Background sync with API for live data
-      fetchHostels();
-    }
-
-    // City Filter Switcher (kept for footer links)
-    function setCityFilter(city) {
-      selectedCity = city;
-      selectedUni = 'all';
-
-      document.querySelectorAll('.city-scroll-card').forEach(btn => {
-        btn.classList.remove('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20');
-        btn.classList.add('border-transparent');
-      });
-      const activeCard = document.getElementById('cityCard-' + city);
-      if (activeCard) {
-        activeCard.classList.remove('border-transparent');
-        activeCard.classList.add('border-2', 'border-[#5f4a9a]', 'ring-2', 'ring-[#5f4a9a]/20');
-      }
-
-      const title = document.getElementById('sectionTitle');
-      if (title) {
-        title.innerText = (city === 'all') ? 'Verified Hostels in Pakistan' : ('Popular in ' + city);
-      }
-
-      applyFiltersAndRender();
-      fetchHostels();
-    }
-
-    // Local filter engine (ensures 100% instantaneous click response)
-    function applyFiltersAndRender() {
-      const source = (allHostelsData && allHostelsData.length > 0) ? allHostelsData : DEFAULT_HOSTELS;
-      let list = [...source];
-
-      // Remove admin hidden
-      const removedIds = getLocalRemovedHostelIds();
-      if (localStorage.getItem('staezy_removed_all') === 'true') {
-        list = [];
-      } else if (removedIds.length > 0) {
-        list = list.filter(h => !removedIds.includes(h.id));
-      }
-
-      // Filter by Uni
-      if (selectedUni && selectedUni !== 'all') {
-        const u = selectedUni.toLowerCase();
-        list = list.filter(h => {
-          const prim = (h.proximity?.primary || '').toLowerCase();
-          const others = Array.isArray(h.proximity?.otherUnis)
-            ? h.proximity.otherUnis.map(x => String(x).toLowerCase())
-            : String(h.proximity?.otherUnis || '').toLowerCase().split(' ');
-          return prim.includes(u) || others.some(o => o.includes(u));
-        });
-      }
-
-      // Filter by City
-      if (selectedCity && selectedCity !== 'all') {
-        list = list.filter(h => (h.city || '').toLowerCase() === selectedCity.toLowerCase());
-      }
-
-      // Filter by Gender
-      const gender = document.getElementById('desktopGenderSelect')?.value || document.getElementById('mobileGenderSelect')?.value || 'all';
-      if (gender && gender !== 'all') {
-        list = list.filter(h => (h.gender || '').toLowerCase() === gender.toLowerCase());
-      }
-
-      // Filter by Search
-      const search = (document.getElementById('desktopSearchInput')?.value || document.getElementById('mobileSearchInput')?.value || '').trim().toLowerCase();
-      if (search) {
-        list = list.filter(h =>
-          (h.name || '').toLowerCase().includes(search) ||
-          (h.area || '').toLowerCase().includes(search) ||
-          (h.city || '').toLowerCase().includes(search) ||
-          (h.proximity?.primary || '').toLowerCase().includes(search)
-        );
-      }
-
-      // Filter by Budget
-      const budget = document.getElementById('desktopBudgetSelect')?.value || document.getElementById('mobileBudgetSelect')?.value || 'all';
-      if (budget === 'under20') {
-        list = list.filter(h => (h.rent || 0) <= 20000);
-      } else if (budget === '20to30') {
-        list = list.filter(h => (h.rent || 0) >= 20000 && (h.rent || 0) <= 30000);
-      } else if (budget === 'above30') {
-        list = list.filter(h => (h.rent || 0) >= 30000);
-      }
-
-      currentHostels = list;
-      renderHostels(currentHostels);
-    }
-
-    // FETCH HOSTELS FROM BACKEND (SYNCS LIVE DATA)
-    async function fetchHostels() {
-      const search = (document.getElementById('desktopSearchInput')?.value || '').trim();
-      const gender = document.getElementById('desktopGenderSelect')?.value || document.getElementById('mobileGenderSelect')?.value || 'all';
-      const budget = document.getElementById('desktopBudgetSelect')?.value || document.getElementById('mobileBudgetSelect')?.value || 'all';
-
-      const queryParams = new URLSearchParams();
-      if (selectedUni && selectedUni !== 'all') queryParams.append('uni', selectedUni);
-      if (gender && gender !== 'all') queryParams.append('gender', gender);
-      if (search) queryParams.append('search', search);
-
-      if (budget === 'under20') queryParams.append('maxPrice', 20000);
-      else if (budget === '20to30') {
-        queryParams.append('minPrice', 20000);
-        queryParams.append('maxPrice', 30000);
-      } else if (budget === 'above30') {
-        queryParams.append('minPrice', 30000);
-      }
-
-      const offlineBanner = document.getElementById('offlineBanner');
-
-      try {
-        const res = await fetch(API_BASE + '/api/hostels?' + queryParams.toString());
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data)) {
-            if (offlineBanner) offlineBanner.style.display = 'none';
-            allHostelsData = json.data;
-            let list = json.data;
-            const removedIds = getLocalRemovedHostelIds();
-            if (localStorage.getItem('staezy_removed_all') === 'true') {
-              list = [];
-            } else if (removedIds.length > 0) {
-              list = list.filter(h => !removedIds.includes(h.id));
+const headAndStyles = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Thikana — Find Your Perfect Stay Near Your University</title>
+  
+  <!-- PWA MANIFEST & APP META -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f39f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Thikana">
+  
+  <!-- INTER TIGHT & INTER FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            thikana: {
+              purple: '#4f39f6',
+              purpleHover: '#4338ca',
+              purpleLight: '#f3f0ff',
+              purpleDark: '#1e1b4b',
+              lavenderBg: '#f6f4fe',
+              borderLight: '#e2e8f0'
             }
-            currentHostels = list;
-            renderHostels(currentHostels);
-            return;
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
           }
         }
-      } catch (err) {
-        console.warn('Backend offline or unreachable, local data active:', err);
       }
+    }
+  </script>
 
-      // If backend was not reached, local filter already rendered results!
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: "Inter Tight", Inter, system-ui, -apple-system, sans-serif;
+      background-color: #faf9ff;
+      color: #0f172a;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Hero Background with University Campus */
+    .hero-banner-container {
+      background: linear-gradient(135deg, #f1edfd 0%, #f7f5ff 55%, #ffffff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .campus-bg-image {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 58%;
+      background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center right;
+      opacity: 0.92;
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 25%, rgba(0,0,0,1) 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 25%, rgba(0,0,0,1) 100%);
+      pointer-events: none;
+    }
+    @media (max-width: 1024px) {
+      .campus-bg-image {
+        display: none;
+      }
     }
 
-    // RENDER HOSTEL CARDS`;
+    /* Wave curve at top-left */
+    .organic-wave {
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(224, 215, 254, 0.6) 0%, rgba(243, 240, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
 
-html = html.replace(filterLogicPattern, newFilterLogic);
+    .staezy-card {
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .staezy-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(79, 57, 246, 0.12);
+    }
 
-fs.writeFileSync('public/index.html', html, 'utf8');
-console.log('Successfully updated public/index.html with instant response filter logic!');
+    .uni-feature-card {
+      background: #ffffff;
+      border: 1px solid #eef0f4;
+      border-radius: 18px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .uni-feature-card:hover {
+      transform: translateY(-2px);
+      border-color: #c7d2fe;
+      box-shadow: 0 8px 20px rgba(79, 57, 246, 0.08);
+    }
+
+    .city-scroll-card {
+      flex-shrink: 0;
+      width: 120px;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .city-scroll-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(79, 57, 246, 0.12);
+    }
+  </style>
+</head>
+<body class="pb-24 antialiased selection:bg-[#4f39f6] selection:text-white">
+
+  <!-- ============================================================ -->
+  <!-- 1. TOP NAVBAR (MATCHING SPECIFICATION IMAGE)                -->
+  <!-- ============================================================ -->
+  <header class="bg-white border-b border-slate-100 sticky top-0 z-40 backdrop-blur-md bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-18 py-3">
+        
+        <!-- LOGO & SUBTITLE -->
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="w-10 h-10 rounded-xl bg-[#ede9fe] text-[#4f39f6] flex items-center justify-center text-2xl font-black shrink-0 transition group-hover:scale-105">
+            <i class="ph-bold ph-house-line"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-black tracking-tight text-slate-900 leading-none">
+              Thikana
+            </span>
+            <span class="text-[10px] font-semibold text-slate-500 tracking-normal mt-0.5">
+              Find Your Perfect Stay
+            </span>
+          </div>
+        </a>
+
+        <!-- CENTER NAVIGATION LINKS -->
+        <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
+          <a href="index.html" class="text-[#4f39f6] font-bold border-b-2 border-[#4f39f6] pb-1">
+            Home
+          </a>
+          <a href="#hostelsSection" class="hover:text-[#4f39f6] transition">
+            Explore Hostels
+          </a>
+          <a href="#universitiesSection" class="hover:text-[#4f39f6] transition">
+            Universities
+          </a>
+          <a href="#aboutSection" class="hover:text-[#4f39f6] transition">
+            About
+          </a>
+          <a href="#contactSection" class="hover:text-[#4f39f6] transition">
+            Contact
+          </a>
+        </nav>
+
+        <!-- RIGHT ACTIONS: STUDENT LOGIN (PRIMARY) + OWNER & ADMIN OPTIONS -->
+        <div class="flex items-center gap-2.5">
+          <!-- SUPER ADMIN TOGGLE (IF LOGGED AS ADMIN) -->
+          <button id="adminModeBtn" onclick="toggleAdminMode()" style="display:none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 transition" title="Toggle Super Admin Controls on Home">
+            <i class="ph-bold ph-shield-check text-rose-600"></i>
+            <span>Admin: <strong id="adminStatusText" class="text-rose-900">OFF</strong></span>
+          </button>
+
+          <!-- OWNER LOGIN LINK -->
+          <a href="login-owner.html" class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition" title="Hostel Owner Portal">
+            <i class="ph-bold ph-buildings text-amber-600"></i>
+            <span>Owner</span>
+          </a>
+
+          <!-- ADMIN LOGIN LINK -->
+          <a href="login-admin.html" class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition" title="Platform Governance & Super Admin">
+            <i class="ph-bold ph-shield-check text-rose-600"></i>
+            <span>Admin</span>
+          </a>
+
+          <!-- PRIMARY STUDENT LOGIN BUTTON -->
+          <div id="userAuthSlot" class="inline-flex">
+            <a href="login-student.html" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs font-bold bg-[#4f39f6] hover:bg-[#4338ca] text-white shadow-sm transition">
+              <i class="ph-bold ph-user text-sm"></i>
+              <span>Student Login</span>
+            </a>
+          </div>
+
+          <!-- MOBILE MENU BUTTON -->
+          <button onclick="toggleMobileMenu(event)" id="mobileMenuBtn" class="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition" aria-label="Toggle Menu">
+            <i id="menuIcon" class="ph-bold ph-list text-xl"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div id="mobileDrawer" class="hidden fixed inset-x-0 top-0 z-50 bg-[#0F172A] text-white p-5 border-b border-slate-800 shadow-2xl transition-all">
+    <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+      <div class="flex items-center gap-2">
+        <i class="ph-bold ph-house-line text-[#4f39f6] text-xl"></i>
+        <span class="text-xl font-black">Thikana</span>
+      </div>
+      <button onclick="closeMobileMenu()" class="p-2 rounded-full bg-slate-800 text-white"><i class="ph-bold ph-x text-lg"></i></button>
+    </div>
+    <div class="space-y-2 text-sm font-semibold">
+      <a href="index.html" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/10 text-white">
+        <i class="ph-bold ph-house"></i> Home
+      </a>
+      <a href="#hostelsSection" onclick="closeMobileMenu()" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
+        <i class="ph-bold ph-magnifying-glass text-[#a5b4fc]"></i> Explore Hostels
+      </a>
+      <a href="#universitiesSection" onclick="closeMobileMenu()" class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white">
+        <i class="ph-bold ph-graduation-cap text-cyan-300"></i> Universities
+      </a>
+      <div id="mobileAuthSlot" class="pt-2 border-t border-slate-800"></div>
+      <div class="pt-2 border-t border-slate-800 text-xs space-y-2">
+        <span class="text-slate-400 text-[10px] font-extrabold uppercase tracking-wider block">Portals Login:</span>
+        <div class="grid grid-cols-3 gap-2 text-center font-bold text-xs">
+          <a href="login-student.html" class="p-2 rounded-xl bg-blue-600/20 text-blue-300 border border-blue-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-graduation-cap text-base mb-0.5"></i> Student
+          </a>
+          <a href="login-owner.html" class="p-2 rounded-xl bg-amber-600/20 text-amber-300 border border-amber-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-buildings text-base mb-0.5"></i> Owner
+          </a>
+          <a href="login-admin.html" class="p-2 rounded-xl bg-rose-600/20 text-rose-300 border border-rose-500/30 flex flex-col items-center">
+            <i class="ph-bold ph-shield-check text-base mb-0.5"></i> Admin
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mobileBackdrop" onclick="closeMobileMenu()" class="hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"></div>
+
+  <!-- ============================================================ -->
+  <!-- 2. HERO SECTION (MATCHING SPECIFICATION IMAGE)               -->
+  <!-- ============================================================ -->
+  <section class="hero-banner-container border-b border-slate-100">
+    <div class="organic-wave"></div>
+    <div class="campus-bg-image"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+        <!-- LEFT HERO COLUMN: HEADLINE, BADGE & TRUST -->
+        <div class="lg:col-span-7 pr-0 lg:pr-4">
+          
+          <!-- PILL BADGE -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#ede9fe] text-[#4f39f6] mb-5 shadow-sm">
+            <i class="ph-fill ph-graduation-cap text-sm"></i>
+            <span>Student Housing Platform</span>
+          </div>
+
+          <!-- HEADLINE -->
+          <h1 class="text-3xl sm:text-5xl lg:text-[52px] font-black text-slate-900 tracking-tight leading-[1.12] mb-5">
+            Find Your Perfect<br>
+            Hostel Near <span class="text-[#4f39f6]">Your University</span>
+          </h1>
+
+          <!-- DESCRIPTION -->
+          <p class="text-sm sm:text-base text-slate-600 font-medium max-w-xl mb-7 leading-relaxed">
+            Explore universities, discover hostels, and book your ideal stay with complete confidence.
+          </p>
+
+          <!-- TRUST BADGES -->
+          <div class="flex flex-wrap items-center gap-3 sm:gap-5 text-xs font-bold text-slate-700">
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-check-circle text-[#4f39f6] text-base"></i>
+              <span>Verified Hostels</span>
+            </div>
+            <span class="text-slate-300 hidden sm:inline">|</span>
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-lock-key text-[#4f39f6] text-base"></i>
+              <span>Secure Booking</span>
+            </div>
+            <span class="text-slate-300 hidden sm:inline">|</span>
+            <div class="flex items-center gap-1.5">
+              <i class="ph-fill ph-headset text-[#4f39f6] text-base"></i>
+              <span>24/7 Support</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT HERO COLUMN: FLOATING STUDENT LOGIN CARD -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+          <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-100 max-w-[360px] w-full relative z-20">
+            
+            <!-- AVATAR CIRCLE -->
+            <div class="w-12 h-12 rounded-full bg-[#4f39f6] text-white flex items-center justify-center text-xl mx-auto mb-2.5 shadow-md shadow-[#4f39f6]/25">
+              <i class="ph-bold ph-user"></i>
+            </div>
+            
+            <h3 class="font-black text-xl text-slate-900 text-center tracking-tight">Student Login</h3>
+            <p class="text-xs text-slate-400 text-center mb-4">Access your dashboard</p>
+
+            <div id="homeAuthAlert" class="hidden mb-3 p-2.5 rounded-xl text-xs font-semibold"></div>
+
+            <!-- LOGGED-IN STATE (IF STUDENT IS ALREADY LOGGED IN) -->
+            <div id="homeLoggedInBox" class="hidden text-center py-2 space-y-3">
+              <div class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-100 text-left">
+                <span class="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">Signed In Student:</span>
+                <strong id="homeLoggedInName" class="text-sm font-extrabold text-blue-950 block mt-0.5">Ahmed Ali</strong>
+                <span id="homeLoggedInEmail" class="text-xs text-slate-600 block">student@thakana.pk</span>
+              </div>
+              <a id="homeDashboardLink" href="user-dashboard.html" class="w-full py-3 rounded-xl bg-[#4f39f6] hover:bg-[#4338ca] text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2">
+                <span>Go to Student Dashboard</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
+              <button onclick="logoutAuthUser()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition">
+                Sign Out
+              </button>
+            </div>
+
+            <!-- LOGIN FORM (IF NOT LOGGED IN) -->
+            <form id="homeLoginForm" onsubmit="handleHomeStudentLogin(event)" class="space-y-3.5 text-xs">
+              <div>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <i class="ph-bold ph-envelope-simple text-base"></i>
+                  </span>
+                  <input type="text" id="homeLoginEmail" required placeholder="Email or Phone Number" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-xs focus:outline-none focus:border-[#4f39f6] focus:bg-white transition">
+                </div>
+              </div>
+
+              <div>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <i class="ph-bold ph-lock-key text-base"></i>
+                  </span>
+                  <input type="password" id="homeLoginPass" required placeholder="Password" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-xs focus:outline-none focus:border-[#4f39f6] focus:bg-white transition">
+                  <button type="button" onclick="togglePassVisibility('homeLoginPass', 'homePassEye')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                    <i id="homePassEye" class="ph-bold ph-eye text-base"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" checked class="rounded border-slate-300 text-[#4f39f6] focus:ring-0">
+                  <span>Remember Me</span>
+                </label>
+                <a href="login-student.html" class="text-[#4f39f6] font-semibold hover:underline">Forgot Password?</a>
+              </div>
+
+              <button type="submit" id="homeLoginBtn" class="w-full py-3 rounded-xl bg-[#4f39f6] hover:bg-[#4338ca] text-white font-extrabold text-xs shadow-lg shadow-[#4f39f6]/25 transition flex items-center justify-center gap-2 mt-2">
+                <span>Login</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </button>
+
+              <div class="text-center text-[11px] text-slate-500 pt-1">
+                <span>Don't have an account? </span>
+                <a href="login-student.html" class="text-[#4f39f6] font-extrabold hover:underline">Register Here</a>
+              </div>
+
+              <!-- OWNER & ADMIN LOGIN OPTIONS -->
+              <div class="pt-3 border-t border-slate-100 text-center text-[11px] text-slate-500 space-y-1">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Other Portal Access:</div>
+                <div class="flex items-center justify-center gap-3 font-bold">
+                  <a href="login-owner.html" class="text-amber-600 hover:text-amber-700 hover:underline flex items-center gap-1"><i class="ph-bold ph-buildings"></i> Owner Login</a>
+                  <span class="text-slate-300">•</span>
+                  <a href="login-admin.html" class="text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1"><i class="ph-bold ph-shield-check"></i> Admin Login</a>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. SELECT YOUR UNIVERSITY + SAFE TRUSTED CARDS              -->
+  <!-- ============================================================ -->
+  <section id="universitiesSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT: SELECT YOUR UNIVERSITY (2x3 GRID) -->
+      <div class="lg:col-span-8">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="ph-fill ph-graduation-cap text-[#4f39f6] text-2xl"></i>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Select Your University</h2>
+        </div>
+        <p class="text-xs text-slate-500 font-medium mb-5">Find hostels at your university</p>
+
+        <!-- 2x3 UNIVERSITY CARDS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+
+          <!-- 1. UMT -->
+          <div onclick="selectUniversityCard('UMT')" id="uniCard-UMT" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 font-black text-xs shrink-0 shadow-sm">
+                UMT
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">UMT</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 2. FAST-NUCES -->
+          <div onclick="selectUniversityCard('FAST')" id="uniCard-FAST" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 font-black text-xs shrink-0 shadow-sm">
+                FAST
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">FAST-NUCES</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 3. UCP -->
+          <div onclick="selectUniversityCard('UCP')" id="uniCard-UCP" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 font-black text-xs shrink-0 shadow-sm">
+                UCP
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">UCP</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 4. PU -->
+          <div onclick="selectUniversityCard('PU')" id="uniCard-PU" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 font-black text-xs shrink-0 shadow-sm">
+                PU
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">PU</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 5. LUMS -->
+          <div onclick="selectUniversityCard('LUMS')" id="uniCard-LUMS" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 font-black text-xs shrink-0 shadow-sm">
+                LUMS
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">LUMS</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+          <!-- 6. COMSATS -->
+          <div onclick="selectUniversityCard('COMSATS')" id="uniCard-COMSATS" class="uni-feature-card p-3.5 flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 font-black text-xs shrink-0 shadow-sm">
+                COMSATS
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-900 leading-tight">COMSATS</h4>
+                <span class="text-[11px] text-slate-400 font-medium">Lahore</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#f1edfd] text-[#4f39f6] group-hover:bg-[#4f39f6] group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+              <i class="ph-bold ph-arrow-right"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: SAFE • VERIFIED • TRUSTED CARD -->
+      <div class="lg:col-span-4 flex flex-col justify-center">
+        <div class="bg-[#ede9fe] rounded-3xl p-6 sm:p-7 relative overflow-hidden flex flex-col items-center justify-center text-center border border-[#ddd6fe] shadow-sm">
+          
+          <!-- DOTS PATTERN -->
+          <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#4f39f6 1.5px, transparent 1.5px); background-size: 16px 16px;"></div>
+
+          <!-- HOUSE + GRADUATION CAP ICON -->
+          <div class="w-14 h-14 rounded-2xl bg-white text-[#4f39f6] flex items-center justify-center text-3xl mb-3 shadow-md shadow-purple-900/10 relative z-10">
+            <i class="ph-bold ph-house-line"></i>
+          </div>
+
+          <h3 class="text-lg font-black text-slate-900 tracking-tight relative z-10">
+            Safe &bull; Verified &bull; Trusted
+          </h3>
+          <p class="text-xs text-slate-600 mt-1 mb-5 font-medium relative z-10">
+            Your comfort is our priority
+          </p>
+
+          <button onclick="document.getElementById('hostelsSection').scrollIntoView({behavior:'smooth'})" class="px-5 py-2.5 rounded-full bg-white text-[#4f39f6] hover:bg-slate-50 font-extrabold text-xs shadow-sm hover:shadow transition flex items-center gap-1.5 relative z-10">
+            <span>Learn More</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </button>
+
+          <!-- SKYLINE SILHOUETTE AT BOTTOM -->
+          <div class="w-full mt-4 flex items-end justify-center opacity-30 relative z-0">
+            <svg viewBox="0 0 300 45" class="w-full h-8 text-[#4f39f6] fill-current" preserveAspectRatio="none">
+              <path d="M0,45 L0,35 L15,35 L15,30 L25,30 L25,35 L40,35 L40,25 L50,20 L60,25 L60,35 L80,35 L80,15 L85,10 L90,15 L90,35 L115,35 L115,28 L130,28 L130,35 L145,35 L148,0 L152,0 L155,35 L170,35 L170,22 L185,22 L185,35 L205,35 L205,18 L215,12 L225,18 L225,35 L245,35 L245,28 L260,28 L260,35 L280,35 L280,30 L290,30 L290,35 L300,35 L300,45 Z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SEARCH BAR CAPSULE (ANCHORED BEFORE HOSTELS LISTING) -->
+  <section id="hostelsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+    <div class="bg-white rounded-2xl sm:rounded-full border border-slate-200/90 shadow-lg p-2 sm:p-2.5 flex flex-col sm:flex-row items-center gap-3">
+      
+      <!-- LOCATION INPUT -->
+      <div class="flex-1 min-w-0 px-3 w-full sm:w-auto">
+        <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Search Hostels</label>
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-magnifying-glass text-[#4f39f6]"></i>
+          <input type="text" id="desktopSearchInput" oninput="handleSearchInput()" placeholder="Search by area or university (e.g. UMT, FAST, NUST)" class="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="hidden sm:block w-px h-8 bg-slate-200"></div>
+
+      <!-- GENDER SELECT -->
+      <div class="w-full sm:w-36 shrink-0 px-3">
+        <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Gender</label>
+        <select id="desktopGenderSelect" onchange="fetchHostels()" class="w-full bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
+          <option value="all">Any Gender</option>
+          <option value="Boys">Boys Hostel</option>
+          <option value="Girls">Girls Hostel</option>
+        </select>
+      </div>
+
+      <div class="hidden sm:block w-px h-8 bg-slate-200"></div>
+
+      <!-- BUDGET SELECT -->
+      <div class="w-full sm:w-36 shrink-0 px-3">
+        <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Budget</label>
+        <select id="desktopBudgetSelect" onchange="fetchHostels()" class="w-full bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
+          <option value="all">Any Budget</option>
+          <option value="under20">Under Rs 20,000</option>
+          <option value="20to30">Rs 20k - 30k</option>
+          <option value="above30">Rs 30k+</option>
+        </select>
+      </div>
+
+      <!-- SEARCH ACTION -->
+      <button onclick="fetchHostels()" class="w-full sm:w-11 sm:h-11 py-2 sm:py-0 rounded-xl sm:rounded-full bg-[#4f39f6] hover:bg-[#4338ca] text-white flex items-center justify-center shrink-0 shadow-md transition font-bold text-xs" aria-label="Search">
+        <i class="ph-bold ph-magnifying-glass text-lg"></i>
+        <span class="sm:hidden ml-1">Search Properties</span>
+      </button>
+    </div>
+  </section>
+`;
+
+// Helper script functions to add to the bottom
+const extraScriptLogic = `
+  <script>
+    // Additional home student login & UI synchronization functions
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
+
+    async function handleHomeStudentLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('homeLoginBtn');
+      const alertEl = document.getElementById('homeAuthAlert');
+      alertEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin text-sm"></i> Authenticating...';
+
+      const identifier = document.getElementById('homeLoginEmail').value.trim();
+      const password = document.getElementById('homeLoginPass').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password, role: 'student' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          alertEl.innerHTML = '<i class="ph-bold ph-check-circle"></i> Login successful! Loading dashboard...';
+          if (data.token) localStorage.setItem('thakana_jwt_token', data.token);
+          if (data.user) localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+          setTimeout(() => {
+            window.location.href = 'user-dashboard.html';
+          }, 600);
+        } else {
+          alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+          alertEl.innerHTML = '<i class="ph-bold ph-warning-circle"></i> ' + (data.message || 'Student login failed.');
+          btn.disabled = false;
+          btn.innerHTML = '<span>Login</span> <i class=\"ph-bold ph-arrow-right\"></i>';
+        }
+      } catch (err) {
+        alertEl.className = 'mb-3 p-2.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+        alertEl.innerHTML = '<i class="ph-bold ph-warning-circle"></i> Network connection error. Please try again.';
+        btn.disabled = false;
+        btn.innerHTML = '<span>Login</span> <i class=\"ph-bold ph-arrow-right\"></i>';
+      }
+    }
+
+    function selectUniversityCard(uniName) {
+      document.querySelectorAll('.uni-feature-card').forEach(c => {
+        c.classList.remove('ring-2', 'ring-[#4f39f6]', 'border-[#4f39f6]', 'bg-purple-50/40');
+      });
+      const card = document.getElementById('uniCard-' + uniName);
+      if (card) {
+        card.classList.add('ring-2', 'ring-[#4f39f6]', 'border-[#4f39f6]', 'bg-purple-50/40');
+      }
+      setUniFilter(uniName);
+      const section = document.getElementById('hostelsSection');
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Sync Auth State into Hero Card on page load
+    function syncHeroLoginCard() {
+      const userStr = localStorage.getItem('thakana_auth_user');
+      const form = document.getElementById('homeLoginForm');
+      const box = document.getElementById('homeLoggedInBox');
+      if (!form || !box) return;
+
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user && user.name) {
+            form.classList.add('hidden');
+            box.classList.remove('hidden');
+            document.getElementById('homeLoggedInName').textContent = user.name;
+            document.getElementById('homeLoggedInEmail').textContent = user.email || user.phone || '';
+            const dashLink = document.getElementById('homeDashboardLink');
+            if (user.role === 'owner') {
+              dashLink.href = 'owner-portal.html';
+              dashLink.innerHTML = '<span>Go to Owner Dashboard</span> <i class=\"ph-bold ph-arrow-right\"></i>';
+            } else if (user.role === 'admin') {
+              dashLink.href = 'admin-portal.html';
+              dashLink.innerHTML = '<span>Go to Admin Dashboard</span> <i class=\"ph-bold ph-arrow-right\"></i>';
+            } else {
+              dashLink.href = 'user-dashboard.html';
+              dashLink.innerHTML = '<span>Go to Student Dashboard</span> <i class=\"ph-bold ph-arrow-right\"></i>';
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', syncHeroLoginCard);
+  </script>
+`;
+
+// Combine new upper template with existing hostels showcase and script engine
+const updatedHtml = headAndStyles + '\n' + mainSplitToken + parts[1].replace('</body>', extraScriptLogic + '\n</body>');
+
+fs.writeFileSync('d:/Thakana/public/index.html', updatedHtml, 'utf8');
+console.log('Successfully updated public/index.html with pixel-perfect design matching user specification!');

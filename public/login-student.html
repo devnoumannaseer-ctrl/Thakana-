@@ -82,6 +82,12 @@
 
       <!-- ALERT MESSAGE BOX -->
       <div id="authAlert" class="hidden mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2"></div>
+      
+      <!-- UNI PRE-SELECTION BANNER -->
+      <div id="uniNoticeBanner" class="hidden mb-4 p-3 rounded-2xl text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200 flex items-center gap-2">
+        <i class="ph-bold ph-graduation-cap text-blue-600 text-base"></i>
+        <span>Sign in to view verified hostels near <span id="uniNoticeName" class="underline"></span></span>
+      </div>
 
       <!-- ========================================== -->
       <!-- 1. STUDENT SIGN IN FORM                   -->
@@ -282,7 +288,8 @@
             localStorage.setItem('thakana_jwt_token', data.token);
           }
           setTimeout(() => {
-            window.location.href = 'user-dashboard.html';
+            const targetUni = new URLSearchParams(window.location.search).get('uni');
+            window.location.href = targetUni ? `user-dashboard.html?view=explore&uni=${encodeURIComponent(targetUni)}` : 'user-dashboard.html';
           }, 800);
         } else {
           showAlert(data.message || 'Login failed. Please verify your student credentials.');
@@ -336,7 +343,8 @@
             localStorage.setItem('thakana_jwt_token', data.token);
           }
           setTimeout(() => {
-            window.location.href = 'user-dashboard.html';
+            const targetUni = new URLSearchParams(window.location.search).get('uni');
+            window.location.href = targetUni ? `user-dashboard.html?view=explore&uni=${encodeURIComponent(targetUni)}` : 'user-dashboard.html';
           }, 900);
         } else {
           showAlert(data.message || 'Registration failed. Email or phone may already exist.');
@@ -349,6 +357,17 @@
         btn.innerHTML = '<i class="ph-bold ph-user-plus"></i> Register as Verified Student';
       }
     }
+    window.addEventListener('DOMContentLoaded', () => {
+      const u = new URLSearchParams(window.location.search).get('uni');
+      if (u) {
+        const banner = document.getElementById('uniNoticeBanner');
+        const nameEl = document.getElementById('uniNoticeName');
+        if (banner && nameEl) {
+          nameEl.textContent = u;
+          banner.classList.remove('hidden');
+        }
+      }
+    });
   </script>
 </body>
 </html>
