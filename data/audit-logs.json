@@ -642,5 +642,54 @@
     "details": "Profile updated for usr-student-1 (student)",
     "performedBy": "Muhammad Ahmed",
     "timestamp": "2026-11-24T05:49:04.623Z"
+  },
+  {
+    "logId": "LOG-1795500136081-60",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:02:16.081Z"
+  },
+  {
+    "logId": "LOG-1795500136218-494",
+    "action": "USER_LOGIN",
+    "details": "User Malik Tariq Mehmood (owner) logged in successfully",
+    "performedBy": "Malik Tariq Mehmood",
+    "timestamp": "2026-11-24T06:02:16.218Z"
+  },
+  {
+    "logId": "LOG-1795500136348-923",
+    "action": "USER_LOGIN",
+    "details": "User Super Admin Governance (admin) logged in successfully",
+    "performedBy": "Super Admin Governance",
+    "timestamp": "2026-11-24T06:02:16.348Z"
+  },
+  {
+    "logId": "LOG-1795500136482-515",
+    "action": "USER_LOGIN",
+    "details": "User Inspector Saif Ur Rehman (inspector) logged in successfully",
+    "performedBy": "Inspector Saif Ur Rehman",
+    "timestamp": "2026-11-24T06:02:16.482Z"
+  },
+  {
+    "logId": "LOG-1795500136486-557",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/owner/my-hostels. Required roles: [owner, admin]",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:02:16.486Z"
+  },
+  {
+    "logId": "LOG-1795500136491-259",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:02:16.491Z"
+  },
+  {
+    "logId": "LOG-1795500160816-824",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T06:02:40.816Z"
   }
 ]
