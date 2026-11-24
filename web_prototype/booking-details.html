@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Booking Details &mdash; Thakana</title>
+
+  <!-- INTER TIGHT & INTER FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0F172A',
+              navyDark: '#0B1120',
+              navyLight: '#1E293B',
+              blue: '#2563EB',
+              blueHover: '#1D4ED8',
+              blueLight: '#EFF6FF',
+              slate: '#334155',
+              border: '#E2E8F0',
+              bgLight: '#F8FAFC'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white pb-16">
+
+  <!-- TOP APP BAR -->
+  <header class="h-16 bg-[#0F172A] border-b border-slate-800 text-white sticky top-0 z-30 flex items-center justify-between px-4 sm:px-8">
+    <div class="flex items-center gap-4">
+      <a href="user-dashboard.html" class="flex items-center gap-2">
+        <span class="text-xl font-black text-white tracking-tight flex items-center">
+          thakana<span class="w-2 h-2 rounded-full bg-blue-500 inline-block ml-0.5"></span>
+        </span>
+        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-2 border-l border-slate-700">Resident Portal</span>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="user-dashboard.html" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5">
+        <i class="ph-bold ph-arrow-left"></i> <span>Back to Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full flex-1 space-y-6">
+
+    <!-- BREADCRUMBS & TOP BAR -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <a href="user-dashboard.html" class="hover:text-blue-600">Student Dashboard</a>
+        <i class="ph-bold ph-caret-right text-[10px]"></i>
+        <a href="user-dashboard.html" onclick="sessionStorage.setItem('thakana_nav','bookings')" class="hover:text-blue-600">My Bookings</a>
+        <i class="ph-bold ph-caret-right text-[10px]"></i>
+        <span id="breadcrumbBookingId" class="font-bold text-slate-800 font-mono">Loading...</span>
+      </div>
+
+      <div class="flex items-center gap-2" id="topActionSlot">
+        <!-- Dynamically populated cancellation button if eligible -->
+      </div>
+    </div>
+
+    <!-- ERROR / ACCESS DENIED STATE CONTAINER -->
+    <div id="accessDeniedBanner" class="hidden p-6 rounded-3xl bg-rose-50 border border-rose-200 text-rose-900 space-y-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-xl shrink-0">
+          <i class="ph-bold ph-shield-warning"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-extrabold text-rose-900">Access Denied &mdash; Booking Ownership Verification Failed</h3>
+          <p id="accessDeniedMessage" class="text-xs text-rose-700 mt-0.5">
+            You do not have permission to view this reservation record.
+          </p>
+        </div>
+      </div>
+      <div class="pt-2">
+        <a href="user-dashboard.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 transition">
+          <i class="ph-bold ph-arrow-left"></i> Return to My Bookings
+        </a>
+      </div>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="loadingState" class="py-16 text-center text-slate-400">
+      <i class="ph-bold ph-spinner animate-spin text-3xl mb-2 text-blue-600 block"></i>
+      <p class="text-xs font-semibold">Verifying booking ownership and retrieving reservation details...</p>
+    </div>
+
+    <!-- DETAILS CONTENT CONTAINER -->
+    <div id="bookingDetailsContent" class="hidden space-y-6">
+
+      <!-- HEADER SUMMARY CARD -->
+      <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-start gap-4 min-w-0">
+          <img id="detailHostelImg" src="" alt="Hostel" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border border-slate-200 shrink-0 bg-slate-100" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80'">
+          
+          <div class="min-w-0 space-y-1.5">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span id="detailStatusBadge" class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border">
+                Loading
+              </span>
+              <span id="detailBookingIdBadge" class="text-xs font-mono font-bold text-slate-500">THK-BKG-XXXX</span>
+            </div>
+
+            <h1 id="detailHostelName" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight truncate">Hostel Name</h1>
+            
+            <p id="detailHostelAddress" class="text-xs text-slate-500 flex items-center gap-1.5">
+              <i class="ph-bold ph-map-pin text-blue-600 shrink-0"></i>
+              <span>Address line</span>
+            </p>
+
+            <div class="flex items-center gap-2 text-xs text-slate-600 pt-1 flex-wrap">
+              <span id="detailRoomTypeBadge" class="bg-slate-100 px-2.5 py-1 rounded-xl font-semibold">2-Person Sharing</span>
+              <span id="detailRoomNoBadge" class="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-xl font-bold">Room 101</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left md:text-right shrink-0">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Monthly Rate</span>
+          <p id="detailRentAmount" class="text-2xl font-black text-slate-900">Rs 0</p>
+          <span class="text-[10px] font-bold text-emerald-600 flex items-center md:justify-end gap-1 mt-0.5">
+            <i class="ph-bold ph-shield-check text-sm"></i> 48-Hour Escrow Protected
+          </span>
+        </div>
+      </div>
+
+      <!-- GRID: 2 COLUMNS OF DETAIL CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- SECTION 1: BOOKING & STAY DETAILS -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
+            <i class="ph-bold ph-calendar text-blue-600"></i> Booking &amp; Stay Schedule
+          </h3>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Booking Reference:</span>
+              <strong id="infoBookingId" class="text-slate-900 font-mono">THK-BKG-XXXX</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Reservation Date:</span>
+              <strong id="infoBookingDate" class="text-slate-900">22 Nov 2026</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Expected Check-in:</span>
+              <strong id="infoCheckInDate" class="text-emerald-700">28 Nov 2026</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Current Status:</span>
+              <strong id="infoStatusLabel" class="text-slate-900">Pending Owner Approval</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Assigned Student:</span>
+              <strong id="infoStudentName" class="text-slate-900">Student Name</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">University Campus:</span>
+              <strong id="infoUniversity" class="text-slate-900">UMT Lahore</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: PAYMENT & ESCROW GUARANTEE -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
+            <i class="ph-bold ph-wallet text-emerald-600"></i> Payment &amp; Escrow Guarantee
+          </h3>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">First Month Rent:</span>
+              <strong id="payRent" class="text-slate-900">Rs 0</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Refundable Security Deposit:</span>
+              <strong id="payDeposit" class="text-blue-600">Rs 0</strong>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500">Platform Escrow Fee:</span>
+              <strong id="payPlatformFee" class="text-slate-900">Rs 2,000</strong>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-between items-center text-sm font-black">
+              <span class="text-slate-900">Total Payable / Escrow Held:</span>
+              <span id="payTotal" class="text-blue-600">Rs 0</span>
+            </div>
+
+            <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-[11px] space-y-1">
+              <div class="font-bold flex items-center gap-1.5">
+                <i class="ph-bold ph-shield-check text-base text-emerald-600"></i>
+                <span>Thakana 48-Hour Inspection Escrow Guarantee</span>
+              </div>
+              <p class="text-slate-600">
+                Your deposit remains locked in third-party escrow. You have 48 hours after move-in to inspect room cleanliness and amenities before funds are released to the hostel.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: DIGITAL GATE PASS CODE -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
+            <i class="ph-bold ph-qr-code text-blue-600"></i> Digital Gate Pass
+          </h3>
+
+          <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-bold uppercase text-blue-600 tracking-wider">Access Pass Code</span>
+              <div id="gatePassCodeDisplay" class="text-2xl font-black font-mono text-blue-700 tracking-widest mt-0.5">GP-XXXXXX</div>
+              <p class="text-[11px] text-slate-600 mt-1">Present this verification code to the on-site warden upon arrival.</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-3xl shadow-sm shrink-0">
+              <i class="ph-bold ph-qr-code"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: INCLUDED ADD-ONS & POLICIES -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
+            <i class="ph-bold ph-check-square text-blue-600"></i> Subscriptions &amp; Services
+          </h3>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex items-center gap-2">
+                <i class="ph-bold ph-cooking-pot text-base text-slate-600"></i>
+                <span class="font-bold text-slate-800">Tiffin Meal Plan</span>
+              </div>
+              <span id="subTiffin" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">Not Subscribed</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex items-center gap-2">
+                <i class="ph-bold ph-t-shirt text-base text-slate-600"></i>
+                <span class="font-bold text-slate-800">Laundry Service</span>
+              </div>
+              <span id="subLaundry" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">Not Subscribed</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex items-center gap-2">
+                <i class="ph-bold ph-arrows-left-right text-base text-slate-600"></i>
+                <span class="font-bold text-slate-800">7-Day Room Swap Policy</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Covered</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SECTION 5: ACTIONS & BOTTOM CONTROLS -->
+      <div id="bottomActionsBar" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="text-xs font-bold text-slate-800">Need assistance with your stay?</h4>
+          <p class="text-[11px] text-slate-500">Contact Thakana student living support for room inquiries or disputes.</p>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <a href="user-dashboard.html" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition text-center">
+            Back to Bookings
+          </a>
+          <button id="btnCancelBooking" onclick="handleCancelThisBooking()" class="hidden flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-x-circle"></i> Cancel Reservation
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
+    let currentBooking = null;
+
+    function getAuthHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      const token = localStorage.getItem('thakana_jwt_token');
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return headers;
+    }
+
+    async function loadBookingDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const bookingId = params.get('id');
+
+      if (!bookingId) {
+        showAccessDenied('No booking ID specified in URL request.');
+        return;
+      }
+
+      document.getElementById('breadcrumbBookingId').innerText = bookingId;
+
+      try {
+        const res = await fetch(API_BASE + '/api/bookings/' + encodeURIComponent(bookingId), {
+          credentials: 'include',
+          headers: getAuthHeaders()
+        });
+
+        if (res.status === 401) {
+          window.location.href = 'login-student.html';
+          return;
+        }
+
+        if (res.status === 403) {
+          showAccessDenied('Access Denied: You do not own this booking. Booking records are strictly isolated to the authenticated student resident.');
+          return;
+        }
+
+        if (res.status === 404) {
+          showAccessDenied('Booking record was not found in the database.');
+          return;
+        }
+
+        const data = await res.json();
+        if (data.success && data.booking) {
+          currentBooking = data.booking;
+          renderBookingDetails(data.booking);
+        } else {
+          showAccessDenied(data.message || 'Unable to load booking details.');
+        }
+
+      } catch (err) {
+        showAccessDenied('Network error occurred while fetching booking details.');
+      }
+    }
+
+    function showAccessDenied(msg) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('bookingDetailsContent').classList.add('hidden');
+      document.getElementById('accessDeniedBanner').classList.remove('hidden');
+      document.getElementById('accessDeniedMessage').innerText = msg;
+    }
+
+    function renderBookingDetails(b) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('bookingDetailsContent').classList.remove('hidden');
+
+      const s = (b.status || 'pending').toLowerCase();
+      const isPending = (s === 'pending' || s === 'pending_owner_approval');
+      const isApproved = (s === 'approved' || s === 'confirmed');
+      const isRejected = (s === 'rejected' || s === 'rejected_by_owner');
+      const isCancelled = (s === 'cancelled' || s === 'cancelled_by_student');
+      const canCancel = isPending || isApproved;
+
+      // Status badge styling
+      const badge = document.getElementById('detailStatusBadge');
+      let statusLabel = 'Pending Owner Approval';
+
+      if (isApproved) {
+        badge.className = 'text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200';
+        statusLabel = 'Confirmed';
+      } else if (isRejected) {
+        badge.className = 'text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border bg-rose-50 text-rose-700 border-rose-200';
+        statusLabel = 'Rejected by Owner';
+      } else if (isCancelled) {
+        badge.className = 'text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border bg-slate-100 text-slate-600 border-slate-200';
+        statusLabel = 'Cancelled';
+      } else {
+        badge.className = 'text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200';
+        statusLabel = 'Pending Owner Approval';
+      }
+      badge.innerText = statusLabel;
+
+      // Header summary
+      document.getElementById('detailBookingIdBadge').innerText = b.bookingId || b.id;
+      document.getElementById('detailHostelImg').src = b.hostelImage || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80';
+      document.getElementById('detailHostelName').innerText = b.hostelName || 'Verified Property';
+      document.getElementById('detailHostelAddress').innerText = b.hostelAddress || 'Cantt, Lahore';
+      document.getElementById('detailRoomTypeBadge').innerText = b.roomType || '2-Person Sharing (Standard)';
+      document.getElementById('detailRoomNoBadge').innerText = b.roomNumber || 'Room 101';
+      document.getElementById('detailRentAmount').innerText = 'Rs ' + Number(b.monthlyRent || b.rentAmount || 0).toLocaleString();
+
+      // Section 1: Schedule
+      document.getElementById('infoBookingId').innerText = b.bookingId || b.id;
+      document.getElementById('infoBookingDate').innerText = b.bookingDate || 'Recent';
+      document.getElementById('infoCheckInDate').innerText = b.checkInDate || 'Within 3 Days';
+      document.getElementById('infoStatusLabel').innerText = statusLabel;
+      document.getElementById('infoStudentName').innerText = b.studentName || 'Student Resident';
+      document.getElementById('infoUniversity').innerText = b.university || 'UMT Lahore';
+
+      // Section 2: Payment
+      document.getElementById('payRent').innerText = 'Rs ' + Number(b.monthlyRent || b.rentAmount || 0).toLocaleString();
+      document.getElementById('payDeposit').innerText = 'Rs ' + Number(b.depositAmount || 0).toLocaleString();
+      document.getElementById('payPlatformFee').innerText = 'Rs ' + Number(b.platformFee || 2000).toLocaleString();
+      document.getElementById('payTotal').innerText = 'Rs ' + Number(b.totalPaid || 0).toLocaleString();
+
+      // Section 3: Gate Pass
+      document.getElementById('gatePassCodeDisplay').innerText = b.gatePassCode || 'GP-ACTIVE';
+
+      // Section 4: Subscriptions
+      if (b.tiffinSubscribed) {
+        document.getElementById('subTiffin').className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+        document.getElementById('subTiffin').innerText = 'Active (Rs 7,500/mo)';
+      }
+      if (b.laundrySubscribed) {
+        document.getElementById('subLaundry').className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+        document.getElementById('subLaundry').innerText = 'Active (Rs 2,500/mo)';
+      }
+
+      // Section 5: Cancel Action
+      const cancelBtn = document.getElementById('btnCancelBooking');
+      if (canCancel) {
+        cancelBtn.classList.remove('hidden');
+      } else {
+        cancelBtn.classList.add('hidden');
+      }
+    }
+
+    async function handleCancelThisBooking() {
+      if (!currentBooking) return;
+      const reason = prompt('Please specify cancellation reason (e.g. Change in university, schedule conflict):', 'Schedule change');
+      if (!reason) return;
+
+      const btn = document.getElementById('btnCancelBooking');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Cancelling...';
+
+      try {
+        const res = await fetch(API_BASE + '/api/bookings/' + (currentBooking.bookingId || currentBooking.id) + '/cancel', {
+          method: 'POST',
+          credentials: 'include',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ reason })
+        });
+
+        const json = await res.json();
+        if (json.success) {
+          alert('✅ ' + json.message);
+          loadBookingDetails();
+        } else {
+          alert('❌ ' + (json.message || 'Cancellation failed.'));
+        }
+      } catch (e) {
+        alert('Network error while cancelling booking.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-x-circle"></i> Cancel Reservation';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadBookingDetails);
+  </script>
+</body>
+</html>

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Student Dashboard — Thakana</title>
+  <title>Student Dashboard &mdash; Thakana</title>
 
-  <!-- INTER TIGHT & INTER FONTS -->
+  <!-- INTER TIGHT & INTER FONTS (THAKANA BRAND FONTS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,16 +20,16 @@
       theme: {
         extend: {
           colors: {
-            thakana: {
-              purple: '#5f4a9a',
-              purpleHover: '#4d3b7e',
-              purpleLight: '#f0edfb',
-              purpleDark: '#322d3a',
-              cardBg: '#ffffff',
-              pageBg: '#f8f7fc',
-              textDark: '#342f3d',
-              textMuted: '#9ca3af',
-              borderLight: '#e8e4f0'
+            brand: {
+              navy: '#0F172A',
+              navyDark: '#0B1120',
+              navyLight: '#1E293B',
+              blue: '#2563EB',
+              blueHover: '#1D4ED8',
+              blueLight: '#EFF6FF',
+              slate: '#334155',
+              border: '#E2E8F0',
+              bgLight: '#F8FAFC'
             }
           },
           fontFamily: {
@@ -42,236 +42,492 @@
 
   <style>
     body {
-      font-family: 'Inter Tight', Inter, sans-serif;
-      background-color: #f8f7fc;
-      color: #342f3d;
-      -webkit-tap-highlight-color: transparent;
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
     }
-    .thakana-hero-bg {
-      background: linear-gradient(135deg, #322d3a 0%, #46395b 50%, #5f4a9a 100%);
-      border-radius: 0 0 32px 32px;
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
     }
-    .tab-btn.active {
-      background: #5f4a9a;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(95, 74, 154, 0.25);
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased pb-12">
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
 
-  <!-- TOP NAVBAR -->
-  <header class="thakana-hero-bg text-white pt-5 pb-14 px-4 sm:px-6 lg:px-8 relative shadow-md">
-    <div class="max-w-6xl mx-auto">
-      <div class="flex items-center justify-between mb-6">
-        <a href="index.html" class="flex items-center gap-2 group">
-          <span class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-1">
-            thakana<span class="w-2 h-2 rounded-full bg-[#826bbd] inline-block -mb-1"></span>
-          </span>
-          <span class="text-[10px] font-semibold text-white/60 uppercase tracking-widest pl-1 border-l border-white/20">
-            Student Portal
-          </span>
-        </a>
+  <!-- ======================================================== -->
+  <!-- APP SHELL CONTAINER (SIDEBAR + MAIN CONTENT)              -->
+  <!-- ======================================================== -->
+  <div class="flex-1 flex overflow-hidden">
 
-        <div class="flex items-center gap-2.5">
-          <div id="userBadge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white/20 text-white border border-white/25">
-            <i class="ph-bold ph-graduation-cap text-emerald-300"></i>
-            <span id="userNameTop">Loading...</span>
-          </div>
-          <a href="index.html" class="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition flex items-center gap-1">
-            <i class="ph-bold ph-magnifying-glass"></i> <span class="hidden sm:inline">Browse</span> Hostels
+    <!-- MOBILE BACKDROP -->
+    <div id="mobileBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- 1. DARK NAVY SIDEBAR (SAMPLE A THEME) -->
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full lg:translate-x-0 border-r border-slate-800 shrink-0">
+      
+      <!-- TOP: BRAND LOGO -->
+      <div>
+        <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800/80">
+          <a href="index.html" class="flex items-center gap-2">
+            <span class="text-xl font-black text-white tracking-tight flex items-center">
+              thakana<span class="w-2 h-2 rounded-full bg-blue-500 inline-block ml-0.5"></span>
+            </span>
+            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-2 border-l border-slate-700">Student Living</span>
           </a>
-          <button onclick="logout()" class="px-3 py-1.5 rounded-full bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-400/30 text-xs font-bold transition flex items-center gap-1">
-            <i class="ph-bold ph-sign-out"></i> Logout
+          <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white">
+            <i class="ph-bold ph-x text-lg"></i>
           </button>
         </div>
-      </div>
 
-      <div class="text-center max-w-xl mx-auto">
-        <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-white text-xs font-bold mb-2">
-          Verified Student &bull; Escrow Protection Active
-        </span>
-        <h1 class="text-2xl sm:text-3xl font-black text-white">Student Housing Dashboard</h1>
-        <p class="text-xs sm:text-sm text-white/80 mt-1">Manage your active bookings, view digital gate passes &amp; update profile</p>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-6xl mx-auto px-4 -mt-8 relative z-20 w-full flex-1">
-    
-    <!-- KPI OVERVIEW CARDS -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-      <div class="bg-white rounded-2xl p-4 border border-[#e8e4f0] shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
-          <span class="font-bold uppercase tracking-wider text-[10px]">My Bookings</span>
-          <i class="ph-bold ph-bookmark-simple text-[#5f4a9a] text-base"></i>
+        <!-- USER MINI PROFILE CARD (AUTHENTICATED STUDENT) -->
+        <div class="p-4 mx-3 my-4 rounded-2xl bg-[#1E293B]/70 border border-slate-800 flex items-center gap-3">
+          <div id="sidebarUserInitials" class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-sm">
+            ST
+          </div>
+          <div class="min-w-0 flex-1">
+            <h4 id="sidebarUserName" class="text-xs font-bold text-white truncate">Student Resident</h4>
+            <span class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Verified Resident
+            </span>
+          </div>
         </div>
-        <div id="kpiBookingsCount" class="text-2xl font-black text-[#342f3d]">0</div>
-        <span class="text-[10px] text-slate-400">Total room reservations</span>
-      </div>
 
-      <div class="bg-white rounded-2xl p-4 border border-[#e8e4f0] shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
-          <span class="font-bold uppercase tracking-wider text-[10px]">Escrow Status</span>
-          <i class="ph-bold ph-shield-check text-emerald-600 text-base"></i>
-        </div>
-        <div class="text-base sm:text-lg font-black text-emerald-600">48-H Escrow</div>
-        <span class="text-[10px] text-slate-400">100% Refundable Guarantee</span>
-      </div>
-
-      <div class="bg-white rounded-2xl p-4 border border-[#e8e4f0] shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
-          <span class="font-bold uppercase tracking-wider text-[10px]">My University</span>
-          <i class="ph-bold ph-buildings text-cyan-600 text-base"></i>
-        </div>
-        <div id="kpiUniversity" class="text-sm sm:text-base font-extrabold text-[#342f3d] truncate">UMT Lahore</div>
-        <span class="text-[10px] text-slate-400">Campus Verification Active</span>
-      </div>
-
-      <div class="bg-white rounded-2xl p-4 border border-[#e8e4f0] shadow-sm">
-        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
-          <span class="font-bold uppercase tracking-wider text-[10px]">Roommate AI</span>
-          <i class="ph-bold ph-users text-[#5f4a9a] text-base"></i>
-        </div>
-        <div class="text-sm sm:text-base font-black text-[#5f4a9a]">50/50 Rent Split</div>
-        <a href="roommate-match.html" class="text-[10px] text-[#5f4a9a] hover:underline font-bold block">Find Roommates &rarr;</a>
-      </div>
-    </div>
-
-    <!-- TABS NAVIGATION -->
-    <div class="bg-white rounded-3xl border border-[#e8e4f0] shadow-sm overflow-hidden mb-8">
-      <div class="border-b border-slate-100 p-2 sm:p-3 flex items-center justify-between flex-wrap gap-2">
-        <div class="flex items-center gap-1">
-          <button id="btnTabBookings" onclick="switchTab('bookings')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-            <i class="ph-bold ph-receipt"></i> <span>My Bookings</span>
+        <!-- 6 AUTHORIZED NAVIGATION ITEMS (EXACT SPECIFICATION) -->
+        <nav class="px-3 space-y-1 text-xs font-semibold">
+          <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-white bg-blue-600 shadow-sm">
+            <i class="ph-bold ph-squares-four text-base"></i>
+            <span>Dashboard</span>
           </button>
-          <button id="btnTabProfile" onclick="switchTab('profile')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
-            <i class="ph-bold ph-user-circle"></i> <span>My Profile</span>
+
+          <a href="index.html" id="nav-explore" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+            <i class="ph-bold ph-compass text-base"></i>
+            <span>Explore Hostels</span>
+          </a>
+
+          <button onclick="switchView('bookings')" id="nav-bookings" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+            <i class="ph-bold ph-calendar-check text-base"></i>
+            <span>My Bookings</span>
+            <span id="navBookingsCount" class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-blue-400 font-bold">0</span>
           </button>
-          <button id="btnTabPolicy" onclick="switchTab('policy')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
-            <i class="ph-bold ph-shield-check"></i> <span>Protection Policy</span>
+
+          <button onclick="switchView('profile')" id="nav-profile" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+            <i class="ph-bold ph-user-circle text-base"></i>
+            <span>My Profile</span>
           </button>
-        </div>
-        <button onclick="loadUserBookings()" class="text-xs font-bold text-[#5f4a9a] hover:underline flex items-center gap-1 px-3">
-          <i class="ph-bold ph-arrow-counter-clockwise"></i> Refresh
+
+          <button onclick="switchView('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+            <i class="ph-bold ph-gear text-base"></i>
+            <span>Settings</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- BOTTOM: LOGOUT ITEM -->
+      <div class="p-4 border-t border-slate-800/80">
+        <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition">
+          <i class="ph-bold ph-sign-out text-base"></i>
+          <span>Logout</span>
         </button>
       </div>
+    </aside>
 
-      <!-- TAB 1: MY BOOKINGS -->
-      <div id="tabContentBookings" class="p-4 sm:p-6">
-        <div id="bookingsList" class="space-y-4">
-          <div class="text-center py-10 text-slate-400">
-            <i class="ph-bold ph-spinner animate-spin text-2xl text-[#5f4a9a] mb-2 block"></i>
-            Loading your verified bookings...
-          </div>
-        </div>
-      </div>
+    <!-- 2. MAIN CONTENT AREA (LIGHT GREY BACKGROUND) -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto custom-scrollbar">
 
-      <!-- TAB 2: MY PROFILE SETTINGS -->
-      <div id="tabContentProfile" class="hidden p-4 sm:p-6 max-w-xl">
-        <h2 class="text-base font-bold text-[#342f3d] mb-1">Student Profile Details</h2>
-        <p class="text-xs text-slate-400 mb-5">Update your contact details for booking verification and digital gate passes.</p>
+      <!-- TOP NAVIGATION BAR -->
+      <header class="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-8">
         
-        <form id="profileForm" onsubmit="handleProfileUpdate(event)" class="space-y-4 text-xs">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Full Name</label>
-            <input type="text" id="profName" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a]">
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Phone Number (Pakistani Mobile)</label>
-            <input type="text" id="profPhone" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a]">
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Enrolled University</label>
-            <select id="profUni" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a] bg-white">
-              <option value="UMT Lahore">UMT Lahore (Johar Town)</option>
-              <option value="FAST Lahore / Isb">FAST-NUCES (Lahore / Islamabad)</option>
-              <option value="NUST Islamabad">NUST (H-12, Islamabad)</option>
-              <option value="LUMS Lahore">LUMS (DHA Phase 5, Lahore)</option>
-              <option value="UCP Lahore">UCP (Township, Lahore)</option>
-              <option value="COMSATS Lahore / Isb">COMSATS (Lahore / Islamabad)</option>
-              <option value="Punjab University">Punjab University (PU Lahore)</option>
-              <option value="NED Karachi">NED University (Karachi)</option>
-              <option value="Other University">Other Campus</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">City</label>
-            <input type="text" id="profCity" value="Lahore" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a]">
-          </div>
-
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
-            <span>Account Role: <strong class="text-[#5f4a9a] uppercase">Student (Normal User)</strong></span>
-            <span class="text-slate-400">Strictly Enforced by RBAC</span>
-          </div>
-
-          <div id="profileMsg" class="hidden p-3 rounded-xl text-xs font-bold"></div>
-
-          <button type="submit" id="btnSaveProfile" class="w-full py-3 rounded-xl bg-[#5f4a9a] hover:bg-[#4d3b7e] text-white font-bold text-sm transition shadow-sm">
-            Save Profile Changes
+        <!-- LEFT: MOBILE HAMBURGER & SEARCH -->
+        <div class="flex items-center gap-3 flex-1 max-w-md">
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">
+            <i class="ph-bold ph-list text-xl"></i>
           </button>
-        </form>
-      </div>
 
-      <!-- TAB 3: PROTECTION POLICY -->
-      <div id="tabContentPolicy" class="hidden p-4 sm:p-6 text-xs text-slate-600 space-y-4 max-w-2xl">
-        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900">
-          <h3 class="font-extrabold text-sm mb-1 flex items-center gap-1.5 text-emerald-800">
-            <i class="ph-bold ph-shield-check text-base"></i> 48-Hour Deposit Refund Escrow
-          </h3>
-          <p class="leading-relaxed">
-            Your advance deposit is NEVER paid directly to the hostel owner until 48 hours after your physical move-in date. If the hostel water, WiFi, or room does not match the verified description, you receive a 100% full refund with zero cancellation penalty.
-          </p>
+          <div class="relative w-full">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 pointer-events-none">
+              <i class="ph-bold ph-magnifying-glass text-sm"></i>
+            </span>
+            <input type="text" id="topSearchInput" onkeydown="handleTopSearch(event)" placeholder="Search hostels, university areas, cities..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white transition">
+          </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-[#f0edfb] border border-[#5f4a9a]/20 text-[#342f3d]">
-          <h3 class="font-extrabold text-sm mb-1 flex items-center gap-1.5 text-[#5f4a9a]">
-            <i class="ph-bold ph-arrows-clockwise text-base"></i> 7-Day Free Room Swap Guarantee
-          </h3>
-          <p class="leading-relaxed">
-            Every booking includes our free student room swap guarantee. If you don't connect with your roommate or want to change rooms during the first 7 days, Thakana transfers your deposit free of charge.
-          </p>
+        <!-- RIGHT: NOTIFICATIONS & USER DROPDOWN -->
+        <div class="flex items-center gap-3">
+          <!-- NOTIFICATION ICON (CLEAN, NO FAKE COUNTS) -->
+          <button onclick="alert('No new unread notifications.')" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition" title="Notifications">
+            <i class="ph-bold ph-bell text-base"></i>
+          </button>
+
+          <!-- USER PROFILE DROPDOWN -->
+          <div class="relative">
+            <button onclick="toggleProfileMenu()" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 transition">
+              <div id="topUserInitials" class="w-8 h-8 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                ST
+              </div>
+              <span id="topUserName" class="hidden sm:inline text-xs font-bold text-slate-800">Student</span>
+              <i class="ph-bold ph-caret-down text-slate-400 text-xs"></i>
+            </button>
+
+            <!-- DROPDOWN MENU -->
+            <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 text-xs font-semibold z-50">
+              <div class="px-3.5 py-2 border-b border-slate-100">
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Signed in as</span>
+                <strong id="dropdownUserEmail" class="text-slate-800 block truncate">student@thakana.pk</strong>
+              </div>
+              <button onclick="switchView('profile'); toggleProfileMenu();" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2 text-slate-700">
+                <i class="ph-bold ph-user-circle text-sm text-slate-500"></i> My Profile
+              </button>
+              <button onclick="switchView('settings'); toggleProfileMenu();" class="w-full text-left px-3.5 py-2 hover:bg-slate-50 flex items-center gap-2 text-slate-700">
+                <i class="ph-bold ph-gear text-sm text-slate-500"></i> Settings
+              </button>
+              <div class="border-t border-slate-100 my-1"></div>
+              <button onclick="handleLogout()" class="w-full text-left px-3.5 py-2 hover:bg-rose-50 flex items-center gap-2 text-rose-600">
+                <i class="ph-bold ph-sign-out text-sm"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ==================================================== -->
+      <!-- VIEW 1: DASHBOARD OVERVIEW                           -->
+      <!-- ==================================================== -->
+      <section id="view-dashboard" class="p-4 sm:p-8 space-y-6 flex-1">
+        
+        <!-- A. WELCOME BANNER -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-blue-950 text-white relative overflow-hidden shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="relative z-10 max-w-xl">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-extrabold uppercase tracking-wider mb-2 border border-blue-400/20">
+              <i class="ph-bold ph-shield-check"></i> 48-Hour Escrow Protection Active
+            </span>
+            <h1 id="welcomeTitle" class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              Welcome back, Student!
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1">
+              Find your ideal hostel and manage your bookings easily. Zero broker cuts and verified 50-point audits.
+            </p>
+          </div>
+          <div class="relative z-10 shrink-0">
+            <a href="index.html" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 transition">
+              <i class="ph-bold ph-compass"></i> Explore Hostels
+            </a>
+          </div>
+          <!-- SUBTLE DECORATION GLOW -->
+          <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-blue-600/20 rounded-full blur-2xl pointer-events-none"></div>
         </div>
 
-        <div class="pt-2">
-          <a href="https://wa.me/923350977787" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition">
-            <i class="ph-bold ph-whatsapp-logo text-base"></i> Contact Student Helpdesk (+92 335 0977787)
+        <!-- B. DYNAMIC BOOKING STATISTICS (4 CARDS) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Total Bookings</span>
+              <p id="kpiTotalBookings" class="text-2xl sm:text-3xl font-black text-slate-900 mt-0.5">0</p>
+              <span class="text-[10px] text-slate-400 font-medium">All-time reservations</span>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+              <i class="ph-bold ph-bookmarks"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Pending</span>
+              <p id="kpiPendingBookings" class="text-2xl sm:text-3xl font-black text-amber-600 mt-0.5">0</p>
+              <span class="text-[10px] text-slate-400 font-medium">Awaiting confirmation</span>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+              <i class="ph-bold ph-clock"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Confirmed</span>
+              <p id="kpiConfirmedBookings" class="text-2xl sm:text-3xl font-black text-emerald-600 mt-0.5">0</p>
+              <span class="text-[10px] text-slate-400 font-medium">Active &amp; approved</span>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+              <i class="ph-bold ph-check-circle"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Cancelled</span>
+              <p id="kpiCancelledBookings" class="text-2xl sm:text-3xl font-black text-slate-500 mt-0.5">0</p>
+              <span class="text-[10px] text-slate-400 font-medium">Refund in escrow</span>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl shrink-0">
+              <i class="ph-bold ph-prohibit"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. RECENT BOOKINGS & D. RECOMMENDED HOSTELS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- LEFT: RECENT BOOKINGS (7 COLS) -->
+          <div class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
+                  <i class="ph-bold ph-clock-counter-clockwise text-blue-600"></i> Recent Bookings
+                </h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Your latest hostel room reservation requests.</p>
+              </div>
+              <button onclick="switchView('bookings')" class="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                View All <i class="ph-bold ph-arrow-right"></i>
+              </button>
+            </div>
+
+            <div id="recentBookingsList" class="space-y-3">
+              <div class="py-8 text-center text-slate-400 text-xs">
+                <i class="ph-bold ph-spinner animate-spin text-lg mb-1 block text-blue-600"></i>
+                Loading your bookings...
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: RECOMMENDED HOSTELS (5 COLS) -->
+          <div class="lg:col-span-5 bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
+                  <i class="ph-bold ph-buildings text-blue-600"></i> Recommended Hostels
+                </h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Top-rated verified properties with open beds.</p>
+              </div>
+              <a href="index.html" class="text-xs font-bold text-blue-600 hover:text-blue-700">
+                Browse All
+              </a>
+            </div>
+
+            <div id="recommendedHostelsList" class="space-y-3">
+              <div class="py-8 text-center text-slate-400 text-xs">
+                <i class="ph-bold ph-spinner animate-spin text-lg mb-1 block text-blue-600"></i>
+                Loading recommendations...
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- VIEW 2: MY BOOKINGS (HYBRID DESIGN OPTION C)         -->
+      <!-- ==================================================== -->
+      <section id="view-bookings" class="hidden p-4 sm:p-8 space-y-6 flex-1">
+        
+        <!-- A. PAGE HEADER -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h1 class="text-2xl font-black text-slate-900 tracking-tight">My Bookings</h1>
+              <span id="bookingsHeaderBadge" class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-extrabold">0 Total</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Track and manage your hostel reservations.</p>
+          </div>
+          <a href="index.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-sm w-fit">
+            <i class="ph-bold ph-plus-circle"></i> Book Another Hostel
           </a>
         </div>
-      </div>
+
+        <!-- B. BOOKING FILTERS (DYNAMIC STATUS TABS) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-bold no-scrollbar">
+          <button onclick="setBookingFilter('all')" id="filter-all" class="booking-filter-btn px-4 py-2 rounded-xl transition bg-blue-600 text-white shadow-sm flex items-center gap-1.5 shrink-0">
+            <span>All Bookings</span>
+            <span id="filterCountAll" class="px-1.5 py-0.2 rounded-full bg-white/20 text-white text-[10px]">0</span>
+          </button>
+
+          <button onclick="setBookingFilter('pending')" id="filter-pending" class="booking-filter-btn px-4 py-2 rounded-xl transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 flex items-center gap-1.5 shrink-0">
+            <span>Pending</span>
+            <span id="filterCountPending" class="px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 text-[10px]">0</span>
+          </button>
+
+          <button onclick="setBookingFilter('confirmed')" id="filter-confirmed" class="booking-filter-btn px-4 py-2 rounded-xl transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 flex items-center gap-1.5 shrink-0">
+            <span>Confirmed</span>
+            <span id="filterCountConfirmed" class="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px]">0</span>
+          </button>
+
+          <button onclick="setBookingFilter('cancelled')" id="filter-cancelled" class="booking-filter-btn px-4 py-2 rounded-xl transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 flex items-center gap-1.5 shrink-0">
+            <span>Cancelled</span>
+            <span id="filterCountCancelled" class="px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 text-[10px]">0</span>
+          </button>
+        </div>
+
+        <!-- C. BOOKING CARDS LIST CONTAINER -->
+        <div id="fullBookingsList" class="space-y-4">
+          <div class="py-12 text-center text-slate-400 text-xs">
+            <i class="ph-bold ph-spinner animate-spin text-2xl mb-2 text-blue-600 block"></i>
+            Loading your bookings...
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- VIEW 3: MY PROFILE                                   -->
+      <!-- ==================================================== -->
+      <section id="view-profile" class="hidden p-4 sm:p-8 space-y-6 flex-1 max-w-3xl">
+        <div class="pb-2 border-b border-slate-200">
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Student Profile</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Manage your authenticated student resident credentials and contact info.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+          
+          <div id="profileAlert" class="hidden p-3 rounded-2xl text-xs font-semibold"></div>
+
+          <!-- USER IDENTITY HEADER CARD -->
+          <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div id="profileAvatarBig" class="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center shadow-md shrink-0">
+              ST
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 id="profileFullName" class="text-base font-extrabold text-slate-900 truncate">Student Resident</h3>
+              <p id="profileUserEmail" class="text-xs text-slate-500 truncate">student@thakana.pk</p>
+              <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">Role: Student</span>
+                <span id="profileMemberId" class="text-[10px] font-mono text-slate-400">ID: usr-student-1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDITABLE PROFILE FORM -->
+          <form onsubmit="handleProfileSave(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Full Legal Name *</label>
+                <input type="text" id="editProfName" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Mobile Contact Phone *</label>
+                <input type="tel" id="editProfPhone" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">University / Academic Institution *</label>
+                <input type="text" id="editProfUni" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">City *</label>
+                <input type="text" id="editProfCity" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" id="btnSaveProfile" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-2">
+                <i class="ph-bold ph-floppy-disk"></i> Save Profile Changes
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- VIEW 4: SETTINGS                                     -->
+      <!-- ==================================================== -->
+      <section id="view-settings" class="hidden p-4 sm:p-8 space-y-6 flex-1 max-w-3xl">
+        <div class="pb-2 border-b border-slate-200">
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Account Settings</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Security configurations and password management.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+          
+          <div id="settingsAlert" class="hidden p-3 rounded-2xl text-xs font-semibold"></div>
+
+          <!-- CHANGE PASSWORD FORM -->
+          <div>
+            <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 mb-1">
+              <i class="ph-bold ph-key text-blue-600"></i> Change Password
+            </h3>
+            <p class="text-xs text-slate-500 mb-4">Protect your student account by choosing a strong password.</p>
+
+            <form onsubmit="handlePasswordChange(event)" class="space-y-4 text-xs max-w-md">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Current Password *</label>
+                <input type="password" id="inputCurrentPass" required placeholder="Enter current password" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">New Password (min 6 characters) *</label>
+                <input type="password" id="inputNewPass" required minlength="6" placeholder="Choose new password" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Confirm New Password *</label>
+                <input type="password" id="inputConfirmPass" required minlength="6" placeholder="Confirm new password" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              </div>
+
+              <button type="submit" id="btnUpdatePass" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-2">
+                <i class="ph-bold ph-lock-key"></i> Update Password
+              </button>
+            </form>
+          </div>
+
+          <div class="border-t border-slate-100 pt-6">
+            <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 mb-1">
+              <i class="ph-bold ph-shield-check text-emerald-600"></i> Active Session &amp; Device
+            </h3>
+            <p class="text-xs text-slate-500 mb-3">You are authenticated via secure HttpOnly JWT token.</p>
+            <button onclick="handleLogout()" class="px-4 py-2 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold transition flex items-center gap-1.5">
+              <i class="ph-bold ph-sign-out"></i> Sign Out from This Device
+            </button>
+          </div>
+
+        </div>
+      </section>
 
     </div>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-white border-t border-[#e8e4f0] py-6 text-center text-xs text-slate-400">
-    <div class="max-w-6xl mx-auto px-4">
-      <p class="font-semibold text-slate-600">thakana<span class="text-[#826bbd]">.</span> Student Living OS &bull; RBAC Protected</p>
-      <p class="mt-1">&copy; 2026 Thakana Pakistan. All Rights Reserved.</p>
-    </div>
-  </footer>
+  </div>
 
-  <!-- SCRIPT LOGIC -->
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT: LOGIC & APIS                                 -->
+  <!-- ======================================================== -->
   <script>
     const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
     let currentUser = null;
+    let allStudentBookings = [];
+    let currentFilter = 'all';
 
-    // Check Authentication & Role
-    async function checkStudentAuth() {
-      // 1. Check local session
+    function getAuthHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      const token = localStorage.getItem('thakana_jwt_token') || currentUser?.token;
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return headers;
+    }
+
+    // 1. STRICT AUTHENTICATION GUARD
+    async function initStudentSession() {
       let token = null;
       let localUser = null;
       try {
         const uStr = localStorage.getItem('thakana_user') || localStorage.getItem('thakana_auth_user');
         if (uStr) localUser = JSON.parse(uStr);
-        token = localUser?.token || localStorage.getItem('thakana_jwt_token');
+        token = localStorage.getItem('thakana_jwt_token') || localUser?.token;
       } catch (e) {}
 
-      // Try server verify
+      // If logged in as owner or admin, redirect to authorized dashboard
+      if (localUser && localUser.role && localUser.role !== 'student' && localUser.role !== 'user') {
+        const dest = (localUser.role === 'owner') ? 'owner-portal.html' : 
+                     (localUser.role === 'admin') ? 'admin-portal.html' : 'inspector-portal.html';
+        window.location.href = dest;
+        return;
+      }
+
+      // Verify with backend session endpoint
       try {
         const headers = {};
         if (token) headers['Authorization'] = 'Bearer ' + token;
@@ -279,461 +535,475 @@
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.user) {
+            if (data.user.role !== 'student' && data.user.role !== 'user') {
+              window.location.href = 'access-denied.html?role=' + encodeURIComponent(data.user.role) + '&required=student';
+              return;
+            }
             currentUser = data.user;
-            initDashboard();
+            setupUI();
             return;
           }
         }
       } catch (e) {
-        console.warn('API auth check offline, using local session:', e);
+        console.warn('API auth verify:', e);
       }
 
       if (localUser && (localUser.role === 'student' || localUser.role === 'user')) {
         currentUser = localUser;
-        initDashboard();
+        setupUI();
       } else {
-        // Redirect to Student login
-        window.location.href = 'login-user.html';
+        window.location.href = 'login-student.html';
       }
     }
 
-    function initDashboard() {
-      if (!currentUser) return;
-      document.getElementById('userNameTop').innerText = currentUser.name || 'Student';
-      document.getElementById('kpiUniversity').innerText = currentUser.university || 'UMT Lahore';
-      
-      // Pre-fill profile
-      document.getElementById('profName').value = currentUser.name || '';
-      document.getElementById('profPhone').value = currentUser.phone || '';
-      if (currentUser.university) document.getElementById('profUni').value = currentUser.university;
-      if (currentUser.city) document.getElementById('profCity').value = currentUser.city;
+    function setupUI() {
+      const name = currentUser.name || 'Student';
+      const firstName = name.split(' ')[0];
+      const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'ST';
 
-      loadUserBookings();
+      document.getElementById('welcomeTitle').innerText = `Welcome back, ${firstName}!`;
+      document.getElementById('sidebarUserName').innerText = name;
+      document.getElementById('topUserName').innerText = firstName;
+      document.getElementById('sidebarUserInitials').innerText = initials;
+      document.getElementById('topUserInitials').innerText = initials;
+      document.getElementById('profileAvatarBig').innerText = initials;
+      document.getElementById('profileFullName').innerText = name;
+      document.getElementById('profileUserEmail').innerText = currentUser.email || 'student@thakana.pk';
+      document.getElementById('dropdownUserEmail').innerText = currentUser.email || 'student@thakana.pk';
+      document.getElementById('profileMemberId').innerText = 'ID: ' + (currentUser.id || 'usr-student-1');
+
+      // Pre-fill profile form
+      document.getElementById('editProfName').value = name;
+      document.getElementById('editProfPhone').value = currentUser.phone || '';
+      document.getElementById('editProfUni').value = currentUser.university || 'UMT Lahore';
+      document.getElementById('editProfCity').value = currentUser.city || 'Lahore';
+
+      // Load data
+      loadDashboardOverview();
+      loadStudentBookings();
     }
 
-    async function loadUserBookings() {
-      const container = document.getElementById('bookingsList');
-      if (!container) return;
+    // 2. VIEW SWITCHER
+    function switchView(viewName) {
+      const views = ['dashboard', 'bookings', 'profile', 'settings'];
+      views.forEach(v => {
+        const el = document.getElementById('view-' + v);
+        const nav = document.getElementById('nav-' + v);
+        if (el) el.classList.add('hidden');
+        if (nav) {
+          nav.className = 'nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60';
+        }
+      });
 
-      container.innerHTML = '<div class="text-center py-8 text-slate-400"><i class="ph-bold ph-spinner animate-spin text-2xl text-[#5f4a9a] mb-2 block"></i> Fetching your bookings...</div>';
+      const targetEl = document.getElementById('view-' + viewName);
+      const targetNav = document.getElementById('nav-' + viewName);
+      if (targetEl) targetEl.classList.remove('hidden');
+      if (targetNav) {
+        targetNav.className = 'nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition text-white bg-blue-600 shadow-sm';
+      }
 
+      // Close mobile drawer if open
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('mobileBackdrop');
+      if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+        toggleSidebar();
+      }
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('mobileBackdrop');
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+    }
+
+    function toggleProfileMenu() {
+      document.getElementById('profileDropdown').classList.toggle('hidden');
+    }
+
+    function handleTopSearch(e) {
+      if (e.key === 'Enter') {
+        const q = e.target.value.trim();
+        if (q) window.location.href = 'index.html?search=' + encodeURIComponent(q);
+      }
+    }
+
+    // 3. LOAD DASHBOARD OVERVIEW (CALLS /api/student/dashboard-overview)
+    async function loadDashboardOverview() {
       try {
-        const headers = {};
-        const token = localStorage.getItem('thakana_jwt_token') || currentUser?.token;
-        if (token) headers['Authorization'] = 'Bearer ' + token;
-
-        const phone = currentUser?.phone || '03001234567';
-        const res = await fetch(API_BASE + '/api/user/my-bookings?phone=' + encodeURIComponent(phone), {
+        const res = await fetch(API_BASE + '/api/student/dashboard-overview', {
           credentials: 'include',
-          headers
+          headers: getAuthHeaders()
         });
 
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data)) {
-            renderBookings(json.data);
-            return;
-          }
+        if (!res.ok) throw new Error('Overview fetch failed');
+
+        const data = await res.json();
+        if (data.success) {
+          // B. Statistics
+          document.getElementById('kpiTotalBookings').innerText = data.stats.total;
+          document.getElementById('kpiPendingBookings').innerText = data.stats.pending;
+          document.getElementById('kpiConfirmedBookings').innerText = data.stats.confirmed;
+          document.getElementById('kpiCancelledBookings').innerText = data.stats.cancelled;
+          document.getElementById('navBookingsCount').innerText = data.stats.total;
+          document.getElementById('bookingsHeaderBadge').innerText = data.stats.total + ' Total';
+
+          // C. Recent Bookings
+          renderRecentBookings(data.recentBookings);
+
+          // D. Recommended Hostels
+          renderRecommendedHostels(data.recommendedHostels);
         }
       } catch (err) {
-        console.warn('Failed to load live bookings:', err);
+        console.warn('Overview API load failed, calculating from local list:', err);
       }
-
-      container.innerHTML = \`
-        <div class="text-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-          <i class="ph-bold ph-bed text-3xl text-slate-300 mb-2 block"></i>
-          <p class="text-sm font-bold text-slate-700">No active bookings found</p>
-          <p class="text-xs text-slate-400 mt-1">Explore verified hostels near your university and book with 48-Hour Escrow protection.</p>
-          <a href="index.html" class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#5f4a9a] text-white text-xs font-bold hover:bg-[#4d3b7e] transition shadow-sm">
-            <i class="ph-bold ph-magnifying-glass"></i> Explore Hostels
-          </a>
-        </div>
-      \`;
-      document.getElementById('kpiBookingsCount').innerText = '0';
     }
 
-    let currentBookingsCache = [];
-
-    function renderBookings(list) {
-      currentBookingsCache = list || [];
-      const container = document.getElementById('bookingsList');
-      document.getElementById('kpiBookingsCount').innerText = currentBookingsCache.length;
-
-      if (!currentBookingsCache || currentBookingsCache.length === 0) {
+    // RENDER RECENT BOOKINGS (DASHBOARD OVERVIEW)
+    function renderRecentBookings(list) {
+      const container = document.getElementById('recentBookingsList');
+      if (!list || list.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-12 bg-white rounded-3xl border border-dashed border-slate-200 shadow-sm">
-            <div class="w-16 h-16 rounded-2xl bg-[#f0edfb] text-[#5f4a9a] flex items-center justify-center text-3xl mx-auto mb-3">
-              <i class="ph-bold ph-buildings"></i>
-            </div>
-            <h3 class="text-base font-extrabold text-[#342f3d]">No Hostel Bookings Found</h3>
-            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">You have not booked any rooms yet. Browse verified student hostels near your campus with 48-Hour Escrow Protection.</p>
-            <a href="index.html" class="mt-4 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#5f4a9a] text-white text-xs font-bold hover:bg-[#4d3b7e] transition shadow-md">
-              <i class="ph-bold ph-compass"></i> Explore Available Hostels
+          <div class="py-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-xs">
+            <i class="ph-bold ph-bed text-3xl mb-1 text-slate-300 block"></i>
+            <p class="font-bold text-slate-700">You haven't made any bookings yet.</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Explore verified hostels near your university with 48-Hour Escrow protection.</p>
+            <a href="index.html" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition">
+              <i class="ph-bold ph-compass"></i> Explore Hostels
             </a>
           </div>
         `;
         return;
       }
 
-      container.innerHTML = currentBookingsCache.map(b => {
-        // Status normalization
+      container.innerHTML = list.map(b => {
         const s = (b.status || 'pending').toLowerCase();
         const isPending = (s === 'pending' || s === 'pending_owner_approval');
         const isApproved = (s === 'approved' || s === 'confirmed');
         const isRejected = (s === 'rejected' || s === 'rejected_by_owner');
         const isCancelled = (s === 'cancelled' || s === 'cancelled_by_student');
-        const isCompleted = (s === 'completed');
 
         let badgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
-        let badgeIcon = 'ph-clock';
+        let statusLabel = 'Pending Owner Approval';
+
+        if (isApproved) {
+          badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+          statusLabel = 'Confirmed';
+        } else if (isRejected) {
+          badgeClass = 'bg-rose-50 text-rose-700 border-rose-200';
+          statusLabel = 'Rejected';
+        } else if (isCancelled) {
+          badgeClass = 'bg-slate-100 text-slate-600 border-slate-200';
+          statusLabel = 'Cancelled';
+        }
+
+        const img = b.hostelImage || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80';
+        const location = b.hostelAddress || 'Cantt, Lahore';
+
+        return `
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition flex items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="${img}" alt="${b.hostelName}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=200&q=80'">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="font-extrabold text-slate-900 truncate">${b.hostelName || 'Verified Property'}</h4>
+                  <span class="text-[9px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">${statusLabel}</span>
+                </div>
+                <p class="text-[11px] text-slate-500 truncate mt-0.5">${location}</p>
+                <span class="text-[10px] font-mono text-slate-400 block">${b.bookingId || b.id} &bull; Booked ${b.bookingDate || 'Recent'}</span>
+              </div>
+            </div>
+
+            <a href="booking-details.html?id=${b.bookingId || b.id}" class="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-600 hover:text-white border border-slate-200 text-blue-600 font-bold text-xs transition shrink-0 shadow-sm flex items-center gap-1">
+              <span>View Details</span> <i class="ph-bold ph-caret-right text-xs"></i>
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // RENDER RECOMMENDED HOSTELS
+    function renderRecommendedHostels(list) {
+      const container = document.getElementById('recommendedHostelsList');
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div class="p-4 text-center text-slate-400 text-xs">No current recommendations.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(h => `
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition flex items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-3 min-w-0">
+            <img src="${h.image}" alt="${h.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=200&q=80'">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h4 class="font-extrabold text-slate-900 truncate">${h.name}</h4>
+                ${h.isVerified ? '<span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-100 text-blue-700">Verified</span>' : ''}
+              </div>
+              <p class="text-[11px] text-slate-500 truncate mt-0.5">${h.area}, ${h.city}</p>
+              <span class="text-[11px] font-black text-slate-800">Rs ${Number(h.rent).toLocaleString()}/mo &bull; <strong class="text-emerald-600">${h.availableBeds} beds</strong></span>
+            </div>
+          </div>
+
+          <a href="index.html#hostel-${h.id}" class="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 font-bold text-xs transition shrink-0">
+            View Hostel
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // 4. LOAD MY BOOKINGS (CALLS /api/user/my-bookings)
+    async function loadStudentBookings() {
+      try {
+        const res = await fetch(API_BASE + '/api/user/my-bookings', {
+          credentials: 'include',
+          headers: getAuthHeaders()
+        });
+
+        if (!res.ok) throw new Error('Bookings fetch failed');
+
+        const json = await res.json();
+        allStudentBookings = json.data || [];
+
+        // Sort by most recent booking date
+        allStudentBookings.sort((a, b) => new Date(b.bookingDate || b.createdAt || 0) - new Date(a.bookingDate || a.createdAt || 0));
+
+        updateFilterCounts();
+        renderFilteredBookings();
+
+      } catch (err) {
+        document.getElementById('fullBookingsList').innerHTML = '<div class="p-8 text-center text-rose-500 text-xs">Failed to load bookings. Please check network.</div>';
+      }
+    }
+
+    function updateFilterCounts() {
+      const allCount = allStudentBookings.length;
+      const pendingCount = allStudentBookings.filter(b => b.status === 'pending' || b.status === 'pending_owner_approval').length;
+      const confirmedCount = allStudentBookings.filter(b => b.status === 'confirmed' || b.status === 'approved').length;
+      const cancelledCount = allStudentBookings.filter(b => b.status === 'cancelled' || b.status === 'cancelled_by_student').length;
+
+      document.getElementById('filterCountAll').innerText = allCount;
+      document.getElementById('filterCountPending').innerText = pendingCount;
+      document.getElementById('filterCountConfirmed').innerText = confirmedCount;
+      document.getElementById('filterCountCancelled').innerText = cancelledCount;
+    }
+
+    function setBookingFilter(filterName) {
+      currentFilter = filterName;
+      const filterBtns = ['all', 'pending', 'confirmed', 'cancelled'];
+      filterBtns.forEach(f => {
+        const btn = document.getElementById('filter-' + f);
+        if (f === filterName) {
+          btn.className = 'booking-filter-btn px-4 py-2 rounded-xl transition bg-blue-600 text-white shadow-sm flex items-center gap-1.5 shrink-0';
+        } else {
+          btn.className = 'booking-filter-btn px-4 py-2 rounded-xl transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 flex items-center gap-1.5 shrink-0';
+        }
+      });
+
+      renderFilteredBookings();
+    }
+
+    function renderFilteredBookings() {
+      const container = document.getElementById('fullBookingsList');
+
+      let list = allStudentBookings;
+      if (currentFilter === 'pending') {
+        list = allStudentBookings.filter(b => b.status === 'pending' || b.status === 'pending_owner_approval');
+      } else if (currentFilter === 'confirmed') {
+        list = allStudentBookings.filter(b => b.status === 'confirmed' || b.status === 'approved');
+      } else if (currentFilter === 'cancelled') {
+        list = allStudentBookings.filter(b => b.status === 'cancelled' || b.status === 'cancelled_by_student');
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-slate-400 bg-white rounded-3xl border border-dashed border-slate-200 text-xs">
+            <i class="ph-bold ph-bed text-3xl mb-1 text-slate-300 block"></i>
+            <p class="font-bold text-slate-700">No ${currentFilter === 'all' ? '' : currentFilter} bookings found.</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Explore verified hostels near your university.</p>
+            <a href="index.html" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition">
+              <i class="ph-bold ph-compass"></i> Explore Hostels
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(b => {
+        const s = (b.status || 'pending').toLowerCase();
+        const isPending = (s === 'pending' || s === 'pending_owner_approval');
+        const isApproved = (s === 'approved' || s === 'confirmed');
+        const isRejected = (s === 'rejected' || s === 'rejected_by_owner');
+        const isCancelled = (s === 'cancelled' || s === 'cancelled_by_student');
+
+        let badgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
         let statusText = 'Pending Owner Approval';
 
         if (isApproved) {
           badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-          badgeIcon = 'ph-check-circle';
-          statusText = 'Approved & Active';
+          statusText = 'Confirmed';
         } else if (isRejected) {
           badgeClass = 'bg-rose-50 text-rose-700 border-rose-200';
-          badgeIcon = 'ph-x-circle';
           statusText = 'Rejected by Owner';
         } else if (isCancelled) {
           badgeClass = 'bg-slate-100 text-slate-600 border-slate-200';
-          badgeIcon = 'ph-prohibit';
-          statusText = 'Cancelled (Refund Initiated)';
-        } else if (isCompleted) {
-          badgeClass = 'bg-sky-50 text-sky-700 border-sky-200';
-          badgeIcon = 'ph-seal-check';
-          statusText = 'Stay Completed';
+          statusText = 'Cancelled';
         }
 
-        const hostelImg = b.hostelImage || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80';
+        const img = b.hostelImage || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80';
         const address = b.hostelAddress || 'Cantt, Lahore';
         const roomType = b.roomType || '2-Person Sharing (Standard)';
-        const roomNo = b.roomNumber || 'Room 101';
         const rent = Number(b.monthlyRent || b.rentAmount || 0).toLocaleString();
         const bookingDate = b.bookingDate || 'Recent';
-        const checkIn = b.checkInDate || 'Within 3 Days';
-        const canCancel = isPending || isApproved;
 
         return `
-          <div class="p-4 sm:p-5 rounded-3xl bg-white border border-[#e8e4f0] shadow-sm hover:shadow-md transition space-y-4">
+          <div class="p-5 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               
-              <!-- HOSTEL IMAGE + BASIC DETAILS -->
-              <div class="flex items-start gap-3.5 min-w-0">
-                <img src="${hostelImg}" alt="${b.hostelName}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-slate-200 shrink-0 bg-slate-100" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80'">
+              <div class="flex items-start gap-4 min-w-0">
+                <img src="${img}" alt="${b.hostelName}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-slate-200 shrink-0" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80'">
                 
                 <div class="min-w-0 space-y-1">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border ${badgeClass}">
-                      <i class="ph-bold ${badgeIcon}"></i> ${statusText}
+                    <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border ${badgeClass}">
+                      ${statusText}
                     </span>
                     <span class="text-[11px] font-mono font-bold text-slate-400">ID: ${b.bookingId || b.id}</span>
                   </div>
 
-                  <h3 class="text-base font-extrabold text-slate-900 truncate">${b.hostelName || 'Verified Hostel'}</h3>
+                  <h3 class="text-base font-extrabold text-slate-900 truncate">${b.hostelName || 'Verified Property'}</h3>
                   
                   <p class="text-xs text-slate-500 flex items-center gap-1 truncate">
-                    <i class="ph-bold ph-map-pin text-[#5f4a9a] shrink-0"></i>
+                    <i class="ph-bold ph-map-pin text-blue-600 shrink-0"></i>
                     <span>${address}</span>
                   </p>
 
                   <div class="flex items-center gap-2 text-xs text-slate-600 flex-wrap pt-0.5">
-                    <span class="bg-[#f8f7fc] px-2 py-0.5 rounded-lg border border-slate-200 font-semibold">${roomType}</span>
-                    <span class="bg-[#f0edfb] text-[#5f4a9a] px-2 py-0.5 rounded-lg font-bold">${roomNo}</span>
+                    <span class="bg-slate-100 px-2 py-0.5 rounded-lg font-semibold text-[11px]">${roomType}</span>
+                    <span class="text-slate-400 text-[11px]">&bull; Booked: ${bookingDate}</span>
                   </div>
                 </div>
               </div>
 
-              <!-- RENT & ACTIONS -->
               <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
                 <div class="text-left sm:text-right">
                   <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Monthly Rent</span>
                   <strong class="text-lg font-black text-slate-900">Rs. ${rent}</strong>
-                  <span class="text-[10px] text-emerald-600 font-bold block">48-H Escrow Held</span>
                 </div>
 
-                <div class="flex items-center gap-2">
-                  <button onclick="openBookingDetailsModal('${b.bookingId || b.id}')" class="px-3 py-1.5 rounded-xl bg-[#f0edfb] hover:bg-[#5f4a9a] text-[#5f4a9a] hover:text-white text-xs font-bold transition flex items-center gap-1 shadow-sm">
-                    <i class="ph-bold ph-eye"></i> View Details
-                  </button>
-
-                  ${canCancel ? `
-                    <button onclick="cancelBooking('${b.bookingId || b.id}')" class="px-3 py-1.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold transition flex items-center gap-1">
-                      <i class="ph-bold ph-x-circle"></i> Cancel
-                    </button>
-                  ` : ''}
-                </div>
+                <a href="booking-details.html?id=${b.bookingId || b.id}" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                  <i class="ph-bold ph-eye"></i> View Details
+                </a>
               </div>
 
-            </div>
-
-            <!-- FOOTER INFO BAR: DATES & GATE PASS -->
-            <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
-              <div class="flex items-center gap-3">
-                <span><i class="ph-bold ph-calendar-blank text-slate-400"></i> Booked: <strong>${bookingDate}</strong></span>
-                <span>&bull;</span>
-                <span><i class="ph-bold ph-calendar-check text-emerald-600"></i> Check-in: <strong class="text-emerald-700">${checkIn}</strong></span>
-              </div>
-              
-              ${b.gatePassCode ? `
-                <div class="inline-flex items-center gap-1.5 bg-[#f8f7fc] border border-slate-200 px-2.5 py-0.5 rounded-lg text-slate-700 font-mono font-bold text-[11px]">
-                  <i class="ph-bold ph-qr-code text-[#5f4a9a]"></i> Gate Pass: ${b.gatePassCode}
-                </div>
-              ` : ''}
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // OPEN DETAILED BOOKING MODAL
-    function openBookingDetailsModal(bookingId) {
-      const b = currentBookingsCache.find(x => (x.bookingId === bookingId || x.id === bookingId));
-      if (!b) return;
-
-      const s = (b.status || 'pending').toLowerCase();
-      const isPending = (s === 'pending' || s === 'pending_owner_approval');
-      const isApproved = (s === 'approved' || s === 'confirmed');
-      const isRejected = (s === 'rejected' || s === 'rejected_by_owner');
-      const isCancelled = (s === 'cancelled' || s === 'cancelled_by_student');
-      const canCancel = isPending || isApproved;
-
-      // Badges
-      const badge = document.getElementById('modalStatusBadge');
-      if (isApproved) {
-        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border bg-emerald-50 text-emerald-700 border-emerald-200';
-        badge.innerText = 'Approved & Active';
-      } else if (isCancelled) {
-        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border bg-slate-100 text-slate-600 border-slate-200';
-        badge.innerText = 'Cancelled';
-      } else if (isRejected) {
-        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border bg-rose-50 text-rose-700 border-rose-200';
-        badge.innerText = 'Rejected by Owner';
-      } else {
-        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border bg-amber-50 text-amber-700 border-amber-200';
-        badge.innerText = 'Pending Owner Confirmation';
-      }
-
-      document.getElementById('modalBookingId').innerText = 'ID: ' + (b.bookingId || b.id);
-      document.getElementById('modalHostelImg').src = b.hostelImage || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80';
-      document.getElementById('modalHostelName').innerText = b.hostelName || 'Verified Hostel';
-      document.getElementById('modalHostelAddress').innerText = b.hostelAddress || 'Cantt, Lahore';
-
-      document.getElementById('modalRoomType').innerText = b.roomType || '2-Person Sharing (Standard)';
-      document.getElementById('modalRoomNumber').innerText = b.roomNumber || 'Room 101';
-      document.getElementById('modalBookingDate').innerText = b.bookingDate || 'Recent';
-      document.getElementById('modalCheckInDate').innerText = b.checkInDate || 'Within 3 Days';
-
-      document.getElementById('modalRentAmount').innerText = 'Rs ' + Number(b.monthlyRent || b.rentAmount || 0).toLocaleString();
-      document.getElementById('modalDepositAmount').innerText = 'Rs ' + Number(b.depositAmount || 0).toLocaleString();
-      document.getElementById('modalPlatformFee').innerText = 'Rs ' + Number(b.platformFee || 2000).toLocaleString();
-      document.getElementById('modalTotalPaid').innerText = 'Rs ' + Number(b.totalPaid || 0).toLocaleString();
-      document.getElementById('modalGatePass').innerText = b.gatePassCode || 'GP-PENDING';
-
-      const actionBox = document.getElementById('modalActionContainer');
-      actionBox.innerHTML = '';
-      if (canCancel) {
-        actionBox.innerHTML = `
-          <button onclick="closeDetailsModal(); cancelBooking('${b.bookingId || b.id}');" class="w-full py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold text-xs transition flex items-center justify-center gap-1.5">
-            <i class="ph-bold ph-x-circle"></i> Cancel Booking &amp; Request Escrow Refund
-          </button>
-        `;
-      }
-
-      document.getElementById('bookingDetailsModal').classList.remove('hidden');
-    }
-
-    function closeDetailsModal() {
-      document.getElementById('bookingDetailsModal').classList.add('hidden');
-    }
-
-    async function cancelBooking(bookingId) {
-      const reason = prompt('Please specify cancellation reason (e.g. Changed university, schedule conflict):', 'Schedule change');
-      if (!reason) return;
-
-      try {
-        const headers = { 'Content-Type': 'application/json' };
-        const token = localStorage.getItem('thakana_jwt_token') || currentUser?.token;
-        if (token) headers['Authorization'] = 'Bearer ' + token;
-
-        const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
-          method: 'POST',
-          headers,
-          credentials: 'include',
-          body: JSON.stringify({ reason })
-        });
-
-        const json = await res.json();
-        if (res.ok && json.success) {
-          alert('✅ ' + json.message);
-          loadUserBookings();
-        } else {
-          alert(json.message || 'Failed to cancel booking.');
-        }
-      } catch (err) {
-        alert('Network error while cancelling booking.');
-      }
-    }
-
-    async function handleProfileUpdate(e) {
+    // 5. PROFILE SAVE
+    async function handleProfileSave(e) {
       e.preventDefault();
-      const name = document.getElementById('profName').value.trim();
-      const phone = document.getElementById('profPhone').value.trim();
-      const university = document.getElementById('profUni').value;
-      const city = document.getElementById('profCity').value.trim();
-      const msg = document.getElementById('profileMsg');
+      const name = document.getElementById('editProfName').value.trim();
+      const phone = document.getElementById('editProfPhone').value.trim();
+      const university = document.getElementById('editProfUni').value.trim();
+      const city = document.getElementById('editProfCity').value.trim();
+      const btn = document.getElementById('btnSaveProfile');
+      const alertBox = document.getElementById('profileAlert');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Saving...';
 
       try {
-        const headers = { 'Content-Type': 'application/json' };
-        if (currentUser?.token) headers['Authorization'] = 'Bearer ' + currentUser.token;
-
         const res = await fetch(API_BASE + '/api/user/profile', {
           method: 'POST',
-          headers,
           credentials: 'include',
-          body: JSON.stringify({ userId: currentUser?.id, name, phone, university, city })
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ name, phone, university, city })
         });
 
         const json = await res.json();
-        if (res.ok && json.success) {
-          msg.className = 'p-3 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
-          msg.innerText = '✅ Profile updated successfully.';
-          if (json.user) {
-            currentUser = Object.assign(currentUser, json.user);
-            localStorage.setItem('thakana_user', JSON.stringify(currentUser));
-            document.getElementById('userNameTop').innerText = currentUser.name;
-            document.getElementById('kpiUniversity').innerText = currentUser.university;
-          }
+        if (json.success) {
+          alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          alertBox.innerText = '✅ Profile updated successfully.';
+          currentUser.name = name;
+          currentUser.phone = phone;
+          currentUser.university = university;
+          currentUser.city = city;
+          localStorage.setItem('thakana_user', JSON.stringify(currentUser));
+          setupUI();
         } else {
-          msg.className = 'p-3 rounded-xl text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 block';
-          msg.innerText = json.message || 'Failed to update profile.';
+          alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+          alertBox.innerText = '❌ ' + (json.message || 'Update failed.');
         }
       } catch (err) {
-        msg.className = 'p-3 rounded-xl text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 block';
-        msg.innerText = 'Profile saved locally.';
+        alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+        alertBox.innerText = '❌ Network error saving profile.';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-floppy-disk"></i> Save Profile Changes';
       }
     }
 
-    function switchTab(tab) {
-      const bkg = document.getElementById('tabContentBookings');
-      const prof = document.getElementById('tabContentProfile');
-      const pol = document.getElementById('tabContentPolicy');
+    // 6. PASSWORD CHANGE
+    async function handlePasswordChange(e) {
+      e.preventDefault();
+      const currentPassword = document.getElementById('inputCurrentPass').value;
+      const newPassword = document.getElementById('inputNewPass').value;
+      const confirmPassword = document.getElementById('inputConfirmPass').value;
+      const btn = document.getElementById('btnUpdatePass');
+      const alertBox = document.getElementById('settingsAlert');
 
-      const btnBkg = document.getElementById('btnTabBookings');
-      const btnProf = document.getElementById('btnTabProfile');
-      const btnPol = document.getElementById('btnTabPolicy');
+      if (newPassword !== confirmPassword) {
+        alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+        alertBox.innerText = '❌ New password and confirmation do not match.';
+        return;
+      }
 
-      [bkg, prof, pol].forEach(el => el.classList.add('hidden'));
-      [btnBkg, btnProf, btnPol].forEach(btn => {
-        btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5';
-      });
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Updating Password...';
 
-      if (tab === 'bookings') {
-        bkg.classList.remove('hidden');
-        btnBkg.className = 'tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5';
-      } else if (tab === 'profile') {
-        prof.classList.remove('hidden');
-        btnProf.className = 'tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5';
-      } else if (tab === 'policy') {
-        pol.classList.remove('hidden');
-        btnPol.className = 'tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5';
+      try {
+        const res = await fetch(API_BASE + '/api/student/change-password', {
+          method: 'POST',
+          credentials: 'include',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+
+        const json = await res.json();
+        if (json.success) {
+          alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          alertBox.innerText = '✅ Password updated successfully.';
+          document.getElementById('inputCurrentPass').value = '';
+          document.getElementById('inputNewPass').value = '';
+          document.getElementById('inputConfirmPass').value = '';
+        } else {
+          alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+          alertBox.innerText = '❌ ' + (json.message || 'Failed to update password.');
+        }
+      } catch (err) {
+        alertBox.className = 'p-3 rounded-2xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 block';
+        alertBox.innerText = '❌ Network error updating password.';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-lock-key"></i> Update Password';
       }
     }
 
-    async function logout() {
+    // 7. LOGOUT
+    async function handleLogout() {
       try {
         await fetch(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'include' });
       } catch (e) {}
+
       localStorage.removeItem('thakana_user');
       localStorage.removeItem('thakana_auth_user');
-      window.location.href = 'login-user.html';
+      localStorage.removeItem('thakana_jwt_token');
+      window.location.href = 'login-student.html';
     }
 
-    window.addEventListener('DOMContentLoaded', checkStudentAuth);
+    window.addEventListener('DOMContentLoaded', initStudentSession);
   </script>
-
-  <!-- COMPREHENSIVE BOOKING DETAILS MODAL -->
-  <div id="bookingDetailsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeDetailsModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-        <i class="ph-bold ph-x text-base"></i>
-      </button>
-
-      <div class="flex items-center gap-2 mb-3">
-        <span id="modalStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border">
-          Pending
-        </span>
-        <span id="modalBookingId" class="text-xs font-mono text-slate-400">ID: THK-BKG-1001</span>
-      </div>
-
-      <div class="flex items-center gap-3 pb-4 border-b border-slate-100 mb-4">
-        <img id="modalHostelImg" src="" alt="Hostel" class="w-16 h-16 rounded-2xl object-cover border border-slate-200 shrink-0">
-        <div class="min-w-0">
-          <h3 id="modalHostelName" class="text-base font-extrabold text-slate-900 truncate">Hostel Name</h3>
-          <p id="modalHostelAddress" class="text-xs text-slate-500 mt-0.5">Address</p>
-        </div>
-      </div>
-
-      <div class="space-y-4 text-xs">
-        <!-- ROOM & DATES -->
-        <div class="p-3.5 bg-[#f8f7fc] rounded-2xl border border-slate-200 grid grid-cols-2 gap-3">
-          <div>
-            <span class="text-slate-400 block text-[10px] font-bold uppercase">Room Details</span>
-            <strong id="modalRoomType" class="text-slate-900 block text-xs">2-Person Sharing</strong>
-            <span id="modalRoomNumber" class="text-[11px] text-[#5f4a9a] font-bold">Room 101</span>
-          </div>
-          <div>
-            <span class="text-slate-400 block text-[10px] font-bold uppercase">Stay Dates</span>
-            <span class="text-slate-600 block text-[11px]">Booked: <strong id="modalBookingDate">22 Nov 2026</strong></span>
-            <span class="text-slate-600 block text-[11px]">Check-in: <strong id="modalCheckInDate" class="text-emerald-700">25 Nov 2026</strong></span>
-          </div>
-        </div>
-
-        <!-- FINANCIAL & ESCROW -->
-        <div class="p-3.5 bg-white rounded-2xl border border-slate-200 space-y-2">
-          <span class="text-slate-400 block text-[10px] font-bold uppercase">Payment &amp; Escrow Protection</span>
-          <div class="flex justify-between text-slate-600">
-            <span>Monthly Rent:</span>
-            <strong id="modalRentAmount" class="text-slate-900">Rs 25,000</strong>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Security Deposit:</span>
-            <strong id="modalDepositAmount" class="text-[#5f4a9a]">Rs 12,500</strong>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Platform Escrow Fee:</span>
-            <strong id="modalPlatformFee" class="text-slate-900">Rs 2,000</strong>
-          </div>
-          <div class="pt-2 border-t border-slate-100 flex justify-between text-sm font-black text-slate-900">
-            <span>Total Escrow Paid:</span>
-            <span id="modalTotalPaid" class="text-[#5f4a9a]">Rs 39,500</span>
-          </div>
-          <div class="mt-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] flex items-center gap-2">
-            <i class="ph-bold ph-shield-check text-base text-emerald-600 shrink-0"></i>
-            <span>Funds safely locked in 48-Hour Inspection Escrow. Cancel anytime before check-in for full refund.</span>
-          </div>
-        </div>
-
-        <!-- GATE PASS -->
-        <div class="p-3.5 bg-[#f0edfb] rounded-2xl border border-purple-200 flex items-center justify-between">
-          <div>
-            <span class="text-[10px] font-bold uppercase text-[#5f4a9a]">Digital Gate Pass Code</span>
-            <div id="modalGatePass" class="text-lg font-black font-mono text-[#5f4a9a] tracking-wider">GP-891234</div>
-            <p class="text-[10px] text-slate-500">Show this code to the warden on arrival.</p>
-          </div>
-          <div class="w-12 h-12 rounded-xl bg-[#5f4a9a] text-white flex items-center justify-center text-2xl shadow-sm">
-            <i class="ph-bold ph-qr-code"></i>
-          </div>
-        </div>
-
-        <!-- ACTIONS -->
-        <div id="modalActionContainer" class="pt-2 flex items-center gap-2">
-          <!-- Populated dynamically -->
-        </div>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>

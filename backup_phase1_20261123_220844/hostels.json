@@ -1,0 +1,715 @@
+[
+  {
+    "id": "staezy-1",
+    "name": "AL-ALI Boys Hostel",
+    "city": "Lahore",
+    "area": "Cantt, Lahore",
+    "gender": "Boys",
+    "rent": 30000,
+    "deposit": 15000,
+    "rating": 5,
+    "reviewCount": 41,
+    "totalBeds": 8,
+    "availableBeds": 1,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/b4f10d52-9373-484b-860c-e6bb968908c0_3.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Geyser"
+    ],
+    "proximity": {
+      "primary": "UMT",
+      "walkMinutes": 4,
+      "otherUnis": [
+        "FAST",
+        "UCP"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Cantt, Lahore. Features WiFi, beds, mattress, Geyser with 24/7 security and zero broker commission.",
+    "autoRemovedAt": "2026-11-22T12:42:01.914Z",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-2",
+    "name": "Doctor's Inn Girls Hostel",
+    "city": "Lahore",
+    "area": "Johar Town, Lahore",
+    "gender": "Girls",
+    "rent": 35000,
+    "deposit": 17500,
+    "rating": 4.9,
+    "reviewCount": 38,
+    "totalBeds": 8,
+    "availableBeds": 4,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/449c0ea5-ee83-4264-bd56-a427cf929a93_9.jpg"
+    ],
+    "amenities": [
+      "ac",
+      "fridge",
+      "WiFi",
+      "UPS"
+    ],
+    "proximity": {
+      "primary": "UMT",
+      "walkMinutes": 6,
+      "otherUnis": [
+        "FAST",
+        "PU"
+      ]
+    },
+    "description": "Verified Girls student hostel located in Johar Town, Lahore. Features ac, fridge, WiFi, UPS with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-3",
+    "name": "SethFateh Muhammad Boys Hostel",
+    "city": "Lahore",
+    "area": "Gulberg, Lahore",
+    "gender": "Boys",
+    "rent": 21500,
+    "deposit": 10750,
+    "rating": 4.7,
+    "reviewCount": 33,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "pending_inspection",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6c6d4f3f-2c9f-4143-ae98-8db5afac3fb3_6.jpg"
+    ],
+    "amenities": [
+      "beds",
+      "Geyser",
+      "Iron",
+      "Laundry"
+    ],
+    "proximity": {
+      "primary": "UCP",
+      "walkMinutes": 8,
+      "otherUnis": [
+        "UMT",
+        "PU"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Gulberg, Lahore. Features beds, Geyser, Iron, Laundry with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-4",
+    "name": "Gateway residency f6",
+    "city": "Islamabad",
+    "area": "F-6, Islamabad",
+    "gender": "Boys",
+    "rent": 12500,
+    "deposit": 6250,
+    "rating": 5,
+    "reviewCount": 58,
+    "totalBeds": 8,
+    "availableBeds": 3,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0ed28af1-7731-4092-9c2f-9e3bc1f2a2c4_2.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Geyser"
+    ],
+    "proximity": {
+      "primary": "NUST",
+      "walkMinutes": 10,
+      "otherUnis": [
+        "FAST",
+        "COMSATS"
+      ]
+    },
+    "description": "Verified Boys student hostel located in F-6, Islamabad. Features WiFi, beds, mattress, Geyser with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-6",
+    "name": "Alpine lodge (2)",
+    "city": "Islamabad",
+    "area": "G-10, Islamabad",
+    "gender": "Boys",
+    "rent": 5000,
+    "deposit": 2500,
+    "rating": 4.9,
+    "reviewCount": 38,
+    "totalBeds": 8,
+    "availableBeds": 4,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/2cac3be4-479c-47ea-b271-80f779febb20_5.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "CCTV",
+      "Geyser",
+      "Parking"
+    ],
+    "proximity": {
+      "primary": "FAST",
+      "walkMinutes": 4,
+      "otherUnis": [
+        "NUST",
+        "COMSATS"
+      ]
+    },
+    "description": "Verified Boys student hostel located in G-10, Islamabad. Features WiFi, CCTV, Geyser, Parking with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-7",
+    "name": "SAHAR Girls Hostel",
+    "city": "Rawalpindi",
+    "area": "Satellite Town, Rawalpindi",
+    "gender": "Girls",
+    "rent": 23000,
+    "deposit": 11500,
+    "rating": 5,
+    "reviewCount": 33,
+    "totalBeds": 8,
+    "availableBeds": 3,
+    "isFull": false,
+    "status": "pending_inspection",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/7169a55d-7485-4614-aa5b-209afe80d509.jpeg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "Study area"
+    ],
+    "proximity": {
+      "primary": "NUST",
+      "walkMinutes": 6,
+      "otherUnis": [
+        "COMSATS",
+        "FAST"
+      ]
+    },
+    "description": "Verified Girls student hostel located in Satellite Town, Rawalpindi. Features WiFi, beds, mattress, Study area with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-8",
+    "name": "SA Residencia Boys Hostel",
+    "city": "Rawalpindi",
+    "area": "Satellite Town, Rawalpindi",
+    "gender": "Boys",
+    "rent": 14000,
+    "deposit": 7000,
+    "rating": 4.9,
+    "reviewCount": 18,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/e3fcb4ed-29d5-457a-9870-5f5120c44baf_10.jpg"
+    ],
+    "amenities": [
+      "Mess",
+      "Laundry",
+      "WiFi",
+      "attached bathroom"
+    ],
+    "proximity": {
+      "primary": "COMSATS",
+      "walkMinutes": 8,
+      "otherUnis": [
+        "NUST",
+        "FAST"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Satellite Town, Rawalpindi. Features Mess, Laundry, WiFi, attached bathroom with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-9",
+    "name": "OFFICIAL BOYS HOSTEL",
+    "city": "Rawalpindi",
+    "area": "Satellite Town, Rawalpindi",
+    "gender": "Boys",
+    "rent": 14000,
+    "deposit": 7000,
+    "rating": 4.7,
+    "reviewCount": 42,
+    "totalBeds": 8,
+    "availableBeds": 2,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/staezy/21623151-d0f0-42a9-b65d-4029d4d68ec4.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ],
+    "proximity": {
+      "primary": "FAST",
+      "walkMinutes": 10,
+      "otherUnis": [
+        "COMSATS",
+        "NUST"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Satellite Town, Rawalpindi. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-10",
+    "name": "SHAHEEN HOSTEL",
+    "city": "Peshawar",
+    "area": "Peshawar",
+    "gender": "Boys",
+    "rent": 13500,
+    "deposit": 6750,
+    "rating": 4.9,
+    "reviewCount": 17,
+    "totalBeds": 8,
+    "availableBeds": 3,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/a7eaf7cf-74ca-424e-bd9a-6c962e2ecb42_2.jpg"
+    ],
+    "amenities": [
+      "Cook",
+      "Study area",
+      "Mess"
+    ],
+    "proximity": {
+      "primary": "PU",
+      "walkMinutes": 12,
+      "otherUnis": [
+        "UMT",
+        "UCP"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Peshawar. Features Cook, Study area, Mess with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-11",
+    "name": "Mahepar Guest House",
+    "city": "Peshawar",
+    "area": "Hayatabad Phase 2, Peshawar",
+    "gender": "Boys",
+    "rent": 12000,
+    "deposit": 6000,
+    "rating": 4.6,
+    "reviewCount": 25,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/c66d3834-58ad-4e51-b2a3-59bb081d4d81_2.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "attached bathroom"
+    ],
+    "proximity": {
+      "primary": "LUMS",
+      "walkMinutes": 4,
+      "otherUnis": [
+        "UCP",
+        "UMT"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Hayatabad Phase 2, Peshawar. Features WiFi, beds, mattress, attached bathroom with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-12",
+    "name": "Shelton Boys Hostel",
+    "city": "Peshawar",
+    "area": "University Town, Peshawar",
+    "gender": "Boys",
+    "rent": 8000,
+    "deposit": 4000,
+    "rating": 4.1,
+    "reviewCount": 31,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/eb4656f2-fc5a-4980-bfc7-2b862070de67_6.jpg"
+    ],
+    "amenities": [
+      "Geyser",
+      "Parking",
+      "UPS",
+      "WiFi"
+    ],
+    "proximity": {
+      "primary": "COMSATS",
+      "walkMinutes": 6,
+      "otherUnis": [
+        "UCP",
+        "PU"
+      ]
+    },
+    "description": "Verified Boys student hostel located in University Town, Peshawar. Features Geyser, Parking, UPS, WiFi with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-13",
+    "name": "Hotel Royal Sunset",
+    "city": "Karachi",
+    "area": "DHA Phase 2, Karachi",
+    "gender": "Boys",
+    "rent": 7000,
+    "deposit": 3500,
+    "rating": 4.9,
+    "reviewCount": 55,
+    "totalBeds": 8,
+    "availableBeds": 2,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/0d0cb99e-18fc-4b0e-b257-a1e9a0e9f692_8.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "ac"
+    ],
+    "proximity": {
+      "primary": "NED",
+      "walkMinutes": 8,
+      "otherUnis": [
+        "FAST",
+        "NUST"
+      ]
+    },
+    "description": "Verified Boys student hostel located in DHA Phase 2, Karachi. Features WiFi, beds, mattress, ac with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-14",
+    "name": "Bilal Boys Hostel",
+    "city": "Karachi",
+    "area": "Gulshan-e-Iqbal, Karachi",
+    "gender": "Boys",
+    "rent": 22000,
+    "deposit": 11000,
+    "rating": 4.8,
+    "reviewCount": 19,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/42a32663-3a72-46f4-ad0c-ba1159a483bc_10.jpg"
+    ],
+    "amenities": [
+      "beds",
+      "closet",
+      "Geyser",
+      "mattress"
+    ],
+    "proximity": {
+      "primary": "NED",
+      "walkMinutes": 10,
+      "otherUnis": [
+        "FAST"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Gulshan-e-Iqbal, Karachi. Features beds, closet, Geyser, mattress with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-15",
+    "name": "6 Star Girls' Hostel",
+    "city": "Karachi",
+    "area": "Clifton, Karachi",
+    "gender": "Girls",
+    "rent": 40000,
+    "deposit": 20000,
+    "rating": 4.5,
+    "reviewCount": 33,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/f9c45852-ae85-4101-8aed-b1f549c84ec9_4.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ],
+    "proximity": {
+      "primary": "NED",
+      "walkMinutes": 12,
+      "otherUnis": [
+        "FAST",
+        "COMSATS"
+      ]
+    },
+    "description": "Verified Girls student hostel located in Clifton, Karachi. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-16",
+    "name": "Student hostel for boys",
+    "city": "Faisalabad",
+    "area": "Madina Town, Faisalabad",
+    "gender": "Boys",
+    "rent": 20000,
+    "deposit": 10000,
+    "rating": 5,
+    "reviewCount": 42,
+    "totalBeds": 8,
+    "availableBeds": 3,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/af2d14c9-789e-465e-8f60-0d9277e655b1_6.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "beds",
+      "mattress",
+      "UPS"
+    ],
+    "proximity": {
+      "primary": "LUMS",
+      "walkMinutes": 4,
+      "otherUnis": [
+        "UMT",
+        "UCP"
+      ]
+    },
+    "description": "Verified Boys student hostel located in Madina Town, Faisalabad. Features WiFi, beds, mattress, UPS with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-17",
+    "name": "Horain Girls Hostel",
+    "city": "Faisalabad",
+    "area": "Madina Town, Faisalabad",
+    "gender": "Girls",
+    "rent": 7000,
+    "deposit": 3500,
+    "rating": 5,
+    "reviewCount": 49,
+    "totalBeds": 8,
+    "availableBeds": 2,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/6683b1c4-c0d4-4fe8-a919-2e923d9b390d_1.jpg"
+    ],
+    "amenities": [
+      "attached bathroom",
+      "beds",
+      "closet",
+      "mattress"
+    ],
+    "proximity": {
+      "primary": "UMT",
+      "walkMinutes": 6,
+      "otherUnis": [
+        "FAST",
+        "PU"
+      ]
+    },
+    "description": "Verified Girls student hostel located in Madina Town, Faisalabad. Features attached bathroom, beds, closet, mattress with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  },
+  {
+    "id": "staezy-18",
+    "name": "Darul Ehsan girls hostel Madina Town Faisalabad",
+    "city": "Faisalabad",
+    "area": "Gulistan Colony, Faisalabad",
+    "gender": "Girls",
+    "rent": 7000,
+    "deposit": 3500,
+    "rating": 4.7,
+    "reviewCount": 17,
+    "totalBeds": 8,
+    "availableBeds": 5,
+    "isFull": false,
+    "status": "approved",
+    "images": [
+      "https://pub-3308db9115814dc1934aaddf60c62033.r2.dev/ebf3284b-4837-4164-86db-d880b92735be_10.jpg"
+    ],
+    "amenities": [
+      "WiFi",
+      "Geyser",
+      "Parking",
+      "gas connection"
+    ],
+    "proximity": {
+      "primary": "COMSATS",
+      "walkMinutes": 8,
+      "otherUnis": [
+        "UCP",
+        "PU"
+      ]
+    },
+    "description": "Verified Girls student hostel located in Gulistan Colony, Faisalabad. Features WiFi, Geyser, Parking, gas connection with 24/7 security and zero broker commission.",
+    "ownerId": "usr-owner-1",
+    "ownerName": "Malik Tariq Mehmood",
+    "ownerPhone": "03009988776",
+    "assignedInspectorId": "usr-inspector-1",
+    "inspectionRequest": {
+      "assignedInspectorId": "usr-inspector-1",
+      "inspectionAssignedTo": "Inspector Saif Ur Rehman",
+      "preferredDate": "Within 24 Hours"
+    }
+  }
+]

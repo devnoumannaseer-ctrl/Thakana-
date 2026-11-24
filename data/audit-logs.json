@@ -439,5 +439,89 @@
     "details": "User STUDENT User (student) logged in successfully",
     "performedBy": "STUDENT User",
     "timestamp": "2026-11-22T16:08:26.115Z"
+  },
+  {
+    "logId": "LOG-1795498595001-644",
+    "action": "USER_LOGIN",
+    "details": "User Muhammad Ahmed (Student Resident) (student) logged in successfully",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-24T05:36:35.002Z"
+  },
+  {
+    "logId": "LOG-1795498595111-430",
+    "action": "FAILED_LOGIN_ATTEMPT",
+    "details": "Invalid password for student@thakana.pk",
+    "performedBy": "student@thakana.pk",
+    "timestamp": "2026-11-24T05:36:35.111Z"
+  },
+  {
+    "logId": "LOG-1795498595115-600",
+    "action": "FAILED_LOGIN_ATTEMPT",
+    "details": "Account not found for: random_nonexistent_user@thakana.pk",
+    "performedBy": "random_nonexistent_user@thakana.pk",
+    "timestamp": "2026-11-24T05:36:35.115Z"
+  },
+  {
+    "logId": "LOG-1795498595119-268",
+    "action": "ROLE_LOGIN_MISMATCH",
+    "details": "User owner@thakana.pk (owner) attempted login via student portal",
+    "performedBy": "owner@thakana.pk",
+    "timestamp": "2026-11-24T05:36:35.119Z"
+  },
+  {
+    "logId": "LOG-1795498595123-70",
+    "action": "ROLE_LOGIN_MISMATCH",
+    "details": "User admin@thakana.pk (admin) attempted login via student portal",
+    "performedBy": "admin@thakana.pk",
+    "timestamp": "2026-11-24T05:36:35.123Z"
+  },
+  {
+    "logId": "LOG-1795498595171-123",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/owner/my-hostels. Required roles: [owner, admin]",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-24T05:36:35.171Z"
+  },
+  {
+    "logId": "LOG-1795498595173-419",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/admin/users. Required roles: [admin]",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-24T05:36:35.173Z"
+  },
+  {
+    "logId": "LOG-1795498595176-524",
+    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "details": "User usr-student-1 (student) denied access to GET /api/inspector/assigned-hostels. Required roles: [inspector, admin]",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-24T05:36:35.176Z"
+  },
+  {
+    "logId": "LOG-1795498595187-753",
+    "action": "IDOR_VIOLATION_ATTEMPT",
+    "details": "Student usr-student-other-999 tried to view booking THK-BKG-1001 belonging to usr-student-1",
+    "performedBy": "Other Student",
+    "timestamp": "2026-11-24T05:36:35.187Z"
+  },
+  {
+    "logId": "LOG-1795498595190-766",
+    "action": "IDOR_VIOLATION_ATTEMPT",
+    "details": "User usr-student-other-999 tried to cancel booking THK-BKG-1001 belonging to Ayesha Tariq",
+    "performedBy": "Other Student",
+    "timestamp": "2026-11-24T05:36:35.190Z"
+  },
+  {
+    "logId": "LOG-1795498595655-350",
+    "action": "PASSWORD_CHANGED",
+    "details": "Student usr-student-1 (student@thakana.pk) changed password",
+    "performedBy": "Muhammad Ahmed (Student Resident)",
+    "timestamp": "2026-11-24T05:36:35.655Z"
+  },
+  {
+    "logId": "LOG-1795498595662-111",
+    "action": "PROFILE_UPDATED",
+    "details": "Profile updated for usr-student-1 (student)",
+    "performedBy": "Muhammad Ahmed",
+    "timestamp": "2026-11-24T05:36:35.662Z"
   }
 ]

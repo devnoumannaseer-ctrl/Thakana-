@@ -1,15 +1,15 @@
 [
   {
     "id": "usr-student-1",
-    "name": "Muhammad Ahmed (Student Resident)",
+    "name": "Muhammad Ahmed",
     "email": "student@thakana.pk",
     "phone": "03001234567",
     "role": "student",
     "university": "UMT Lahore - CS Department",
     "city": "Lahore",
     "createdAt": "2026-11-22T08:00:00.000Z",
-    "updatedAt": "2026-11-22T15:44:44.863Z",
-    "passwordHash": "$2b$10$5C3nNcc2HOQdHXJGUO/B2eIuuo88fcxfmHCNm3uyDDMD8at3bUJJm",
+    "updatedAt": "2026-11-24T05:36:35.661Z",
+    "passwordHash": "$2b$10$TfNpB9ugGAcrK7JPCiaMge1FT8vEz8sTLHBEeFcoOICQ8TPihfbfe",
     "status": "active"
   },
   {

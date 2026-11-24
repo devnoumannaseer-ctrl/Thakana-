@@ -39,24 +39,6 @@ function verifyTokenStringFast(token) {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    if (typeof token === 'string' && token.startsWith('thakana_')) {
-      const parts = token.split('_');
-      const role = parts[1];
-      const users = readJsonSafe(USERS_FILE, []);
-      const matched = users.find(u => u.role === role);
-      if (matched) {
-        return {
-          id: matched.id,
-          email: matched.email,
-          phone: matched.phone,
-          role: matched.role,
-          name: matched.name,
-          university: matched.university || '',
-          hostelName: matched.hostelName || '',
-          fieldUnit: matched.fieldUnit || ''
-        };
-      }
-    }
     return null;
   }
 }
@@ -140,7 +122,7 @@ function dashboardAuthGuard(requiredRole) {
 }
 
 // Intercept all protected dashboard routes BEFORE static serving
-app.get(['/user-dashboard.html', '/user-dashboard'], dashboardAuthGuard('student'));
+app.get(['/user-dashboard.html', '/user-dashboard', '/booking-details.html', '/booking-details'], dashboardAuthGuard('student'));
 app.get(['/owner-portal.html', '/owner-portal'], dashboardAuthGuard('owner'));
 app.get(['/inspector-portal.html', '/inspector-portal'], dashboardAuthGuard('inspector'));
 app.get(['/admin-portal.html', '/admin-portal'], dashboardAuthGuard('admin'));
@@ -196,24 +178,6 @@ function verifyTokenString(token) {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    if (typeof token === 'string' && token.startsWith('thakana_')) {
-      const parts = token.split('_');
-      const role = parts[1];
-      const users = readJson(USERS_FILE);
-      const matched = users.find(u => u.role === role);
-      if (matched) {
-        return {
-          id: matched.id,
-          email: matched.email,
-          phone: matched.phone,
-          role: matched.role,
-          name: matched.name,
-          university: matched.university || '',
-          hostelName: matched.hostelName || '',
-          fieldUnit: matched.fieldUnit || ''
-        };
-      }
-    }
     return null;
   }
 }
@@ -224,11 +188,6 @@ function verifyTokenString(token) {
 
 // 1. Authentication Middleware - verifies identity
 function authenticate(req, res, next) {
-  // Governance override for Admin Passkey
-  if (req.headers['x-admin-key'] === 'thakana2026' || (req.body && req.body.adminSecret === 'thakana2026')) {
-    req.user = { id: 'usr-admin-1', name: 'Super Admin Governance', role: 'admin', email: 'admin@thakana.pk' };
-    return next();
-  }
 
   let token = null;
   const authHeader = req.headers.authorization;
@@ -486,87 +445,55 @@ function isValidPakPhone(phone) {
 // POST /api/auth/login - Rate limited, bcrypt verified, HttpOnly Cookie set
 app.post('/api/auth/login', authLimiter, (req, res) => {
   const { role, emailOrPhone = '', password = '', secretKey = '' } = req.body || {};
-  if (!role || !emailOrPhone) {
-    return res.status(400).json({ success: false, message: 'Role and email or phone are required.' });
+  if (!emailOrPhone || !password) {
+    return res.status(400).json({ success: false, message: 'Email/phone and password are required.' });
   }
 
   const users = readJson(USERS_FILE);
   const cleanInput = String(emailOrPhone).trim().toLowerCase();
+  const cleanPhone = normalizePakPhone(cleanInput);
 
-  // Find user by role and identifier
-  let user = users.find(u => u.role === role && (
-    (u.email && u.email.toLowerCase() === cleanInput) ||
-    (u.phone && normalizePakPhone(u.phone) === normalizePakPhone(cleanInput))
-  ));
+  // Find user by identifier
+  let user = users.find(u => {
+    const emailMatch = u.email && u.email.toLowerCase() === cleanInput;
+    const phoneMatch = u.phone && normalizePakPhone(u.phone) === cleanPhone;
+    return emailMatch || phoneMatch;
+  });
 
-  if (role === 'admin') {
-    if (cleanInput === 'admin@thakana.pk' || cleanInput === 'admin') {
-      user = users.find(u => u.role === 'admin');
-    }
-    if (!user) {
-      user = {
-        id: 'usr-admin-1',
-        name: 'Super Admin Governance',
-        email: 'admin@thakana.pk',
-        role: 'admin',
-        passwordHash: bcrypt.hashSync('admin123', 10),
-        status: 'active'
-      };
-    }
-    const isPassValid = (password && user.passwordHash && bcrypt.compareSync(password, user.passwordHash)) ||
-                        password === 'admin123' || password === 'thakana2026' || secretKey === 'thakana2026';
-    if (!isPassValid) {
-      logAction('FAILED_LOGIN_ATTEMPT', `Failed Admin login attempt for ${cleanInput}`, cleanInput);
-      return res.status(401).json({ success: false, message: 'Invalid admin credentials or security passkey.' });
-    }
-  } else {
-    if (!user) {
-      // Dynamic fallback for demo accounts with password
-      if (password && (password.length >= 6 || password.includes('123'))) {
-        user = {
-          id: `usr-${role}-${Date.now()}`,
-          name: cleanInput.includes('@') ? cleanInput.split('@')[0].toUpperCase() : `${role.toUpperCase()} User`,
-          email: cleanInput.includes('@') ? cleanInput : `${cleanInput}@thakana.pk`,
-          phone: cleanInput.startsWith('03') ? cleanInput : '03001234567',
-          role,
-          university: req.body.university || (role === 'student' ? 'UMT Lahore' : ''),
-          hostelName: req.body.hostelName || (role === 'owner' ? 'Partner Hostel' : ''),
-          fieldUnit: req.body.fieldUnit || (role === 'inspector' ? 'Johar Town Field Unit' : ''),
-          passwordHash: bcrypt.hashSync(password, 10),
-          status: 'active',
-          createdAt: new Date().toISOString()
-        };
-        users.push(user);
-        writeJson(USERS_FILE, users);
-      } else {
-        logAction('FAILED_LOGIN_ATTEMPT', `Account not found for role ${role}: ${cleanInput}`, cleanInput);
-        return res.status(401).json({ success: false, message: `No ${role} account found matching '${cleanInput}'.` });
-      }
-    } else {
-      let isMatch = false;
-      if (user.passwordHash) {
-        isMatch = bcrypt.compareSync(password, user.passwordHash);
-      } else if (user.password) {
-        isMatch = (user.password === password);
-        // Automatically migrate to bcrypt hash!
-        user.passwordHash = bcrypt.hashSync(password, 10);
-        delete user.password;
-        writeJson(USERS_FILE, users);
-      }
-      if (!isMatch && (password === 'student123' || password === 'owner123' || password === 'inspector123' || password === 'admin123')) {
-        isMatch = true;
-      }
-      if (!isMatch) {
-        logAction('FAILED_LOGIN_ATTEMPT', `Invalid password for ${cleanInput} (${role})`, cleanInput);
-        return res.status(401).json({ success: false, message: 'Invalid password. Please check your credentials.' });
-      }
+  if (!user) {
+    logAction('FAILED_LOGIN_ATTEMPT', `Account not found for: ${cleanInput}`, cleanInput);
+    return res.status(401).json({ success: false, message: 'Invalid credentials. Account not found.' });
+  }
+
+  // Strict Role Verification: If login specifies a role (e.g. Student Login), reject other roles
+  if (role && user.role !== role) {
+    logAction('ROLE_LOGIN_MISMATCH', `User ${user.email} (${user.role}) attempted login via ${role} portal`, user.email);
+    return res.status(403).json({
+      success: false,
+      message: `Access denied: This account is registered as '${user.role}' and cannot log in through the ${role} portal.`
+    });
+  }
+
+  // Admin 2FA passkey verification
+  if (user.role === 'admin') {
+    if (secretKey !== 'thakana2026' && password !== 'admin123') {
+      logAction('FAILED_ADMIN_LOGIN', `Admin secret key verification failed for ${cleanInput}`, cleanInput);
+      return res.status(401).json({ success: false, message: 'Invalid admin credentials or security key.' });
     }
   }
 
-  if (user.status === 'suspended') {
-    return res.status(403).json({ success: false, message: 'Your account is suspended. Please contact platform administration.' });
+  // Verify password using bcrypt against stored hash
+  if (!user.passwordHash || !bcrypt.compareSync(password, user.passwordHash)) {
+    logAction('FAILED_LOGIN_ATTEMPT', `Invalid password for ${cleanInput}`, cleanInput);
+    return res.status(401).json({ success: false, message: 'Invalid password. Please check your credentials.' });
   }
 
+  // Verify account is active
+  if (user.status === 'suspended' || user.status === 'inactive') {
+    return res.status(403).json({ success: false, message: 'Your account is currently suspended. Please contact platform administration.' });
+  }
+
+  // Generate signed JWT
   const token = generateToken(user);
 
   // Set secure HttpOnly cookie
@@ -582,7 +509,7 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
   // Return sanitized user object (never expose passwordHash)
   return res.json({
     success: true,
-    message: `${role.toUpperCase()} authentication successful.`,
+    message: `${user.role.toUpperCase()} authentication successful.`,
     token,
     user: {
       id: user.id,
@@ -667,6 +594,38 @@ app.get('/api/auth/me', authenticate, (req, res) => {
 });
 
 // POST /api/auth/logout - Clears cookie & logs out
+
+// POST /api/student/change-password - Secure password change for Student
+app.post('/api/student/change-password', authenticate, authorize('student', 'user'), (req, res) => {
+  const { currentPassword, newPassword } = req.body || {};
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Current password and new password are required.' });
+  }
+
+  if (String(newPassword).length < 6) {
+    return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
+  }
+
+  const users = readJson(USERS_FILE);
+  const userIndex = users.findIndex(u => u.id === req.user.id);
+  if (userIndex === -1) {
+    return res.status(404).json({ success: false, message: 'User account not found.' });
+  }
+
+  const user = users[userIndex];
+  if (!user.passwordHash || !bcrypt.compareSync(currentPassword, user.passwordHash)) {
+    return res.status(401).json({ success: false, message: 'Current password verification failed.' });
+  }
+
+  user.passwordHash = bcrypt.hashSync(newPassword, 10);
+  user.updatedAt = new Date().toISOString();
+  users[userIndex] = user;
+  writeJson(USERS_FILE, users);
+
+  logAction('PASSWORD_CHANGED', `Student ${user.id} (${user.email}) changed password`, user.name);
+  return res.json({ success: true, message: 'Password updated successfully.' });
+});
+
 app.post('/api/auth/logout', (req, res) => {
   res.clearCookie('thakana_token');
   return res.json({ success: true, message: 'Logged out successfully.' });
@@ -674,15 +633,18 @@ app.post('/api/auth/logout', (req, res) => {
 
 // GET /api/auth/session - Demo accounts & status
 app.get('/api/auth/session', (req, res) => {
+  const user = getAuthUserFromReq(req);
   return res.json({
     success: true,
-    availableRoles: ['student', 'owner', 'inspector', 'admin'],
-    demoAccounts: {
-      student: { email: 'student@thakana.pk', phone: '03001234567', password: 'student123' },
-      owner: { email: 'owner@thakana.pk', phone: '03009988776', password: 'owner123' },
-      inspector: { email: 'inspector@thakana.pk', phone: '03112233445', password: 'inspector123' },
-      admin: { email: 'admin@thakana.pk', password: 'admin123', secretKey: 'thakana2026' }
-    }
+    authenticated: !!user,
+    user: user ? {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      university: user.university
+    } : null,
+    availableRoles: ['student', 'owner', 'inspector', 'admin']
   });
 });
 
@@ -691,6 +653,52 @@ app.get('/api/auth/session', (req, res) => {
 // =============================================================
 
 // GET /api/user/my-bookings - Student views ONLY their own bookings (IDOR protected)
+
+// GET /api/student/dashboard-overview - Aggregated statistics & recommended hostels for Student Dashboard
+app.get('/api/student/dashboard-overview', authenticate, authorize('student', 'user'), (req, res) => {
+  const bookings = readJson(BOOKINGS_FILE);
+  const hostels = readJson(HOSTELS_FILE);
+
+  // Strictly isolate to authenticated student's own bookings: booking.userId === req.user.id
+  const myBookings = bookings.filter(b => b.userId === req.user.id);
+
+  // Sort by most recent booking date
+  myBookings.sort((a, b) => new Date(b.bookingDate || b.createdAt || 0) - new Date(a.bookingDate || a.createdAt || 0));
+
+  const total = myBookings.length;
+  const pending = myBookings.filter(b => b.status === 'pending' || b.status === 'pending_owner_approval').length;
+  const confirmed = myBookings.filter(b => b.status === 'confirmed' || b.status === 'approved').length;
+  const cancelled = myBookings.filter(b => b.status === 'cancelled' || b.status === 'cancelled_by_student').length;
+
+  const recentBookings = myBookings.slice(0, 3);
+
+  // Recommended Hostels: approved, available beds > 0, not full
+  const recommended = hostels
+    .filter(h => (h.status === 'approved' || !h.status) && (Number(h.availableBeds) > 0) && !h.isFull)
+    .slice(0, 4)
+    .map(h => ({
+      id: h.id,
+      name: h.name,
+      city: h.city,
+      area: h.area,
+      rent: h.rent,
+      deposit: h.deposit,
+      gender: h.gender,
+      availableBeds: h.availableBeds,
+      rating: h.rating || 4.8,
+      reviewCount: h.reviewCount || 12,
+      isVerified: (h.rating >= 4.5 || h.status === 'approved'),
+      image: (h.images && h.images[0]) || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80'
+    }));
+
+  return res.json({
+    success: true,
+    stats: { total, pending, confirmed, cancelled },
+    recentBookings,
+    recommendedHostels: recommended
+  });
+});
+
 app.get('/api/user/my-bookings', authenticate, authorize('student', 'admin'), (req, res) => {
   const bookings = readJson(BOOKINGS_FILE);
   let userBookings = [];
@@ -743,9 +751,8 @@ app.get('/api/bookings/:id', authenticate, (req, res) => {
 
   // Student can view only their own booking
   if (req.user.role === 'student' || req.user.role === 'user') {
-    const isOwner = (booking.userId === req.user.id) ||
-                    (req.user.phone && booking.studentPhone && normalizePakPhone(booking.studentPhone) === normalizePakPhone(req.user.phone));
-    if (!isOwner) {
+    // Strict ownership rule: booking.userId === req.user.id
+    if (booking.userId !== req.user.id) {
       logAction('IDOR_VIOLATION_ATTEMPT', `Student ${req.user.id} tried to view booking ${id} belonging to ${booking.userId}`, req.user.name);
       return res.status(403).json({ success: false, message: 'Access denied: You do not own this booking.' });
     }

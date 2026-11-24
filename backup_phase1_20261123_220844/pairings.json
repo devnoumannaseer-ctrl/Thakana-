@@ -1,0 +1,15 @@
+[
+  {
+    "pairId": "THK-PAIR-1001",
+    "targetStudentId": "rm-001",
+    "targetStudentName": "Fatima Zahra",
+    "targetUniversity": "UMT Lahore",
+    "requesterName": "Aiman Khan",
+    "requesterPhone": "03331234567",
+    "requesterUni": "UMT",
+    "requesterRoll": "F2024-DPT-101",
+    "status": "Pairing Coordinated (WhatsApp Intro Dispatched)",
+    "swapGuarantee": "7-Day Free Room Swap Enabled",
+    "createdAt": "2026-11-21T09:01:05.222Z"
+  }
+]

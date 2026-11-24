@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Student Portal Login &mdash; Thakana</title>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0F172A',
+              navyLight: '#1E293B',
+              blue: '#2563EB',
+              blueHover: '#1D4ED8',
+              blueLight: '#EFF6FF',
+              slate: '#334155',
+              border: '#E2E8F0',
+              bgLight: '#F8FAFC'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #0F172A;
+      color: #0F172A;
+    }
+    .auth-card-shadow {
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.8);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-slate-950 text-slate-900 antialiased relative overflow-hidden">
+
+  <!-- BACKGROUND SUBTLE GLOW -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-md w-full relative z-10 my-8">
+
+    <!-- LOGO / HEADER -->
+    <div class="text-center mb-6">
+      <a href="index.html" class="inline-flex items-center gap-2 text-2xl font-black text-white tracking-tight">
+        <span>thakana</span><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block -mb-0.5"></span>
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-2 border-l border-slate-700">Student Living</span>
+      </a>
+      <p class="text-xs text-slate-400 mt-1">Official Student &amp; Resident Accommodation Portal</p>
+    </div>
+
+    <!-- MAIN AUTH CARD -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 auth-card-shadow">
+
+      <!-- AUTH MODE TOGGLE TABS (SIGN IN vs REGISTER) -->
+      <div class="flex p-1 bg-slate-100 rounded-2xl mb-6 text-xs font-bold">
+        <button id="tabSignIn" onclick="switchMode('signin')" class="flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-blue-600">
+          Student Sign In
+        </button>
+        <button id="tabRegister" onclick="switchMode('register')" class="flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800">
+          Create Account
+        </button>
+      </div>
+
+      <!-- ALERT MESSAGE BOX -->
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2"></div>
+
+      <!-- ========================================== -->
+      <!-- 1. STUDENT SIGN IN FORM                   -->
+      <!-- ========================================== -->
+      <form id="signInForm" onsubmit="handleStudentLogin(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Student University Email or Mobile *</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-user text-base"></i>
+            </span>
+            <input type="text" id="loginIdentifier" required placeholder="student@thakana.pk or 03001234567" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-slate-700">Password *</label>
+            <span class="text-[11px] text-slate-400">Bcrypt Protected</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-lock-key text-base"></i>
+            </span>
+            <input type="password" id="loginPassword" required placeholder="Enter student password" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+            <button type="button" onclick="togglePassVisibility('loginPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon1" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- REMEMBER & INFO -->
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="rememberMe" checked class="rounded border-slate-300 text-blue-600 focus:ring-0">
+            <span>Remember this device</span>
+          </label>
+          <span class="text-blue-600 font-semibold cursor-pointer hover:underline" onclick="alert('Password Reset:\nPlease contact your hostel resident manager or email support@thakana.pk.')">Forgot Password?</span>
+        </div>
+
+        <button type="submit" id="btnSignInSubmit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 mt-2">
+          <i class="ph-bold ph-sign-in"></i> Sign In to Student Portal
+        </button>
+
+        <!-- SECURITY STATEMENT -->
+        <div class="p-3 bg-blue-50/60 rounded-2xl border border-blue-100 flex items-start gap-2.5 text-[11px] text-blue-900 mt-4">
+          <i class="ph-bold ph-shield-check text-blue-600 text-base shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="block font-bold">Student-Only Authentication Gate</strong>
+            <span class="text-slate-600">Only verified student resident accounts are authorized. Owner, Admin, and Inspector logins are blocked on this portal.</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- ========================================== -->
+      <!-- 2. STUDENT REGISTRATION FORM               -->
+      <!-- ========================================== -->
+      <form id="registerForm" onsubmit="handleStudentRegister(event)" class="hidden space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Full Student Name *</label>
+          <input type="text" id="regName" required placeholder="e.g. Fatima Zahra" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email Address *</label>
+            <input type="email" id="regEmail" required placeholder="student@example.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Mobile (03XX) *</label>
+            <input type="tel" id="regPhone" required placeholder="03001234567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">University / Institute *</label>
+            <input type="text" id="regUniversity" required placeholder="e.g. UMT Lahore / FAST" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">City *</label>
+            <select id="regCity" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+              <option value="Lahore">Lahore</option>
+              <option value="Islamabad">Islamabad</option>
+              <option value="Rawalpindi">Rawalpindi</option>
+              <option value="Karachi">Karachi</option>
+              <option value="Faisalabad">Faisalabad</option>
+              <option value="Peshawar">Peshawar</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Create Password (min 6 characters) *</label>
+          <div class="relative">
+            <input type="password" id="regPassword" required minlength="6" placeholder="Choose a secure password" class="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-blue-600 focus:bg-white transition">
+            <button type="button" onclick="togglePassVisibility('regPassword', 'eyeIcon2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon2" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 mt-2">
+          <i class="ph-bold ph-user-plus"></i> Register as Verified Student
+        </button>
+      </form>
+
+    </div>
+
+    <!-- FOOTER NAV LINKS -->
+    <div class="text-center mt-6 text-xs text-slate-400 space-y-2">
+      <a href="index.html" class="hover:text-white font-semibold inline-flex items-center gap-1 transition">
+        <i class="ph-bold ph-arrow-left"></i> Return to Thakana Marketplace
+      </a>
+      <div class="text-[10px] text-slate-400">
+        Hostel Owner or Administrator? <a href="login.html" class="text-blue-300 font-semibold hover:underline">Access Partner Portals</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
+
+    function switchMode(mode) {
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabRegister = document.getElementById('tabRegister');
+      const formSignIn = document.getElementById('signInForm');
+      const formRegister = document.getElementById('registerForm');
+      const alertBox = document.getElementById('authAlert');
+      alertBox.classList.add('hidden');
+
+      if (mode === 'signin') {
+        tabSignIn.className = 'flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-blue-600';
+        tabRegister.className = 'flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800';
+        formSignIn.classList.remove('hidden');
+        formRegister.classList.add('hidden');
+      } else {
+        tabRegister.className = 'flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-blue-600';
+        tabSignIn.className = 'flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800';
+        formRegister.classList.remove('hidden');
+        formSignIn.classList.add('hidden');
+      }
+    }
+
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
+
+    function showAlert(msg, isSuccess = false) {
+      const alert = document.getElementById('authAlert');
+      alert.className = isSuccess
+        ? 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800'
+        : 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-800';
+      alert.innerHTML = isSuccess
+        ? `<i class="ph-bold ph-check-circle text-base text-emerald-600 shrink-0"></i> <span>${msg}</span>`
+        : `<i class="ph-bold ph-warning-circle text-base text-rose-600 shrink-0"></i> <span>${msg}</span>`;
+      alert.classList.remove('hidden');
+    }
+
+    // 1. STUDENT LOGIN
+    async function handleStudentLogin(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('loginIdentifier').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('btnSignInSubmit');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Verifying Student Account...';
+
+      try {
+        const res = await fetch(API_BASE + '/api/auth/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            role: 'student', // Strict role requirement
+            emailOrPhone: identifier,
+            password: password
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('🎉 Authentication successful! Redirecting to Student Dashboard...', true);
+          localStorage.setItem('thakana_user', JSON.stringify(data.user));
+          localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+          }
+          setTimeout(() => {
+            window.location.href = 'user-dashboard.html';
+          }, 800);
+        } else {
+          showAlert(data.message || 'Login failed. Please verify your student credentials.');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Student Portal';
+        }
+      } catch (err) {
+        showAlert('Network error connecting to server. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Student Portal';
+      }
+    }
+
+    // 2. STUDENT REGISTRATION
+    async function handleStudentRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const university = document.getElementById('regUniversity').value.trim();
+      const city = document.getElementById('regCity').value;
+      const password = document.getElementById('regPassword').value;
+      const btn = document.getElementById('btnRegisterSubmit');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Creating Student Account...';
+
+      try {
+        const res = await fetch(API_BASE + '/api/auth/register', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            role: 'student',
+            name,
+            email,
+            phone,
+            university,
+            city,
+            password
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('🎉 Account created successfully! Logging you in...', true);
+          localStorage.setItem('thakana_user', JSON.stringify(data.user));
+          localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+          }
+          setTimeout(() => {
+            window.location.href = 'user-dashboard.html';
+          }, 900);
+        } else {
+          showAlert(data.message || 'Registration failed. Email or phone may already exist.');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-user-plus"></i> Register as Verified Student';
+        }
+      } catch (err) {
+        showAlert('Network error during registration. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-user-plus"></i> Register as Verified Student';
+      }
+    }
+  </script>
+</body>
+</html>

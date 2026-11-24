@@ -1,0 +1,19 @@
+[
+  {
+    "requestId": "REM-1001",
+    "hostelId": "thk-h-002",
+    "hostelName": "Green View Scholars Hostel",
+    "ownerId": "OWN-UNKNOWN",
+    "ownerName": "Partner Host",
+    "ownerPhone": "03001234567",
+    "reason": "Building sold to private university; permanently closing student operations.",
+    "status": "approved",
+    "requestedAt": "2026-11-21T10:41:41.701Z",
+    "adminDecision": {
+      "decidedBy": "Admin Saif / Nauman / Rohan",
+      "decidedAt": "2026-11-21T10:41:41.741Z",
+      "decisionNotes": "Verified no pending student deposits. Approved for soft delete archive."
+    },
+    "activeBookingsCount": 0
+  }
+]
