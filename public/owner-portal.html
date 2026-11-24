@@ -287,7 +287,7 @@
       <i class="ph-fill ph-buildings text-xl"></i>
       <span>Owner Portal</span>
     </a>
-    <a href="login.html" onclick="logoutOwner()" class="flex flex-col items-center gap-0.5 hover:text-rose-600 transition">
+    <a href="login-owner.html" onclick="logoutOwner()" class="flex flex-col items-center gap-0.5 hover:text-rose-600 transition">
       <i class="ph-bold ph-sign-out text-xl"></i>
       <span>Sign Out</span>
     </a>
@@ -361,7 +361,7 @@
       localStorage.removeItem('thakana_owner');
       localStorage.removeItem('thakana_auth_user');
       localStorage.removeItem('thakana_jwt_token');
-      window.location.href = 'login.html?role=owner';
+      window.location.href = 'login-owner.html';
     }
 
     async function loadOwnerDashboard() {

@@ -444,7 +444,8 @@ function isValidPakPhone(phone) {
 
 // POST /api/auth/login - Rate limited, bcrypt verified, HttpOnly Cookie set
 app.post('/api/auth/login', authLimiter, (req, res) => {
-  const { role, emailOrPhone = '', password = '', secretKey = '' } = req.body || {};
+  const { role, password = '', secretKey = '' } = req.body || {};
+  const emailOrPhone = req.body?.emailOrPhone || req.body?.identifier || '';
   if (!emailOrPhone || !password) {
     return res.status(400).json({ success: false, message: 'Email/phone and password are required.' });
   }

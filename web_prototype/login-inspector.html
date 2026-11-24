@@ -2,10 +2,195 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=login.html?role=inspector">
-  <title>Field Inspector Login — Thakana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Field Inspector Portal Login &mdash; Thakana</title>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0F172A',
+              cyan: '#0284C7',
+              cyanHover: '#0369A1'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #0F172A;
+      color: #0F172A;
+    }
+    .auth-card-shadow {
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.8);
+    }
+  </style>
 </head>
-<body>
-  <script>window.location.href = 'login.html?role=inspector';</script>
+<body class="min-h-screen flex items-center justify-center p-4 bg-slate-950 text-slate-900 antialiased relative overflow-hidden">
+
+  <!-- BACKGROUND SUBTLE GLOW -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-md w-full relative z-10 my-8">
+
+    <!-- LOGO / HEADER -->
+    <div class="text-center mb-6">
+      <a href="index.html" class="inline-flex items-center gap-2 text-2xl font-black text-white tracking-tight">
+        <span>thakana</span><span class="w-2.5 h-2.5 rounded-full bg-cyan-500 inline-block -mb-0.5"></span>
+        <span class="text-[11px] font-bold text-cyan-400 uppercase tracking-widest pl-2 border-l border-slate-700">Inspector Portal</span>
+      </a>
+      <p class="text-xs text-slate-400 mt-1">Quality Audit, Safety Verification &amp; Property Auditing</p>
+    </div>
+
+    <!-- MAIN AUTH CARD -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 auth-card-shadow">
+      <div class="flex items-center gap-3 pb-5 mb-5 border-b border-slate-100">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 shrink-0">
+          <i class="ph-bold ph-clipboard-text text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Field Inspector Sign In</h2>
+          <p class="text-[11px] text-slate-500">Authorized Thakana verification personnel</p>
+        </div>
+      </div>
+
+      <!-- ALERT MESSAGE BOX -->
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2"></div>
+
+      <form id="inspectorSignInForm" onsubmit="handleInspectorLogin(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Inspector Email or Unit ID *</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-identification-badge text-base"></i>
+            </span>
+            <input type="text" id="inspectorIdentifier" required placeholder="inspector@thakana.pk" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-cyan-600 focus:bg-white transition">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-slate-700">Password *</label>
+            <span class="text-[11px] text-slate-400">Bcrypt Protected</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-lock-key text-base"></i>
+            </span>
+            <input type="password" id="inspectorPassword" required placeholder="Enter inspector password" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-cyan-600 focus:bg-white transition">
+            <button type="button" onclick="togglePassVisibility('inspectorPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon1" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnInspectorSubmit" class="w-full py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 mt-4">
+          <i class="ph-bold ph-sign-in"></i> Sign In to Inspector Portal
+        </button>
+
+        <div class="p-3 bg-cyan-50/70 rounded-2xl border border-cyan-100 flex items-start gap-2.5 text-[11px] text-cyan-950 mt-4">
+          <i class="ph-bold ph-shield-check text-cyan-600 text-base shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="block font-bold">Authorized Personnel Only</strong>
+            <span class="text-slate-600">Only credentialed quality audit staff may enter. Unauthorized access attempts are monitored and recorded.</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="text-center mt-6 text-xs text-slate-400">
+      <span>Not an inspector? </span>
+      <a href="login-student.html" class="text-blue-400 hover:text-blue-300 font-bold ml-1">Student Login</a>
+      <span class="mx-2">&bull;</span>
+      <a href="login-owner.html" class="text-amber-400 hover:text-amber-300 font-bold">Owner Portal</a>
+    </div>
+
+  </div>
+
+  <script>
+    function showAlert(msg, isError = true) {
+      const el = document.getElementById('authAlert');
+      el.className = isError 
+        ? 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-rose-50 text-rose-800 border border-rose-200' 
+        : 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200';
+      el.innerHTML = `<i class="ph-bold ${isError ? 'ph-warning-circle text-rose-600' : 'ph-check-circle text-emerald-600'} text-base shrink-0"></i><span>${msg}</span>`;
+      el.classList.remove('hidden');
+    }
+
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
+
+    async function handleInspectorLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnInspectorSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Authenticating Inspector...';
+
+      const identifier = document.getElementById('inspectorIdentifier').value.trim();
+      const password = document.getElementById('inspectorPassword').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password, role: 'inspector' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('Inspector verified! Loading field audit dashboard...', false);
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+            localStorage.setItem('thakana_inspector_token', data.token);
+          }
+          if (data.user) {
+            localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+            localStorage.setItem('thakana_inspector', JSON.stringify(data.user));
+          }
+          setTimeout(() => {
+            window.location.href = 'inspector-portal.html';
+          }, 600);
+        } else {
+          showAlert(data.message || 'Inspector authentication failed.', true);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Inspector Portal';
+        }
+      } catch (err) {
+        showAlert('Network or connection error. Please try again.', true);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Inspector Portal';
+      }
+    }
+  </script>
 </body>
 </html>

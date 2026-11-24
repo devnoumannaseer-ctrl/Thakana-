@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Login &amp; Portals — Thakana</title>
-  
-  <!-- INTER TIGHT & INTER FONTS -->
+  <title>Portal Access &mdash; Thakana</title>
+
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- PHOSPHOR ICONS -->
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-  
+
   <!-- TAILWIND CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -20,16 +20,13 @@
       theme: {
         extend: {
           colors: {
-            thakana: {
-              purple: '#5f4a9a',
-              purpleHover: '#4d3b7e',
-              purpleLight: '#f0edfb',
-              purpleDark: '#322d3a',
-              cardBg: '#ffffff',
-              pageBg: '#f8f7fc',
-              textDark: '#342f3d',
-              textMuted: '#9ca3af',
-              borderLight: '#e8e4f0'
+            brand: {
+              navy: '#0F172A',
+              navyLight: '#1E293B',
+              blue: '#2563EB',
+              amber: '#D97706',
+              rose: '#E11D48',
+              cyan: '#0284C7'
             }
           },
           fontFamily: {
@@ -42,480 +39,135 @@
 
   <style>
     body {
-      font-family: 'Inter Tight', Inter, sans-serif;
-      background-color: #f8f7fc;
-      color: #342f3d;
-      -webkit-tap-highlight-color: transparent;
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #0F172A;
+      color: #0F172A;
     }
-    .thakana-hero-bg {
-      background: linear-gradient(135deg, #322d3a 0%, #46395b 50%, #5f4a9a 100%);
-      border-radius: 0 0 32px 32px;
+    .portal-card {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .tab-btn.active {
-      background: #5f4a9a;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(95, 74, 154, 0.25);
-    }
-    .tab-btn-owner.active {
-      background: #d97706;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
-    }
-    .tab-btn-inspector.active {
-      background: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
-    }
-    .tab-btn-admin.active {
-      background: #e11d48;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
+    .portal-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
     }
   </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
 
-  <!-- HERO HEADER -->
-  <header class="thakana-hero-bg text-white pt-6 pb-16 px-4 sm:px-6 relative shadow-md">
-    <div class="max-w-md mx-auto text-center">
-      <a href="index.html" class="inline-flex items-center gap-1 text-2xl font-black tracking-tight text-white mb-2">
-        thakana<span class="w-2 h-2 rounded-full bg-[#826bbd] inline-block -mb-1"></span>
-      </a>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Single Portal Access</h1>
-      <p class="text-xs sm:text-sm text-white/80 mt-1">Select your portal mode to log in to your specialized dashboard</p>
-    </div>
+  <script>
+    // Automatic redirect if role is specified in query parameters
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const role = (params.get('role') || '').toLowerCase();
+      if (role === 'owner') {
+        window.location.replace('login-owner.html');
+      } else if (role === 'admin') {
+        window.location.replace('login-admin.html');
+      } else if (role === 'inspector') {
+        window.location.replace('login-inspector.html');
+      } else if (role === 'student' || role === 'user') {
+        window.location.replace('login-student.html');
+      }
+    })();
+  </script>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-6 bg-slate-950 text-slate-100 antialiased relative overflow-hidden">
+
+  <!-- BACKGROUND GLOWS -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- HEADER -->
+  <header class="max-w-4xl w-full mx-auto text-center pt-8 sm:pt-12 relative z-10">
+    <a href="index.html" class="inline-flex items-center gap-2 text-3xl font-black text-white tracking-tight mb-2">
+      <span>thakana</span><span class="w-3 h-3 rounded-full bg-blue-500 inline-block -mb-0.5"></span>
+      <span class="text-xs font-bold text-slate-400 uppercase tracking-widest pl-2 border-l border-slate-700">Access Portals</span>
+    </a>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-2">Select Your Dedicated Portal</h1>
+    <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto mt-1">
+      Each role operates in a cryptographically isolated session with specialized controls.
+    </p>
   </header>
 
-  <!-- LOGIN CARD CONTAINER -->
-  <main class="max-w-md w-full mx-auto px-4 -mt-10 relative z-20 mb-10">
-    <div class="bg-white rounded-3xl shadow-xl border border-[#e8e4f0] p-6 sm:p-8">
+  <!-- PORTALS GRID (3 MAIN ROLES + INSPECTOR LINK) -->
+  <main class="max-w-4xl w-full mx-auto my-8 sm:my-12 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       
-      <!-- 3-MODE TAB SWITCHER -->
-      <div class="bg-[#f0edfb] p-1 rounded-2xl grid grid-cols-4 mb-6 text-[11px] font-bold gap-1">
-        <button id="tabStudent" onclick="switchRole('student')" class="tab-btn py-2 px-1 rounded-xl transition flex flex-col sm:flex-row items-center justify-center gap-1 active text-[#5f4a9a]">
-          <i class="ph-bold ph-graduation-cap text-sm"></i>
-          <span>Student</span>
-        </button>
-        <button id="tabOwner" onclick="switchRole('owner')" class="tab-btn py-2 px-1 rounded-xl transition flex flex-col sm:flex-row items-center justify-center gap-1 text-slate-600 hover:text-slate-900">
-          <i class="ph-bold ph-buildings text-sm"></i>
-          <span>Owner</span>
-        </button>
-        <button id="tabInspector" onclick="switchRole('inspector')" class="tab-btn py-2 px-1 rounded-xl transition flex flex-col sm:flex-row items-center justify-center gap-1 text-slate-600 hover:text-slate-900">
-          <i class="ph-bold ph-crosshair text-sm"></i>
-          <span>Inspector</span>
-        </button>
-        <button id="tabAdmin" onclick="switchRole('admin')" class="tab-btn py-2 px-1 rounded-xl transition flex flex-col sm:flex-row items-center justify-center gap-1 text-slate-600 hover:text-slate-900">
-          <i class="ph-bold ph-shield-check text-sm"></i>
-          <span>Admin</span>
-        </button>
-      </div>
-
-      <!-- ROLE BANNER BADGE -->
-      <div id="roleBadge" class="mb-5 p-3 rounded-2xl bg-[#f0edfb] border border-[#5f4a9a]/20 flex items-center gap-3">
-        <div id="roleBadgeIcon" class="w-10 h-10 rounded-xl bg-[#5f4a9a] text-white flex items-center justify-center text-lg font-black shrink-0">
-          <i class="ph-bold ph-graduation-cap"></i>
-        </div>
+      <!-- 1. STUDENT PORTAL -->
+      <a href="login-student.html" class="portal-card bg-white rounded-3xl p-6 sm:p-7 text-slate-900 border border-slate-200 flex flex-col justify-between group">
         <div>
-          <h2 id="roleBadgeTitle" class="text-sm font-bold text-[#342f3d]">Student &amp; Resident Login</h2>
-          <p id="roleBadgeDesc" class="text-[11px] text-slate-500">Access verified hostels, roommate matches &amp; bookings</p>
+          <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-105 transition">
+            <i class="ph-bold ph-graduation-cap"></i>
+          </div>
+          <div class="inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 uppercase tracking-wider mb-2">
+            Resident &amp; Student
+          </div>
+          <h2 class="text-lg font-extrabold text-slate-900">Student Living</h2>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Browse verified hostels, room allocations, manage bookings, and digital check-in passes.
+          </p>
         </div>
-      </div>
+        <div class="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-blue-600 group-hover:text-blue-700">
+          <span>Sign In to Student Portal</span>
+          <i class="ph-bold ph-arrow-right text-sm group-hover:translate-x-1 transition"></i>
+        </div>
+      </a>
 
-      <!-- ALERT MESSAGE -->
-      <div id="authAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2"></div>
-
-      <!-- MAIN FORM -->
-      <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-4">
-        
-        <!-- IDENTIFIER FIELD (Email / Phone / Username) -->
+      <!-- 2. OWNER PORTAL -->
+      <a href="login-owner.html" class="portal-card bg-white rounded-3xl p-6 sm:p-7 text-slate-900 border border-slate-200 flex flex-col justify-between group">
         <div>
-          <label id="lblIdentifier" class="block text-xs font-bold text-slate-700 mb-1.5">Phone or University Email</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-              <i id="iconIdentifier" class="ph-bold ph-phone text-base"></i>
-            </span>
-            <input type="text" id="inputIdentifier" required placeholder="03001234567 or student@thakana.pk" class="w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a] text-slate-800 placeholder-slate-400 font-medium">
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-105 transition">
+            <i class="ph-bold ph-buildings"></i>
           </div>
-        </div>
-
-        <!-- UNIVERSITY FIELD (STUDENT ONLY) -->
-        <div id="uniFieldGroup">
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Your University</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-              <i class="ph-bold ph-buildings text-base"></i>
-            </span>
-            <select id="inputUni" class="w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a] text-slate-800 font-medium bg-white">
-              <option value="UMT Lahore">UMT (Johar Town, Lahore)</option>
-              <option value="FAST Lahore / Isb">FAST-NUCES (Lahore / Islamabad)</option>
-              <option value="NUST Islamabad">NUST (H-12, Islamabad)</option>
-              <option value="LUMS Lahore">LUMS (DHA Phase 5, Lahore)</option>
-              <option value="UCP Lahore">UCP (Township, Lahore)</option>
-              <option value="COMSATS Lahore / Isb">COMSATS (Lahore / Islamabad)</option>
-              <option value="Punjab University">Punjab University (PU Lahore)</option>
-              <option value="NED Karachi">NED University (Karachi)</option>
-              <option value="Other University">Other University</option>
-            </select>
+          <div class="inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 uppercase tracking-wider mb-2">
+            Hostel Partner
           </div>
+          <h2 class="text-lg font-extrabold text-slate-900">Hostel Owner Portal</h2>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Manage your properties, bed availability, room pricing, and approve student booking requests.
+          </p>
         </div>
-
-        <!-- HOSTEL NAME FIELD (OWNER ONLY) -->
-        <div id="hostelFieldGroup" class="hidden">
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Your Hostel / Property Name</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-              <i class="ph-bold ph-house-line text-base"></i>
-            </span>
-            <input type="text" id="inputHostelName" placeholder="e.g. AL-ALI Boys Hostel" class="w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 placeholder-slate-400 font-medium">
-          </div>
+        <div class="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-amber-700 group-hover:text-amber-800">
+          <span>Sign In to Owner Portal</span>
+          <i class="ph-bold ph-arrow-right text-sm group-hover:translate-x-1 transition"></i>
         </div>
+      </a>
 
-        <!-- PASSWORD / PASSKEY FIELD -->
+      <!-- 3. ADMIN PORTAL -->
+      <a href="login-admin.html" class="portal-card bg-[#161F30] rounded-3xl p-6 sm:p-7 text-white border border-slate-800 flex flex-col justify-between group">
         <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <label id="lblPassword" class="text-xs font-bold text-slate-700">Password</label>
-            <span id="hintPassword" class="text-[11px] text-slate-400">Default: student123</span>
+          <div class="w-12 h-12 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-105 transition">
+            <i class="ph-bold ph-shield-check"></i>
           </div>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-              <i class="ph-bold ph-key text-base"></i>
-            </span>
-            <input type="password" id="inputPassword" required placeholder="••••••••" class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5f4a9a] text-slate-800 font-medium">
-            <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
-              <i id="eyeIcon" class="ph-bold ph-eye text-base"></i>
-            </button>
+          <div class="inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-rose-950 text-rose-300 border border-rose-800/60 uppercase tracking-wider mb-2">
+            Super Admin
           </div>
+          <h2 class="text-lg font-extrabold text-white">Governance Portal</h2>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Platform governance, user &amp; property approval audits, escrow management, and security logs.
+          </p>
         </div>
-
-        <!-- 2FA TOKEN (ADMIN ONLY) -->
-        <div id="admin2faGroup" class="hidden">
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Governance Master Secret Key</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-rose-500">
-              <i class="ph-bold ph-shield-check text-base"></i>
-            </span>
-            <input type="text" id="inputSecretKey" value="thakana2026" placeholder="Master Key (thakana2026)" class="w-full pl-10 pr-3.5 py-3 rounded-xl border border-rose-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 text-slate-800 font-mono font-bold bg-rose-50/40">
-          </div>
+        <div class="pt-6 border-t border-slate-800 mt-6 flex items-center justify-between text-xs font-bold text-rose-400 group-hover:text-rose-300">
+          <span>Governance Access</span>
+          <i class="ph-bold ph-arrow-right text-sm group-hover:translate-x-1 transition"></i>
         </div>
+      </a>
 
-        <!-- SUBMIT BUTTON -->
-        <button type="submit" id="submitBtn" class="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-[#5f4a9a] hover:bg-[#4d3b7e] transition shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2">
-          <i class="ph-bold ph-sign-in text-base"></i>
-          <span id="submitBtnText">Sign In to Student Portal</span>
-        </button>
-      </form>
+    </div>
 
-      <!-- 1-CLICK DEMO AUTO-FILL HELPER -->
-      <div class="mt-5 pt-4 border-t border-slate-100">
-        <div class="flex items-center justify-between text-xs mb-2">
-          <span class="text-slate-400 font-medium">Testing or Demo?</span>
-          <button type="button" onclick="autoFillDemo()" class="font-bold text-[#5f4a9a] hover:underline flex items-center gap-1">
-            <i class="ph-bold ph-magic-wand"></i> 1-Click Demo Fill
-          </button>
-        </div>
-        <div id="demoHintBox" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
-          <span>Student: <strong class="text-slate-700">student@thakana.pk</strong></span>
-          <span class="font-mono text-slate-600">pass: student123</span>
-        </div>
-      </div>
-
-      <!-- PORTAL SWITCHING LINKS -->
-      <div class="mt-5 text-center text-xs text-slate-500 space-y-1">
-        <p>Direct Portal Links:</p>
-        <div class="flex items-center justify-center gap-3 font-semibold text-[#5f4a9a]">
-          <a href="login-user.html" class="hover:underline">Student Login</a>
-          <span>&bull;</span>
-          <a href="login-owner.html" class="hover:underline">Owner Login</a>
-          <span>&bull;</span>
-          <a href="login-inspector.html" class="hover:underline">Inspector Login</a>
-          <span>&bull;</span>
-          <a href="login-admin.html" class="hover:underline">Admin Login</a>
-        </div>
-      </div>
-
+    <!-- INSPECTOR LINK -->
+    <div class="mt-8 text-center text-xs text-slate-400">
+      <span>Field Verification Personnel? </span>
+      <a href="login-inspector.html" class="text-cyan-400 hover:text-cyan-300 font-bold ml-1 inline-flex items-center gap-1">
+        <i class="ph-bold ph-clipboard-text"></i>
+        <span>Access Field Inspector Portal</span>
+      </a>
     </div>
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t border-[#e8e4f0] py-6 text-center text-xs text-slate-400">
-    <div class="max-w-md mx-auto px-4">
-      <p class="font-semibold text-slate-600">thakana<span class="text-[#826bbd]">.</span> Student Living OS</p>
-      <p class="mt-1">&copy; 2026 Thakana Pakistan. 48-Hour Escrow Protected.</p>
-    </div>
+  <footer class="max-w-4xl w-full mx-auto text-center py-6 border-t border-slate-900 text-xs text-slate-500 relative z-10">
+    <p class="font-semibold text-slate-400">thakana<span class="text-blue-500">.</span> Student Living Operating System</p>
+    <p class="text-[11px] mt-1 text-slate-600">&copy; 2026 Thakana Pakistan. All Rights Reserved. Protected by 48-Hour Booking Escrow.</p>
   </footer>
 
-  <!-- SCRIPT LOGIC -->
-  <script>
-    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5000')) ? 'http://localhost:5000' : '';
-    let currentRole = 'student';
-
-    // Parse URL param for preselection: ?role=student | ?role=owner | ?role=admin
-    function initRoleFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const r = (params.get('role') || '').toLowerCase();
-      if (r === 'owner' || window.location.pathname.includes('owner')) {
-        switchRole('owner');
-      } else if (r === 'inspector' || window.location.pathname.includes('inspector')) {
-        switchRole('inspector');
-      } else if (r === 'admin' || window.location.pathname.includes('admin')) {
-        switchRole('admin');
-      } else {
-        switchRole('student');
-      }
-    }
-
-    function switchRole(role) {
-      currentRole = role;
-      
-      const tabStudent = document.getElementById('tabStudent');
-      const tabOwner = document.getElementById('tabOwner');
-      const tabInspector = document.getElementById('tabInspector');
-      const tabAdmin = document.getElementById('tabAdmin');
-      
-      const badgeIcon = document.getElementById('roleBadgeIcon');
-      const badgeTitle = document.getElementById('roleBadgeTitle');
-      const badgeDesc = document.getElementById('roleBadgeDesc');
-      const badgeBox = document.getElementById('roleBadge');
-      
-      const lblIdentifier = document.getElementById('lblIdentifier');
-      const inputIdentifier = document.getElementById('inputIdentifier');
-      const iconIdentifier = document.getElementById('iconIdentifier');
-      const hintPassword = document.getElementById('hintPassword');
-      
-      const uniGroup = document.getElementById('uniFieldGroup');
-      const hostelGroup = document.getElementById('hostelFieldGroup');
-      const admin2faGroup = document.getElementById('admin2faGroup');
-      const submitBtn = document.getElementById('submitBtn');
-      const submitBtnText = document.getElementById('submitBtnText');
-      const demoHintBox = document.getElementById('demoHintBox');
-
-      // Reset tabs
-      [tabStudent, tabOwner, tabInspector, tabAdmin].forEach(t => {
-        t.className = 'tab-btn flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
-      });
-
-      if (role === 'student') {
-        tabStudent.className = 'tab-btn active flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 font-bold';
-        badgeBox.className = 'mb-5 p-3 rounded-2xl bg-[#f0edfb] border border-[#5f4a9a]/20 flex items-center gap-3';
-        badgeIcon.className = 'w-10 h-10 rounded-xl bg-[#5f4a9a] text-white flex items-center justify-center text-lg font-black shrink-0';
-        badgeIcon.innerHTML = '<i class="ph-bold ph-graduation-cap"></i>';
-        badgeTitle.innerText = 'Student & Resident Login';
-        badgeDesc.innerText = 'Browse verified hostels, room swaps & deposit protection';
-        
-        lblIdentifier.innerText = 'Phone or University Email';
-        inputIdentifier.placeholder = '03001234567 or student@thakana.pk';
-        iconIdentifier.className = 'ph-bold ph-phone text-base';
-        hintPassword.innerText = 'Default: student123';
-        
-        uniGroup.classList.remove('hidden');
-        hostelGroup.classList.add('hidden');
-        admin2faGroup.classList.add('hidden');
-        
-        submitBtn.className = 'w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-[#5f4a9a] hover:bg-[#4d3b7e] transition shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2';
-        submitBtnText.innerText = 'Sign In to Student Portal';
-        demoHintBox.innerHTML = `<span>Student: <strong class="text-slate-700">student@thakana.pk</strong></span><span class="font-mono text-slate-600">pass: student123</span>`;
-      } 
-      else if (role === 'owner') {
-        tabOwner.className = 'tab-btn tab-btn-owner active flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 font-bold';
-        badgeBox.className = 'mb-5 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex items-center gap-3';
-        badgeIcon.className = 'w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg font-black shrink-0';
-        badgeIcon.innerHTML = '<i class="ph-bold ph-buildings"></i>';
-        badgeTitle.innerText = 'Hostel Owner & Partner Login';
-        badgeDesc.innerText = 'Manage your hostels, update live bed space & view inquiries';
-        
-        lblIdentifier.innerText = 'Owner Phone or Registered Email';
-        inputIdentifier.placeholder = '03009988776 or owner@thakana.pk';
-        iconIdentifier.className = 'ph-bold ph-user-circle text-base';
-        hintPassword.innerText = 'Default: owner123';
-        
-        uniGroup.classList.add('hidden');
-        hostelGroup.classList.remove('hidden');
-        admin2faGroup.classList.add('hidden');
-        
-        submitBtn.className = 'w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-amber-600 hover:bg-amber-700 transition shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2';
-        submitBtnText.innerText = 'Sign In to Owner Portal';
-        demoHintBox.innerHTML = `<span>Owner: <strong class="text-slate-700">owner@thakana.pk</strong></span><span class="font-mono text-slate-600">pass: owner123</span>`;
-      } 
-      else if (role === 'inspector') {
-        if (tabInspector) tabInspector.className = 'tab-btn tab-btn-inspector active py-2 px-1 rounded-xl transition flex flex-col sm:flex-row items-center justify-center gap-1 font-bold';
-        badgeBox.className = 'mb-5 p-3 rounded-2xl bg-sky-50 border border-sky-200 flex items-center gap-3';
-        badgeIcon.className = 'w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-lg font-black shrink-0';
-        badgeIcon.innerHTML = '<i class="ph-bold ph-crosshair"></i>';
-        badgeTitle.innerText = 'Field Quality Inspector Access';
-        badgeDesc.innerText = '50-Point physical inspections, GPS geo-audit & verification rating';
-        
-        lblIdentifier.innerText = 'Inspector Official Email or ID';
-        inputIdentifier.placeholder = 'inspector@thakana.pk';
-        iconIdentifier.className = 'ph-bold ph-crosshair text-base text-sky-600';
-        hintPassword.innerText = 'Default: inspector123';
-        
-        uniGroup.classList.add('hidden');
-        hostelGroup.classList.add('hidden');
-        admin2faGroup.classList.add('hidden');
-        
-        submitBtn.className = 'w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-sky-600 hover:bg-sky-700 transition shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2';
-        submitBtnText.innerText = 'Sign In to Inspector Portal';
-        demoHintBox.innerHTML = '<span>Inspector: <strong class="text-slate-700">inspector@thakana.pk</strong></span><span class="font-mono text-slate-600">pass: inspector123</span>';
-      }
-      else if (role === 'admin') {
-        tabAdmin.className = 'tab-btn tab-btn-admin active flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 font-bold';
-        badgeBox.className = 'mb-5 p-3 rounded-2xl bg-rose-50 border border-rose-200 flex items-center gap-3';
-        badgeIcon.className = 'w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg font-black shrink-0';
-        badgeIcon.innerHTML = '<i class="ph-bold ph-shield-check"></i>';
-        badgeTitle.innerText = 'Super Admin Governance Access';
-        badgeDesc.innerText = '1-Click hostel removal, master database & physical inspections';
-        
-        lblIdentifier.innerText = 'Governance Admin Email / ID';
-        inputIdentifier.placeholder = 'admin@thakana.pk';
-        iconIdentifier.className = 'ph-bold ph-shield-check text-base text-rose-500';
-        hintPassword.innerText = 'Default: admin123';
-        
-        uniGroup.classList.add('hidden');
-        hostelGroup.classList.add('hidden');
-        admin2faGroup.classList.remove('hidden');
-        
-        submitBtn.className = 'w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-rose-600 hover:bg-rose-700 transition shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2';
-        submitBtnText.innerText = 'Unlock Super Admin Governance';
-        demoHintBox.innerHTML = `<span>Admin: <strong class="text-slate-700">admin@thakana.pk</strong></span><span class="font-mono text-slate-600">pass: admin123</span>`;
-      }
-    }
-
-    function autoFillDemo() {
-      const inputIdentifier = document.getElementById('inputIdentifier');
-      const inputPassword = document.getElementById('inputPassword');
-      const inputHostelName = document.getElementById('inputHostelName');
-      const inputSecretKey = document.getElementById('inputSecretKey');
-
-      if (currentRole === 'student') {
-        inputIdentifier.value = 'student@thakana.pk';
-        inputPassword.value = 'student123';
-      } else if (currentRole === 'owner') {
-        inputIdentifier.value = 'owner@thakana.pk';
-        inputPassword.value = 'owner123';
-        if (inputHostelName) inputHostelName.value = 'AL-ALI Boys Hostel';
-      } else if (currentRole === 'inspector') {
-        inputIdentifier.value = 'inspector@thakana.pk';
-        inputPassword.value = 'inspector123';
-      } else if (currentRole === 'admin') {
-        inputIdentifier.value = 'admin@thakana.pk';
-        inputPassword.value = 'admin123';
-        if (inputSecretKey) inputSecretKey.value = 'thakana2026';
-      }
-    }
-
-    function togglePasswordVisibility() {
-      const pass = document.getElementById('inputPassword');
-      const icon = document.getElementById('eyeIcon');
-      if (pass.type === 'password') {
-        pass.type = 'text';
-        icon.className = 'ph-bold ph-eye-slash text-base';
-      } else {
-        pass.type = 'password';
-        icon.className = 'ph-bold ph-eye text-base';
-      }
-    }
-
-    function showAlert(msg, isSuccess = false) {
-      const alert = document.getElementById('authAlert');
-      alert.className = isSuccess 
-        ? 'mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800'
-        : 'mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-800';
-      alert.innerHTML = isSuccess
-        ? `<i class="ph-bold ph-check-circle text-base text-emerald-600"></i> <span>${msg}</span>`
-        : `<i class="ph-bold ph-warning-circle text-base text-rose-600"></i> <span>${msg}</span>`;
-      alert.classList.remove('hidden');
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const identifier = document.getElementById('inputIdentifier').value.trim();
-      const password = document.getElementById('inputPassword').value;
-      const university = document.getElementById('inputUni')?.value || 'UMT Lahore';
-      const hostelName = document.getElementById('inputHostelName')?.value || '';
-      const secretKey = document.getElementById('inputSecretKey')?.value || 'thakana2026';
-      const submitBtn = document.getElementById('submitBtn');
-
-      submitBtn.disabled = true;
-      submitBtn.classList.add('opacity-70');
-
-      try {
-        const payload = {
-          role: currentRole,
-          emailOrPhone: identifier,
-          password: password,
-          university,
-          hostelName,
-          secretKey
-        };
-
-        const res = await fetch(API_BASE + '/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          showAlert('🎉 ' + data.message + ' Redirecting...', true);
-          
-          // Persist user session & JWT token
-          localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
-          if (data.token) {
-            localStorage.setItem('thakana_jwt_token', data.token);
-          }
-          
-          if (currentRole === 'student' || data.user.role === 'student' || data.user.role === 'user') {
-            localStorage.setItem('thakana_user', JSON.stringify(data.user));
-            setTimeout(() => { window.location.href = 'user-dashboard.html'; }, 800);
-          } else if (currentRole === 'owner' || data.user.role === 'owner') {
-            localStorage.setItem('thakana_owner', JSON.stringify(data.user));
-            setTimeout(() => { window.location.href = 'owner-portal.html'; }, 800);
-          } else if (currentRole === 'inspector' || data.user.role === 'inspector') {
-            localStorage.setItem('thakana_inspector', JSON.stringify(data.user));
-            setTimeout(() => { window.location.href = 'inspector-portal.html'; }, 800);
-          } else if (currentRole === 'admin' || data.user.role === 'admin') {
-            localStorage.setItem('thakana_admin', JSON.stringify(data.user));
-            localStorage.setItem('thakana_admin_mode', 'true');
-            setTimeout(() => { window.location.href = 'admin-portal.html'; }, 800);
-          }
-        } else {
-          showAlert(data.message || 'Login failed. Please check your credentials.');
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('opacity-70');
-        }
-      } catch (err) {
-        console.warn('API error, using local fallback:', err);
-        // Resilient fallback authentication for offline usage
-        const localUser = {
-          id: 'usr-' + currentRole + '-' + Date.now(),
-          name: identifier.includes('@') ? identifier.split('@')[0] : (currentRole.toUpperCase() + ' User'),
-          email: identifier.includes('@') ? identifier : identifier + '@thakana.pk',
-          phone: identifier.startsWith('03') ? identifier : '03001234567',
-          role: currentRole,
-          university,
-          hostelName
-        };
-        localStorage.setItem('thakana_auth_user', JSON.stringify(localUser));
-        if (currentRole === 'student') {
-          localStorage.setItem('thakana_user', JSON.stringify(localUser));
-          setTimeout(() => { window.location.href = 'user-dashboard.html'; }, 800);
-        } else if (currentRole === 'owner') {
-          localStorage.setItem('thakana_owner', JSON.stringify(localUser));
-          setTimeout(() => { window.location.href = 'owner-portal.html'; }, 800);
-        } else if (currentRole === 'inspector') {
-          localStorage.setItem('thakana_inspector', JSON.stringify(localUser));
-          setTimeout(() => { window.location.href = 'inspector-portal.html'; }, 800);
-        } else if (currentRole === 'admin') {
-          localStorage.setItem('thakana_admin', JSON.stringify(localUser));
-          localStorage.setItem('thakana_admin_mode', 'true');
-          setTimeout(() => { window.location.href = 'admin-portal.html'; }, 800);
-        }
-      }
-    }
-
-    // Auto initialize on load
-    window.addEventListener('DOMContentLoaded', initRoleFromUrl);
-  </script>
 </body>
 </html>

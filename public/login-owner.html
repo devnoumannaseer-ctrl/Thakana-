@@ -2,10 +2,349 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=login.html?role=owner">
-  <title>Hostel Owner Login — Thakana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Hostel Owner Portal Login &mdash; Thakana</title>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0F172A',
+              navyLight: '#1E293B',
+              amber: '#D97706',
+              amberHover: '#B45309',
+              amberLight: '#FEF3C7',
+              slate: '#334155',
+              border: '#E2E8F0',
+              bgLight: '#F8FAFC'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #0F172A;
+      color: #0F172A;
+    }
+    .auth-card-shadow {
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.8);
+    }
+  </style>
 </head>
-<body>
-  <script>window.location.href = 'login.html?role=owner';</script>
+<body class="min-h-screen flex items-center justify-center p-4 bg-slate-950 text-slate-900 antialiased relative overflow-hidden">
+
+  <!-- BACKGROUND SUBTLE GLOW -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-md w-full relative z-10 my-8">
+
+    <!-- LOGO / HEADER -->
+    <div class="text-center mb-6">
+      <a href="index.html" class="inline-flex items-center gap-2 text-2xl font-black text-white tracking-tight">
+        <span>thakana</span><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block -mb-0.5"></span>
+        <span class="text-[11px] font-bold text-amber-400 uppercase tracking-widest pl-2 border-l border-slate-700">Owner Portal</span>
+      </a>
+      <p class="text-xs text-slate-400 mt-1">Property Partner &amp; Hostel Operations Management</p>
+    </div>
+
+    <!-- MAIN AUTH CARD -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 auth-card-shadow">
+
+      <!-- AUTH MODE TOGGLE TABS (SIGN IN vs REGISTER) -->
+      <div class="flex p-1 bg-slate-100 rounded-2xl mb-6 text-xs font-bold">
+        <button id="tabSignIn" onclick="switchMode('signin')" class="flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-amber-700">
+          Owner Sign In
+        </button>
+        <button id="tabRegister" onclick="switchMode('register')" class="flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800">
+          Register Hostel
+        </button>
+      </div>
+
+      <!-- ALERT MESSAGE BOX -->
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2"></div>
+
+      <!-- ========================================== -->
+      <!-- 1. OWNER SIGN IN FORM                      -->
+      <!-- ========================================== -->
+      <form id="signInForm" onsubmit="handleOwnerLogin(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Owner Email or Registered Mobile *</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-buildings text-base"></i>
+            </span>
+            <input type="text" id="loginIdentifier" required placeholder="owner@thakana.pk or 03001234567" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-slate-700">Password *</label>
+            <span class="text-[11px] text-slate-400">Bcrypt Protected</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="ph-bold ph-lock-key text-base"></i>
+            </span>
+            <input type="password" id="loginPassword" required placeholder="Enter owner password" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+            <button type="button" onclick="togglePassVisibility('loginPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon1" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="rememberMe" checked class="rounded border-slate-300 text-amber-600 focus:ring-0">
+            <span>Keep me signed in</span>
+          </label>
+          <span class="text-amber-700 font-semibold cursor-pointer hover:underline" onclick="alert('Hostel Partner Recovery:\nPlease reach out to operations@thakana.pk or call our dedicated partner desk.')">Forgot Password?</span>
+        </div>
+
+        <button type="submit" id="btnSignInSubmit" class="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 mt-2">
+          <i class="ph-bold ph-sign-in"></i> Sign In to Owner Portal
+        </button>
+
+        <!-- SECURITY NOTICE -->
+        <div class="p-3 bg-amber-50/70 rounded-2xl border border-amber-200/80 flex items-start gap-2.5 text-[11px] text-amber-950 mt-4">
+          <i class="ph-bold ph-shield-check text-amber-600 text-base shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="block font-bold">Owner-Only Gateway</strong>
+            <span class="text-slate-600">This portal is strictly reserved for verified property owners. Student, Admin, and Inspector logins are blocked.</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- ========================================== -->
+      <!-- 2. OWNER REGISTRATION FORM                 -->
+      <!-- ========================================== -->
+      <form id="registerForm" onsubmit="handleOwnerRegister(event)" class="hidden space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Owner / Manager Full Name *</label>
+          <input type="text" id="regName" required placeholder="e.g. Malik Tariq Mahmood" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Hostel / Property Name *</label>
+          <input type="text" id="regHostelName" required placeholder="e.g. AL-ALI Boys Hostel" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email Address *</label>
+            <input type="email" id="regEmail" required placeholder="owner@example.pk" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Mobile Phone *</label>
+            <input type="tel" id="regPhone" required placeholder="03001234567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">City / Region *</label>
+            <select id="regCity" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+              <option value="Lahore">Lahore</option>
+              <option value="Islamabad">Islamabad</option>
+              <option value="Rawalpindi">Rawalpindi</option>
+              <option value="Karachi">Karachi</option>
+              <option value="Peshawar">Peshawar</option>
+              <option value="Faisalabad">Faisalabad</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nearest University *</label>
+            <select id="regUniversity" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+              <option value="UMT Lahore">UMT (Johar Town, Lhr)</option>
+              <option value="FAST-NUCES">FAST-NUCES</option>
+              <option value="NUST Islamabad">NUST (H-12, Isb)</option>
+              <option value="LUMS">LUMS (DHA Phase 5)</option>
+              <option value="UCP Lahore">UCP (Township, Lhr)</option>
+              <option value="COMSATS">COMSATS</option>
+              <option value="Punjab University">Punjab University (New Campus)</option>
+              <option value="NED Karachi">NED Uni Karachi</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Create Secure Password *</label>
+          <div class="relative">
+            <input type="password" id="regPassword" required minlength="6" placeholder="At least 6 characters" class="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 text-xs focus:outline-none focus:border-amber-600 focus:bg-white transition">
+            <button type="button" onclick="togglePassVisibility('regPassword', 'eyeIcon2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon2" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 mt-2">
+          <i class="ph-bold ph-user-plus"></i> Register as Hostel Owner
+        </button>
+      </form>
+
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="text-center mt-6 text-xs text-slate-400">
+      <span>Not a hostel owner? </span>
+      <a href="login-student.html" class="text-blue-400 hover:text-blue-300 font-bold ml-1">Student Login</a>
+      <span class="mx-2">&bull;</span>
+      <a href="login-admin.html" class="text-rose-400 hover:text-rose-300 font-bold">Admin Portal</a>
+    </div>
+
+  </div>
+
+  <script>
+    function showAlert(msg, isError = true) {
+      const el = document.getElementById('authAlert');
+      el.className = isError 
+        ? 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-rose-50 text-rose-800 border border-rose-200' 
+        : 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200';
+      el.innerHTML = `<i class="ph-bold ${isError ? 'ph-warning-circle text-rose-600' : 'ph-check-circle text-emerald-600'} text-base shrink-0"></i><span>${msg}</span>`;
+      el.classList.remove('hidden');
+    }
+
+    function switchMode(mode) {
+      const isSignIn = mode === 'signin';
+      document.getElementById('signInForm').classList.toggle('hidden', !isSignIn);
+      document.getElementById('registerForm').classList.toggle('hidden', isSignIn);
+      
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabRegister = document.getElementById('tabRegister');
+      
+      if (isSignIn) {
+        tabSignIn.className = 'flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-amber-700';
+        tabRegister.className = 'flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800';
+      } else {
+        tabRegister.className = 'flex-1 py-2.5 rounded-xl transition shadow-sm bg-white text-amber-700';
+        tabSignIn.className = 'flex-1 py-2.5 rounded-xl transition text-slate-500 hover:text-slate-800';
+      }
+      document.getElementById('authAlert').classList.add('hidden');
+    }
+
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
+
+    async function handleOwnerLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSignInSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Authenticating Owner...';
+
+      const identifier = document.getElementById('loginIdentifier').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password, role: 'owner' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('Authentication successful! Opening owner dashboard...', false);
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+            localStorage.setItem('thakana_owner_token', data.token);
+          }
+          if (data.user) {
+            localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+            localStorage.setItem('thakana_owner', JSON.stringify(data.user));
+          }
+          setTimeout(() => {
+            window.location.href = 'owner-portal.html';
+          }, 600);
+        } else {
+          showAlert(data.message || 'Owner authentication failed. Please check your credentials.', true);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Owner Portal';
+        }
+      } catch (err) {
+        showAlert('Network or connection error. Please try again.', true);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Sign In to Owner Portal';
+      }
+    }
+
+    async function handleOwnerRegister(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnRegisterSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Registering Owner...';
+
+      const payload = {
+        name: document.getElementById('regName').value.trim(),
+        hostelName: document.getElementById('regHostelName').value.trim(),
+        email: document.getElementById('regEmail').value.trim(),
+        phone: document.getElementById('regPhone').value.trim(),
+        city: document.getElementById('regCity').value,
+        university: document.getElementById('regUniversity').value,
+        password: document.getElementById('regPassword').value,
+        role: 'owner'
+      };
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('Owner account registered successfully! Opening owner dashboard...', false);
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+            localStorage.setItem('thakana_owner_token', data.token);
+          }
+          if (data.user) {
+            localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+            localStorage.setItem('thakana_owner', JSON.stringify(data.user));
+          }
+          setTimeout(() => {
+            window.location.href = 'owner-portal.html';
+          }, 800);
+        } else {
+          showAlert(data.message || 'Owner registration failed.', true);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-user-plus"></i> Register as Hostel Owner';
+        }
+      } catch (err) {
+        showAlert('Registration error occurred. Please try again.', true);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-user-plus"></i> Register as Hostel Owner';
+      }
+    }
+  </script>
 </body>
 </html>

@@ -2,10 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=login.html?role=admin">
-  <title>Super Admin Governance Login — Thakana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Super Admin Governance Login &mdash; Thakana</title>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PHOSPHOR ICONS -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0B0F19',
+              cardDark: '#161F30',
+              rose: '#E11D48',
+              roseHover: '#BE123C',
+              borderDark: '#223048'
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter Tight"', 'Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter Tight", Inter, sans-serif;
+      background-color: #0B0F19;
+      color: #F8FAFC;
+    }
+    .admin-card-shadow {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(225, 29, 72, 0.25);
+    }
+  </style>
 </head>
-<body>
-  <script>window.location.href = 'login.html?role=admin';</script>
+<body class="min-h-screen flex items-center justify-center p-4 bg-[#0B0F19] text-slate-100 antialiased relative overflow-hidden">
+
+  <!-- BACKGROUND SUBTLE GLOW -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-md w-full relative z-10 my-8">
+
+    <!-- LOGO / HEADER -->
+    <div class="text-center mb-6">
+      <a href="index.html" class="inline-flex items-center gap-2 text-2xl font-black text-white tracking-tight">
+        <span>thakana</span><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block -mb-0.5"></span>
+        <span class="text-[11px] font-bold text-rose-400 uppercase tracking-widest pl-2 border-l border-slate-700">Governance Portal</span>
+      </a>
+      <p class="text-xs text-slate-400 mt-1">Platform Administration, Compliance &amp; Audit Operations</p>
+    </div>
+
+    <!-- MAIN AUTH CARD -->
+    <div class="bg-[#161F30] rounded-3xl p-6 sm:p-8 admin-card-shadow border border-slate-800">
+
+      <div class="flex items-center gap-3 pb-5 mb-5 border-b border-slate-800">
+        <div class="w-10 h-10 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 shrink-0">
+          <i class="ph-bold ph-shield-check text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-white">Super Admin Authentication</h2>
+          <p class="text-[11px] text-slate-400">Cryptographically isolated governance session</p>
+        </div>
+      </div>
+
+      <!-- ALERT MESSAGE BOX -->
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2"></div>
+
+      <!-- ADMIN SIGN IN FORM -->
+      <form id="adminSignInForm" onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Admin Email or Username *</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
+              <i class="ph-bold ph-user-gear text-base"></i>
+            </span>
+            <input type="text" id="adminIdentifier" required placeholder="admin@thakana.pk" class="w-full pl-10 pr-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-semibold text-white text-xs focus:outline-none focus:border-rose-500 transition">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-slate-300">Master Password *</label>
+            <span class="text-[11px] text-slate-500">Bcrypt Protected</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
+              <i class="ph-bold ph-lock-key text-base"></i>
+            </span>
+            <input type="password" id="adminPassword" required placeholder="Enter administrator password" class="w-full pl-10 pr-10 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-semibold text-white text-xs focus:outline-none focus:border-rose-500 transition">
+            <button type="button" onclick="togglePassVisibility('adminPassword', 'eyeIcon1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300">
+              <i id="eyeIcon1" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-slate-300">Governance Passkey (2FA Key) *</label>
+            <span class="text-[11px] text-rose-400 font-semibold">Tier-1 Security</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
+              <i class="ph-bold ph-key text-base"></i>
+            </span>
+            <input type="password" id="adminSecretKey" required placeholder="Security key (e.g. thakana2026)" class="w-full pl-10 pr-10 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-semibold text-white text-xs focus:outline-none focus:border-rose-500 transition">
+            <button type="button" onclick="togglePassVisibility('adminSecretKey', 'eyeIcon2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300">
+              <i id="eyeIcon2" class="ph-bold ph-eye text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnAdminSubmit" class="w-full py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs shadow-lg shadow-rose-900/30 transition flex items-center justify-center gap-2 mt-4">
+          <i class="ph-bold ph-shield-check text-base"></i> Authenticate Super Admin
+        </button>
+
+        <!-- SECURITY NOTICE -->
+        <div class="p-3 bg-rose-950/40 rounded-2xl border border-rose-900/50 flex items-start gap-2.5 text-[11px] text-rose-200 mt-4">
+          <i class="ph-bold ph-warning-octagon text-rose-400 text-base shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="block font-bold">Restricted Platform Operations</strong>
+            <span class="text-slate-400">All authentication attempts, IP addresses, and administrative actions are cryptographically signed and audited in compliance records.</span>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="text-center mt-6 text-xs text-slate-500">
+      <span>Looking for user portals? </span>
+      <a href="login-student.html" class="text-blue-400 hover:text-blue-300 font-bold ml-1">Student Login</a>
+      <span class="mx-2">&bull;</span>
+      <a href="login-owner.html" class="text-amber-400 hover:text-amber-300 font-bold">Owner Portal</a>
+    </div>
+
+  </div>
+
+  <script>
+    function showAlert(msg, isError = true) {
+      const el = document.getElementById('authAlert');
+      el.className = isError 
+        ? 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-rose-950/80 text-rose-200 border border-rose-800' 
+        : 'mb-4 p-3 rounded-2xl text-xs font-semibold flex items-center gap-2 bg-emerald-950/80 text-emerald-200 border border-emerald-800';
+      el.innerHTML = `<i class="ph-bold ${isError ? 'ph-warning-circle text-rose-400' : 'ph-check-circle text-emerald-400'} text-base shrink-0"></i><span>${msg}</span>`;
+      el.classList.remove('hidden');
+    }
+
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ph-bold ph-eye-slash text-base';
+      } else {
+        input.type = 'password';
+        icon.className = 'ph-bold ph-eye text-base';
+      }
+    }
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnAdminSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Authenticating Admin...';
+
+      const identifier = document.getElementById('adminIdentifier').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const secretKey = document.getElementById('adminSecretKey').value.trim();
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password, secretKey, role: 'admin' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('Governance authentication verified! Loading Admin Console...', false);
+          if (data.token) {
+            localStorage.setItem('thakana_jwt_token', data.token);
+            localStorage.setItem('thakana_admin_token', data.token);
+          }
+          if (data.user) {
+            localStorage.setItem('thakana_auth_user', JSON.stringify(data.user));
+            localStorage.setItem('thakana_admin', JSON.stringify(data.user));
+            localStorage.setItem('thakana_admin_mode', 'true');
+          }
+          setTimeout(() => {
+            window.location.href = 'admin-portal.html';
+          }, 600);
+        } else {
+          showAlert(data.message || 'Governance authentication failed. Please verify credentials.', true);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-shield-check text-base"></i> Authenticate Super Admin';
+        }
+      } catch (err) {
+        showAlert('Network or connection error. Please try again.', true);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ph-bold ph-shield-check text-base"></i> Authenticate Super Admin';
+      }
+    }
+  </script>
 </body>
 </html>
